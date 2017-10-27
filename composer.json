@@ -1,0 +1,17 @@
+{
+    "name": "eddycjy/eadmin",
+    "description": "admin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "EDDYCJY",
+            "email": "313687982@qq.com"
+        }
+    ],
+    "require": {},
+	"autoload" : {
+		"psr-4" : {
+			"Eadmin\\" : "src/"
+		}
+	}
+}
