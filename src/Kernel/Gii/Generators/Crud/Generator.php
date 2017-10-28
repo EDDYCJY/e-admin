@@ -30,7 +30,7 @@ use Eadmin\Kernel\Support\Container;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class Generator extends Eadmin\Kernel\Gii\Generator
+class Generator extends \Eadmin\Kernel\Gii\Generator
 {
     public $modelClass;
     public $controllerClass;

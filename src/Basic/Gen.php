@@ -18,7 +18,7 @@ class Gen
 		'model' => 'backend\models',
 		'controller' => 'backend\controllers',
 		'view' => '@backend/views',
-		'field' => 'common\eadmin\work\field',
+		'field' => 'Eadmin\Work\Field',
 	];
 
 	//解析类信息

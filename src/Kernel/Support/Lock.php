@@ -9,10 +9,10 @@ class Lock
 	private $type;
 
 	private $maps = [
-		'crud'  => '/../../work/runtime/crud/',
-		'model' => '/../../work/runtime/model/',
-		'table' => '/../../work/runtime/table/',
-		'menu'  => '/../../work/runtime/menu/',
+		'crud'  => '/../../Work/Runtime/Crud/',
+		'model' => '/../../Work/Runtime/Model/',
+		'table' => '/../../Work/Runtime/Table/',
+		'menu'  => '/../../Work/Runtime/Menu/',
 	];
 
 	public function setType($type)

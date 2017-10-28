@@ -2,9 +2,9 @@
 
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
-use common\eadmin\kernel\support\Helpers;
-use common\eadmin\kernel\support\Container;
-use common\eadmin\Config;
+use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Kernel\Support\Container;
+use Eadmin\Config;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */

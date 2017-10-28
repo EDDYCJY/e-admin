@@ -23,7 +23,7 @@ use Eadmin\Kernel\Gii\CodeFile;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class Generator extends Eadmin\Kernel\Gii\Generator
+class Generator extends \Eadmin\Kernel\Gii\Generator
 {
     const RELATIONS_NONE = 'none';
     const RELATIONS_ALL = 'all';

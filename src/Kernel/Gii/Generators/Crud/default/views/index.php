@@ -2,7 +2,7 @@
 
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
-use common\eadmin\kernel\support\Container;
+use Eadmin\Kernel\Support\Container;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */
