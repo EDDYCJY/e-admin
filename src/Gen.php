@@ -6,6 +6,11 @@ use Eadmin\Kernel\Factory\ExecuteFactory;
 
 class Gen
 {
+	public static function init()
+	{
+		
+	}
+
 	public static function start($object)
 	{
 		$factory  = new GenFactory($object);
