@@ -10,6 +10,7 @@ class Start
 {
 	public function init()
 	{
+		Gen::init();
 		Gen::start(new AdminMenu());
         Gen::start(new Article());
         Gen::start(new AdminUser());
