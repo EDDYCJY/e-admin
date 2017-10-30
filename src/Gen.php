@@ -11,20 +11,20 @@ class Gen
 	{
 		$factory = new PublishFactory();
 		$commands = [
-			// 'Asset',
-			// 'Controller',
-			// 'Adminlte',
-			// 'View',
+			'Asset',
+			'Controller',
+			'Adminlte',
+			'View',
 			'Widget',
 		];
 
 		foreach ($commands as $value) {
 			$factory->start($value);
 		}
-
+		
 		return true;
 	}
-
+	
 	public static function start($object)
 	{
 		$factory  = new GenFactory($object);

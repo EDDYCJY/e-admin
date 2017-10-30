@@ -4,8 +4,6 @@ namespace Eadmin\Basic;
 
 class Model
 {
-	//public $table_prefix = 'test';
-
 	public $list_display = [];
 
 	public $detail_display = [];
