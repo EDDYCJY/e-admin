@@ -2,7 +2,7 @@
 
 namespace Eadmin\Kernel\Contracts;
 
-interface ExecuteInterface
+interface LockInterface
 {
 	public function getLockName($key);
 

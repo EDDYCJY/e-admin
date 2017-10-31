@@ -4,16 +4,11 @@ namespace Eadmin\Kernel\Support;
 
 use Exception;
 
-class Lock
+class FileLock
 {
 	private $type;
 
-	private $maps = [
-		'crud'  => '/../../Work/Runtime/Crud/',
-		'model' => '/../../Work/Runtime/Model/',
-		'table' => '/../../Work/Runtime/Table/',
-		'menu'  => '/../../Work/Runtime/Menu/',
-	];
+	private $path = '/../../Work/Runtime/%s/';
 
 	public function setType($type)
 	{
@@ -22,12 +17,7 @@ class Lock
 
 	public function getPath()
 	{
-		$result = '';
-		if(isset($this->maps[$this->type])) {
-			$result = dirname(__FILE__) . $this->maps[$this->type];
-		}
-
-		return $result;
+		return dirname(__FILE__) . sprintf($this->path, ucfirst($this->type));
 	}
 
 	public function exists($filename)

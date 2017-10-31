@@ -3,23 +3,17 @@
 namespace Eadmin\Basic;
 
 use Eadmin\Constants;
-use Eadmin\Kernel\Support\Lock;
-use Eadmin\Kernel\Contracts\ExecuteInterface;
+use Eadmin\Kernel\Support\FileLock;
+use Eadmin\Kernel\Contracts\LockInterface;
 
-class ExecuteLock implements ExecuteInterface
+class Lock implements LockInterface
 {
 	public $lock;
 
-	public function __construct()
+	public function __construct($type)
 	{
-		$this->lock = new Lock();
-	}
-
-	public function setLockType($type)
-	{
+		$this->lock = new FileLock();
 		$this->lock->setType($type);
-
-		return true;
 	}
 
 	public function getLockName($key)
