@@ -13,7 +13,7 @@ class Gen
 		$commands = [
 			'Asset',
 			'Controller',
-			'Adminlte',
+			// 'Adminlte',
 			'View',
 			'Widget',
 		];

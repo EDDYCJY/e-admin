@@ -9,10 +9,14 @@ class Catalog extends Copy
 	public function start($lists)
 	{
 		foreach ($lists as $name) {
-			$path = $this->from . self::DS . $name;
-			if(file_exists($path)) {
-				if(! $this->recursionFiles($path, $this->to . self::DS . $name)) {
-					echo '333';die;
+			if(! $this->locker->existsLock($name)) {
+				$path = $this->from . self::DS . $name;
+				if(file_exists($path)) {
+					if(! $this->recursionFiles($path, $this->to . self::DS . $name)) {
+						echo '333';die;
+					} else {
+						$this->locker->writeLock($name);
+					}
 				}
 			}
 		}

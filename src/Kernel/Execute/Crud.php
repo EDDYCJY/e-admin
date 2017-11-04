@@ -4,18 +4,11 @@ namespace Eadmin\Kernel\Execute;
 
 use Exception;
 use yii\helpers\ArrayHelper;
-use Eadmin\Basic\ExecuteLock;
 use Eadmin\Constants;
+use Eadmin\Basic\Execute;
 
-class Crud extends ExecuteLock
+class Crud extends Execute
 {
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->setLockType(Constants::LOCK_CRUD);
-	}
-
 	public function start($generator)
 	{
 		$files   = $generator->generate();
@@ -33,10 +26,10 @@ class Crud extends ExecuteLock
 	{
 		$result = [];
 		foreach (ArrayHelper::index($files, 'id') as $index => $value) {
-			if(! $this->existsLock($index)) {
+			if(! $this->locker->existsLock($index)) {
 				$result[$index] = 1;
 
-				$this->writeLock($index);
+				$this->locker->writeLock($index);
 			}
 			
 		}

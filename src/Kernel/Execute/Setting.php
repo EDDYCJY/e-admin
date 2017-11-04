@@ -3,9 +3,8 @@
 namespace Eadmin\Kernel\Execute;
 
 use Yii;
-use Eadmin\Basic\ExecuteLock;
 
-class Setting extends ExecuteLock
+class Setting
 {	
 	public $objecter;
 

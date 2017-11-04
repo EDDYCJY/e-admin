@@ -4,11 +4,14 @@ namespace Eadmin\Basic;
 
 class Execute 
 {
-	//解析对象
 	public $objecter;
+
+	public $locker;
 	
-	public function __construct($object)
+	public function __construct($object, $locker)
 	{
 		$this->objecter = $object;
+
+		$this->locker = $locker;
 	}
 }

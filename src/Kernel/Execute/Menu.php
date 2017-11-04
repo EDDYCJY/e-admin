@@ -4,23 +4,16 @@ namespace Eadmin\Kernel\Execute;
 
 use Yii;
 use Eadmin\Constants;
-use Eadmin\Basic\ExecuteLock;
+use Eadmin\Basic\Execute;
 
-class Menu extends ExecuteLock
+class Menu extends Execute
 {
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->setLockType(Constants::LOCK_MENU);
-	}
-
 	public function start($menu)
 	{
-		if(! $this->existsLock($menu['name'])) {
+		if(! $this->locker->existsLock($menu['name'])) {
 			Yii::$app->db->createCommand()->insert('{{%admin_menu}}', $menu)->execute();
 
-			$this->writeLock($menu['name']);
+			$this->locker->writeLock($menu['name']);
 		}
 	}
 

@@ -10,9 +10,13 @@ class File extends Copy
 	{
 		foreach ($lists as $name) {
 			$path = $this->from . self::DS . $name;
-			if(file_exists($path)) {
-				if(! copy($path, $this->to . self::DS . $name)) {
-					echo '222';die;
+			if(! $this->locker->existsLock($name)) {
+				if(file_exists($path)) {
+					if(! copy($path, $this->to . self::DS . $name)) {
+						echo '222';die;
+					} else {
+						$this->locker->writeLock($name);
+					}
 				}
 			}
 		}

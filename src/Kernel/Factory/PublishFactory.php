@@ -4,6 +4,7 @@ namespace Eadmin\Kernel\Factory;
 
 use Eadmin\Kernel\Copy\File;
 use Eadmin\Kernel\Copy\Catalog;
+use Eadmin\Basic\Lock;
 
 class PublishFactory
 {
@@ -15,6 +16,6 @@ class PublishFactory
 		$from = $object->getFrom();
 		$to   = $object->getTo();
 
-		return $object->start(new File($from, $to), new Catalog($from, $to));
+		return $object->start(new File($from, $to, new Lock($namespace)), new Catalog($from, $to, new Lock($namespace)));
 	}
 }

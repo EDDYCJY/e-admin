@@ -12,10 +12,13 @@ class Copy
 
 	protected $to;
 
-	public function __construct($from, $to)
+	protected $locker;
+
+	public function __construct($from, $to, $locker)
 	{
 		$this->from = $from;
 		$this->to = $to;
+		$this->locker = $locker;
 	}
 
 }

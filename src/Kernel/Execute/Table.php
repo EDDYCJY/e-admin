@@ -2,32 +2,21 @@
 
 namespace Eadmin\Kernel\Execute;
 
-use Eadmin\Basic\ExecuteLock;
 use Eadmin\Constants;
+use Eadmin\Basic\Execute;
 
-class Table extends ExecuteLock
+class Table extends Execute
 {
-	public $objecter;
-
-	public function __construct($object)
-	{
-		parent::__construct();
-		
-		$this->setLockType(Constants::LOCK_TABLE);
-
-		$this->objecter = $object;
-	}
-
 	public function start($command)
 	{
 		$key = $this->objecter->tabler->getTableFullName();
-		if(! $this->existsLock($key)) {
+		if(! $this->locker->existsLock($key)) {
 			$result = $this->objecter->tabler->executeCreateTable($command);
 			if($result === false) {
 				return false;
 			}
 
-			$this->writeLock($key);
+			$this->locker->writeLock($key);
 		}
 
 		return true;
