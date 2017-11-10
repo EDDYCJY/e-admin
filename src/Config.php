@@ -18,6 +18,7 @@ class Config
 			'Database',
 			'Setting',
 			'App',
+			'Autoload',
 		];
 
 		foreach ($commands as $index) {
