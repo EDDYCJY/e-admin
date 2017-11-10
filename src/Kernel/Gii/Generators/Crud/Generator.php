@@ -16,6 +16,8 @@ use yii\helpers\VarDumper;
 use yii\web\Controller;
 use Eadmin\Kernel\Gii\CodeFile;
 use Eadmin\Kernel\Support\Container;
+use Eadmin\Constants;
+use Eadmin\Kernel\Support\Helpers;
 
 /**
  * Generates CRUD
@@ -35,7 +37,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
     public $modelClass;
     public $controllerClass;
     public $viewPath;
-    public $baseControllerClass = 'yii\web\Controller';
+    public $baseControllerClass = 'backend\controllers\AdminController';
     public $indexWidgetType = 'grid';
     public $searchModelClass = '';
     /**
@@ -234,16 +236,82 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         $tableSchema = $this->getTableSchema();
 
         $container = Container::make($tableSchema->fullName);
-        $optionsField = 'htmlOptions';
-        $htmlOptions = '';
-        if(array_key_exists($attribute, $container['modelParams'])) {
-            if(array_key_exists($optionsField, $container['modelParams'][$attribute])) {
-                foreach ($container['modelParams'][$attribute][$optionsField] as $key => $value) {
-                    $htmlOptions .= "'" . $key . "'" . ' => ' . "'" .$value . "'" . ',';
-                }
+        $containerField = $container['modelParams'][$attribute];
 
-                $htmlOptions = trim($htmlOptions, ',');
+        $optionsField = 'htmlOptions';
+        if(array_key_exists($attribute, $container['modelParams'])) {
+          
+            /* Html额外参数 */
+            if(array_key_exists($optionsField, $containerField)) {
+                $htmlOptions = Helpers::convertArrayToStr($containerField[$optionsField]);
             }
+
+            /* 单图控件 */
+            if($containerField['type'] == Constants::IMAGE_FIELD) {
+                $options = [
+                    'accept' => 'image/*',
+                ];
+
+                $pluginOptions = [
+                    'previewFileType' => 'image',
+                    'initialPreview'  => [
+                        'separator' => '',
+                        'value'     => "! empty(\$model->$attribute) ? Helpers::getFullImagePaths(\$model->$attribute) : ''", 
+                    ],
+                    'showUpload' => [
+                        'separator' => '',
+                        'value' => "false"
+                    ],
+                    'showRemove' => [
+                        'separator' => '',
+                        'value' => "false"
+                    ],
+                    'initialPreviewAsData' => [
+                        'separator' => '',
+                        'value' => "true"
+                    ],
+                ];
+
+                $object = new \Eadmin\Form\FileInput();
+                $object->setOptions($options);
+                $object->setPluginOptions($pluginOptions);
+
+                return $object->run($attribute);
+            }
+
+            /* 多图控件 */
+            if($containerField['type'] == Constants::IMAGES_FIELD) {
+                $options = [
+                    'accept'   => 'image/*',
+                    'multiple' => true,
+                ];
+                $pluginOptions = [
+                    'previewFileType' => 'image',
+                    'initialPreview' => [
+                        'separator' => '',
+                        'value'     => "! empty(\$model->$attribute) ? Helpers::getFullImagePaths(explode(',', \$model->$attribute)) : ''",  
+                    ],
+                    'showUpload' => [
+                        'separator' => '',
+                        'value' => "false"
+                    ],
+                    'showRemove' => [
+                        'separator' => '',
+                        'value' => "false"
+                    ],
+                    'initialPreviewAsData' => [
+                        'separator' => '',
+                        'value' => "true"
+                    ],
+                ];
+
+                $object = new \Eadmin\Form\FileInput();
+                $object->setOptions($options);
+                $object->setPluginOptions($pluginOptions);
+
+                return $object->run($attribute, true);
+            }
+
         }
 
         if ($tableSchema === false || !isset($tableSchema->columns[$attribute])) {
@@ -253,6 +321,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                 return "\$form->field(\$model, '$attribute')";
             }
         }
+
         $column = $tableSchema->columns[$attribute];
         if ($column->phpType === 'boolean') {
             return "\$form->field(\$model, '$attribute')->checkbox()";
@@ -264,6 +333,18 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             } else {
                 $input = 'textInput';
             }
+
+            /* 单选框 */
+            if($containerField['type'] == Constants::RADIOLIST_FIELD) {
+                $input = 'radioList';
+                $htmlOptions  = preg_replace("/\n\s*/", ' ', VarDumper::export($containerField['choices']));
+                $classOptions = preg_replace("/\n\s*/", ' ', VarDumper::export([
+                    'class' => 'radio',
+                ]));
+                
+                return "\$form->field(\$model, '$attribute')->$input($htmlOptions, $classOptions)";
+            }
+
             if (is_array($column->enumValues) && count($column->enumValues) > 0) {
                 $dropDownOptions = [];
                 foreach ($column->enumValues as $enumValue) {

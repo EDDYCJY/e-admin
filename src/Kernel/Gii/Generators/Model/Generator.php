@@ -16,6 +16,7 @@ use yii\db\TableSchema;
 use yii\helpers\Inflector;
 use yii\base\NotSupportedException;
 use Eadmin\Kernel\Gii\CodeFile;
+use Eadmin\Kernel\Support\Helpers;
 
 /**
  * This generator will generate one or multiple ActiveRecord classes for the specified database table.
@@ -223,6 +224,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                 'rules' => $this->generateRules($tableSchema),
                 'relations' => isset($relations[$tableName]) ? $relations[$tableName] : [],
             ];
+     
             $files[] = new CodeFile(
                 Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $modelClassName . '.php',
                 $this->render('model.php', $params)
@@ -342,6 +344,8 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             }
         }
 
+        $imageFields = Helpers::getImageFields($table->fullName);
+
         $rules = [];
         $driverName = $this->getDbDriverName();
         foreach ($types as $type => $columns) {
@@ -350,10 +354,25 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             }
             $rules[] = "[['" . implode("', '", $columns) . "'], '$type']";
         }
+
+        $lengthsNoImage = [];
         foreach ($lengths as $length => $columns) {
+            foreach ($columns as $index => $field) {
+                if(! array_key_exists($field, $imageFields)) {
+                    $lengthsNoImage[$length] = $lengths[$length];
+                }
+            }
+        }
+
+        /* image files */
+        foreach ($lengthsNoImage as $length => $columns) {
             $rules[] = "[['" . implode("', '", $columns) . "'], 'string', 'max' => $length]";
         }
 
+        if(! empty($imageFields)) {
+            $rules[] = "[['" . implode("', '", array_keys($imageFields)) . "'], 'required', 'on' => 'create']";
+        }
+  
         $db = $this->getDbConnection();
 
         // Unique indexes rules

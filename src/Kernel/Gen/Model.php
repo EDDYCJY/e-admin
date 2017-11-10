@@ -14,7 +14,7 @@ class Model
 	{
 		$gii = new Generator();
 		$gii->ns = $this->namespace;
-		$gii->tableName = $tabler->getTablePrefix() . '_' . $tabler->getTableName();
+		$gii->tableName = $tabler->getTablePrefix() . $tabler->getTableName();
 		$gii->modelClass = $tabler->getTableOriginName();
 		$gii->queryNs = $this->namespace;
 		$gii->queryClass = $tabler->getTableOriginName() . $this->queryClassSuffix;

@@ -1,11 +1,12 @@
 <?php
-namespace common\widgets;
+namespace backend\widgets;
 
 use Yii;
+use backend\models\AdminMenu as AdminMenuModel;
 
 class AdminMenu extends \yii\bootstrap\Widget
 {
-	public $settings;
+    public $settings;
 
     public function init()
     {
@@ -14,7 +15,11 @@ class AdminMenu extends \yii\bootstrap\Widget
 
     public function run()
     {
-        $menus = Yii::$app->db->createCommand('SELECT * FROM {{%admin_menu}}')->queryAll();
+        $map = [
+            'is_show' => 1,
+        ];
+
+        $menus = AdminMenuModel::find()->where($map)->all();
 
         $childrens = [];
         foreach ($menus as $key => $value) {
@@ -35,10 +40,10 @@ class AdminMenu extends \yii\bootstrap\Widget
         }
         
 
-    	$params = [
-    		'menus' => $menus,
-    	];
+        $params = [
+            'menus' => $menus,
+        ];
 
-        return $this->render('@common/widgets/views/admin-menu/index', $params);
+        return $this->render('@backend/widgets/views/admin-menu/index', $params);
     }
 }

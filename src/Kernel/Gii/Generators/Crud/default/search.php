@@ -4,6 +4,7 @@
  */
 
 use yii\helpers\StringHelper;
+use Eadmin\Config;
 
 
 /* @var $this yii\web\View */
@@ -18,6 +19,9 @@ $rules = $generator->generateSearchRules();
 $labels = $generator->generateSearchLabels();
 $searchAttributes = $generator->getSearchAttributes();
 $searchConditions = $generator->generateSearchConditions();
+
+$pageSize = Config::get('App', 'page_size');
+$pageSize = ! empty($pageSize) ? $pageSize : 10;
 
 echo "<?php\n";
 ?>
@@ -69,6 +73,9 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pagesize' => <?= $pageSize ?>,
+            ], 
         ]);
 
         $this->load($params);

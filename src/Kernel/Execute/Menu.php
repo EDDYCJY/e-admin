@@ -17,9 +17,4 @@ class Menu extends Execute
 		}
 	}
 
-	public function getLockName($key)
-	{
-		return md5($key) . '.' . Constants::LOCK_FLAG;
-	}
-
 }

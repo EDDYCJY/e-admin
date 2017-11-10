@@ -1,5 +1,5 @@
 <?php
-namespace common\widgets;
+namespace backend\widgets;
 
 use Yii;
 
@@ -12,7 +12,7 @@ class AdminNav extends \yii\bootstrap\Widget
 
     public function run()
     {
-    	return $this->render('@common/widgets/views/admin-nav/index');
+    	return $this->render('@backend/widgets/views/admin-nav/index');
     }
 
 }

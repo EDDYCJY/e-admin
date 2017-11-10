@@ -12,7 +12,13 @@ class File extends Copy
 			$path = $this->from . self::DS . $name;
 			if(! $this->locker->existsLock($name)) {
 				if(file_exists($path)) {
-					if(! copy($path, $this->to . self::DS . $name)) {
+					$fileTo = $this->to . self::DS . $name;
+					$pathinfo = pathinfo($fileTo, PATHINFO_DIRNAME);
+					if(! file_exists($pathinfo)) {
+						mkdir($pathinfo, $this->chmod, true);
+					}
+
+					if(! copy($path, $fileTo)) {
 						echo '222';die;
 					} else {
 						$this->locker->writeLock($name);

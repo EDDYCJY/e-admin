@@ -2,24 +2,29 @@
 
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
-use Eadmin\Kernel\Support\Helpers;
-use Eadmin\Kernel\Support\Container;
 use Eadmin\Config;
+use Eadmin\Kernel\Support\Container;
+use Eadmin\Kernel\Support\Helpers;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */
 
-$config = new Config();
-
-$class = Helpers::getLastIndex($generator->modelClass);
-$fullName  = $config->table_prefix . '_' . Helpers::getUnderscore($class);
+$class  = Helpers::getLastIndex($generator->modelClass);
+$fullName  = Config::get('Database', 'table_prefix') . Helpers::getUnderscore($class);
 $container = Container::make($fullName);
+
+$imageFields = array_keys(Helpers::getImageFields($fullName));
 
 /* @var $model \yii\db\ActiveRecord */
 $model = new $generator->modelClass();
 $safeAttributes = $model->safeAttributes();
+
 if (empty($safeAttributes)) {
     $safeAttributes = $model->attributes();
+}
+
+if(! empty($imageFields)) {
+    $safeAttributes = array_merge($safeAttributes, $imageFields);
 }
 
 echo "<?php\n";
@@ -27,6 +32,7 @@ echo "<?php\n";
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use Eadmin\Kernel\Support\Helpers;
 
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */

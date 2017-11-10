@@ -3,15 +3,15 @@ namespace Eadmin\Work\Field;
 
 use Eadmin\Constants;
 
-class ImageField
+class RadioListField
 {
 	public function getType()
 	{
-		return Constants::SCHEMA_VARCHAR;
+		return Constants::SCHEMA_INT;
 	}
 
 	public function getLength()
 	{
-		return "100";
+		return "11";
 	}
 }

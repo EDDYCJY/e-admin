@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-8">
     <div class="box">
         <?= "<?= " ?>DetailView::widget([
         'model' => $model,

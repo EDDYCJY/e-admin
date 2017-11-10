@@ -3,7 +3,7 @@ namespace Eadmin\Work\Field;
 
 use Eadmin\Constants;
 
-class ImageField
+class ImagesField
 {
 	public function getType()
 	{

@@ -1,10 +1,11 @@
+<?php $this->beginPage() ?>
 <?php
 use backend\assets\AdminAsset;
-use common\widgets\AdminNav;
-use common\widgets\AdminMenu;
+use backend\widgets\AdminNav;
+use backend\widgets\AdminMenu;
 use yii\helpers\Html;
 
-$settings = \Yii::$app->params['global_settings'];
+$settings = \Yii::$app->params['eadminSetting'];
 
 AdminAsset::register($this);
 ?>
@@ -43,6 +44,11 @@ AdminAsset::register($this);
   ]) ?>
   
   <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        <?= Html::encode($this->title) ?>
+      </h1>
+    </section>
     <section class="content">
       <?= $content ?>
     </section>
@@ -51,9 +57,9 @@ AdminAsset::register($this);
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
+      <b>Version</b> <?php echo $settings['site_verison']; ?>
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+    <strong><?php echo $settings['site_copyright']; ?></strong> All rights
     reserved.
   </footer>
 

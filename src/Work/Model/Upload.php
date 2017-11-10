@@ -1,0 +1,30 @@
+<?php
+namespace Eadmin\Work\Model;
+
+use Eadmin\Basic\Model;
+
+class Upload extends Model
+{
+	public $verbose_name = '上传图片管理';
+
+	public $comment = '上传图片表';
+
+	public $id = [
+		'type' => 'PrimaryField',
+		'comment' => '主键ID',
+	];
+
+	public $url = [
+		'type' => 'TextField',
+		'max_length' => 200,
+		'default' => '',
+		'comment' => '图片路径',
+	];
+
+	public $options = [
+		'menu' => [
+			'is_show' => 0,
+		],
+	];
+
+}

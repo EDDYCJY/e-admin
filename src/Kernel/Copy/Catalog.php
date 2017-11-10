@@ -26,6 +26,7 @@ class Catalog extends Copy
 	{
 		$handle = opendir($rootFrom);
 
+		$result = true;
 		while(false  !== ($file = readdir($handle))) {
 			$fileFrom = $rootFrom . self::DS . $file;
 			$fileTo   = $rootTo   . self::DS . $file;
@@ -34,17 +35,18 @@ class Catalog extends Copy
 				continue;
 			}
 
+			$pathinfo = pathinfo($fileTo, PATHINFO_DIRNAME);
+			if(! file_exists($pathinfo)) {
+				mkdir($pathinfo, $this->chmod, true);
+			}
+
 			if(is_dir($fileFrom)) {
-				if(! file_exists($fileTo)) {
-					mkdir($fileTo, 0755, true);
-				}
-				
 				$this->recursionFiles($fileFrom, $fileTo);
 			} else {
-				@copy($fileFrom, $fileTo);
+				$result = copy($fileFrom, $fileTo);
 			}
 		}
 
-		return true;
+		return $result;
 	}
 }

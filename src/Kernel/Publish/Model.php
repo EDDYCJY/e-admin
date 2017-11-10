@@ -4,14 +4,14 @@ namespace Eadmin\Kernel\Publish;
 
 use Eadmin\Basic\Publish;
 
-class Controller extends Publish
+class Model extends Publish
 {
 	public $module = '@backend';
 
-	public $path = 'controllers';
+	public $path = 'models';
 
 	public $files = [
-		'LoginController.php',
-		'AdminController.php',
+		'UploadForm.php',
+		'UploadsForm.php',
 	];
 }

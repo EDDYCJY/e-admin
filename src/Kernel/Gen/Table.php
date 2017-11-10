@@ -13,7 +13,7 @@ class Table
 	 */
 	public function start($tabler)
 	{
-		$table   = $tabler->getTablePrefix() . '_' . $tabler->getTableName();
+		$table   = $tabler->getTablePrefix() . $tabler->getTableName();
 		$columns = $tabler->getTableField();
 		$options = $tabler->getTabelEngine() . $tabler->getTableCharset() . $tabler->getTableComment();
 

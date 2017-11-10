@@ -5,6 +5,8 @@ use Eadmin\Basic\Model;
 
 class AdminUser extends Model
 {
+	public $label_name = '管理员';
+
 	public $verbose_name = '后台管理员管理';
 
 	public $comment = '后台管理员表';

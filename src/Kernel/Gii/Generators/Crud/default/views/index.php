@@ -11,6 +11,7 @@ $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
 $tableSchema = $generator->getTableSchema();
 $container = Container::make($tableSchema->fullName);
+$title = ! empty($container['metaParams']['label_name']) ? $container['metaParams']['label_name'] : $container['metaParams']['verbose_name'];
 
 echo "<?php\n";
 ?>
@@ -23,7 +24,7 @@ use <?= $generator->indexWidgetType === 'grid' ? "yii\\grid\\GridView" : "yii\\w
 <?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
+$this->title = <?= $generator->generateString($title) ?>;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -72,7 +73,10 @@ if ($tableSchema === false) {
 }
 ?>
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update}{delete}',
+            ],
         ],
     ]); ?>
 <?php else: ?>

@@ -9,9 +9,29 @@ class Article extends Model
 
 	public $comment = '文章管理';
 
+	public $list_display = [
+        'id',
+        'send_name',
+        'send_content',
+    ];
+
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',
+	];
+
+	public $cover_id = [
+		'type' => 'ImageField',
+		'comment' => '封面',
+		'max_length' => 100,
+		'default' => 0,
+	];
+
+	public $pic_id = [
+		'type' => 'ImageField',
+		'comment' => '图片',
+		'max_length' => 100,
+		'default' => 0,
 	];
 
 	public $send_name = [
@@ -40,6 +60,23 @@ class Article extends Model
 			'max_length'   => 400,
 			'min_length'   => 10,
 			'required'	   => 'required',
+		],
+	];
+
+	public $pics_id = [
+		'type' => 'ImagesField',
+		'comment' => '相册',
+		'max_length' => 100,
+		'default' => 0,
+	];
+
+	public $state = [
+		'type' => 'RadioListField',
+		'comment' => '状态',
+		'default' => 0,
+		'choices' => [
+			0 => '禁用',
+			1 => '启用',
 		],
 	];
 

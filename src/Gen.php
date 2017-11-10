@@ -4,6 +4,7 @@ namespace Eadmin;
 use Eadmin\Kernel\Factory\GenFactory;
 use Eadmin\Kernel\Factory\ExecuteFactory;
 use Eadmin\Kernel\Factory\PublishFactory;
+use Eadmin\Kernel\Factory\ExtraFactory;
 
 class Gen
 {
@@ -11,10 +12,11 @@ class Gen
 	{
 		$factory = new PublishFactory();
 		$commands = [
+			'Adminlte',
 			'Asset',
 			'Controller',
-			// 'Adminlte',
 			'View',
+			'Model',
 			'Widget',
 		];
 
@@ -34,7 +36,6 @@ class Gen
 			'Model',
 			'Crud',
 			'Menu',
-			'Setting',
 		];
 
 		foreach ($commands as $value) {
@@ -43,4 +44,19 @@ class Gen
 
 		return true;
 	}
+
+	public static function extra()
+	{
+		$object = new ExtraFactory();
+		$commands = [
+			'Admin',
+		];
+
+		foreach ($commands as $value) {
+			$object->start($value);
+		}
+
+		return true;
+	}
+
 }

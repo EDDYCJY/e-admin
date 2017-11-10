@@ -15,7 +15,8 @@ class Model
 	private $metas = [
 		'comment',
 		'options',
-		'verbose_name'
+		'verbose_name',
+		'label_name',
 	];
 
 	private $shows = [

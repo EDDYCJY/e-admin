@@ -130,8 +130,7 @@ class Table
 	 */
 	public function getTablePrefix()
 	{
-	    $config = new Config();
-        return $config->table_prefix;
+		return Config::get('Database', 'table_prefix');
 	}
 
 	/**
@@ -151,7 +150,7 @@ class Table
 	 */
 	public function getTableFullName()
 	{
-		return $this->getTablePrefix() . '_' . $this->getTableName();
+		return $this->getTablePrefix() . $this->getTableName();
 	}
 
 	/**
@@ -184,8 +183,13 @@ class Table
 		$options = $this->object->objecter->options;
 
 		return isset($options['menu']['parent_id']) ? $options['menu']['parent_id'] : 0;
-	}
+	}	
 
+	/**
+	 * 获取表的属性是否展示在菜单
+	 * 
+	 * @return int
+	 */
 	public function getTableIsShow()
 	{
 		$options = $this->object->objecter->options;
@@ -202,4 +206,15 @@ class Table
 	{
 		return $this->object->objecter->verbose_name;
 	}
+
+	/**
+	 * 获取表的标签
+	 * 
+	 * @return string
+	 */
+	public function getTableLabelName()
+	{
+		return $this->object->objecter->label_name;
+	}
+
 }

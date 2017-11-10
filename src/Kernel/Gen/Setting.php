@@ -10,7 +10,7 @@ class Setting
 
 	public $site_footer = 'Test Footer';
 
-	public function start()
+	public function get()
 	{
 		return get_class_vars(get_class($this));
 	}

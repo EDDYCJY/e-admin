@@ -5,6 +5,11 @@ class Constants
 {
 	const PRIMARY_FIELD = 'PrimaryField';
 
+	const IMAGE_FIELD = 'ImageField';
+
+	const IMAGES_FIELD = 'ImagesField';
+
+	const RADIOLIST_FIELD = 'RadioListField';
 
 	const LOCK_FLAG = 'lock';
 

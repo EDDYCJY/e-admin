@@ -5,7 +5,9 @@
 
 use yii\db\ActiveRecordInterface;
 use yii\helpers\StringHelper;
-
+use Eadmin\Config;
+use Eadmin\Constants;
+use Eadmin\Kernel\Support\Helpers;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */
@@ -23,6 +25,9 @@ $pks = $class::primaryKey();
 $urlParams = $generator->generateUrlParams();
 $actionParams = $generator->generateActionParams();
 $actionParamComments = $generator->generateActionParamComments();
+
+$fullName = Config::get('Database', 'table_prefix') . Helpers::getUnderscore(Helpers::getLastIndex($class));
+$imageFields = Helpers::getImageFields($fullName);
 
 echo "<?php\n";
 ?>
@@ -107,10 +112,40 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function actionCreate()
     {
         $model = new <?= $modelClass ?>();
+<?php if(! empty($imageFields)): ?>
+        $model->setScenario('create');
+        if($model->load(Yii::$app->request->post())) {
+        
+            $upload  = new \backend\models\UploadForm();
+            $uploads = new \backend\models\UploadsForm();
+<?php foreach($imageFields as $field => $type): ?>
+<?php if($type == 1): ?>
+            $upload->file = \yii\web\UploadedFile::getInstance($model, '<?php echo $field ?>');
+            $uploadResult = $upload->upload();
+            if($uploadResult !== false) {
+                $model-><?php echo $field ?> = $uploadResult;
+            }
+<?php endif; ?>
+
+<?php if($type == 2): ?>
+            $uploads->files = \yii\web\UploadedFile::getInstances($model, '<?php echo $field ?>');
+            $uploadResult = $uploads->upload();
+            if($uploadResult !== false) {
+                $model-><?php echo $field ?> = implode(',', $uploadResult);
+            }
+
+<?php endif; ?>
+<?php endforeach; ?>
+            if($model->save(false)) {
+                return $this->redirect(['index']);
+            }
+        }
+<?php else: ?>
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', <?= $urlParams ?>]);
+            return $this->redirect(['index']);
         }
+<?php endif; ?>
 
         return $this->render('create', [
             'model' => $model,
@@ -126,10 +161,45 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function actionUpdate(<?= $actionParams ?>)
     {
         $model = $this->findModel(<?= $actionParams ?>);
+<?php if(! empty($imageFields)): ?>
+        if($model->load(Yii::$app->request->post())) {
+
+            $upload  = new \backend\models\UploadForm();
+            $uploads = new \backend\models\UploadsForm();
+<?php foreach($imageFields as $field => $type):?>
+<?php if($type == 1): ?>
+            $upload->file = \yii\web\UploadedFile::getInstance($model, '<?php echo $field ?>');
+            $uploadResult = $upload->upload();
+            if($uploadResult !== false) {
+                 $model-><?php echo $field ?> = $uploadResult;
+            } else {
+                unset($model-><?php echo $field ?>);
+            }
+<?php endif; ?>
+
+<?php if($type == 2): ?>
+            $uploads->files = \yii\web\UploadedFile::getInstances($model, '<?php echo $field ?>');
+            $uploadResult = $uploads->upload();
+            if($uploadResult !== false) {
+                $model-><?php echo $field ?> = implode(',', $uploadResult);
+            } else {
+                unset($model-><?php echo $field ?>);
+            }
+
+<?php endif; ?>
+<?php endforeach; ?>
+            if($model->save(false)) {
+                return $this->redirect(['index']);
+            }
+        }
+
+<?php else: ?>
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', <?= $urlParams ?>]);
+            return $this->redirect(['index']);
         }
+
+<?php endif; ?>
 
         return $this->render('update', [
             'model' => $model,

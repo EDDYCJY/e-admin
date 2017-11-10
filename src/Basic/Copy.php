@@ -14,6 +14,8 @@ class Copy
 
 	protected $locker;
 
+	protected $chmod = 0755;
+
 	public function __construct($from, $to, $locker)
 	{
 		$this->from = $from;
