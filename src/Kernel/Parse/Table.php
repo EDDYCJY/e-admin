@@ -1,9 +1,8 @@
 <?php 
-namespace Eadmin\Kernel\Support;
+namespace Eadmin\Kernel\Parse;
 
 use Yii;
 use Exception;
-use Eadmin\Kernel\Factory\GenFactory;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Constants;
 use Eadmin\Config;
@@ -12,9 +11,13 @@ class Table
 {
 	public $object;
 
-	public function __construct(GenFactory $object)
+	public $params;
+
+	public function __construct($object)
 	{
 		$this->object = $object;
+
+		$this->params = $object->classer['params'];
 	}
 
 	/**
@@ -180,9 +183,7 @@ class Table
 	 */
 	public function getTableParentId()
 	{
-		$options = $this->object->objecter->options;
-
-		return isset($options['menu']['parent_id']) ? $options['menu']['parent_id'] : 0;
+		return isset($this->params['options']['menu']['parent_id']) ? $this->params['options']['menu']['parent_id'] : 0;
 	}	
 
 	/**
@@ -192,9 +193,7 @@ class Table
 	 */
 	public function getTableIsShow()
 	{
-		$options = $this->object->objecter->options;
-
-		return isset($options['menu']['is_show']) ? $options['menu']['is_show'] : 1;
+		return isset($this->params['options']['menu']['is_show']) ? $this->params['options']['menu']['is_show'] : 1;
 	}
 
 	/**
@@ -204,7 +203,7 @@ class Table
 	 */
 	public function getTableVerboseName()
 	{
-		return $this->object->objecter->verbose_name;
+		return $this->params['verbose_name'];
 	}
 
 	/**
@@ -214,7 +213,7 @@ class Table
 	 */
 	public function getTableLabelName()
 	{
-		return $this->object->objecter->label_name;
+		return isset($this->params['label_name']) ? $this->params['label_name'] : '';
 	}
 
 }

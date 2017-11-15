@@ -345,6 +345,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         }
 
         $imageFields = Helpers::getImageFields($table->fullName);
+        $splitFields = Helpers::getSplitFields($table->fullName);
 
         $rules = [];
         $driverName = $this->getDbDriverName();
@@ -369,8 +370,9 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             $rules[] = "[['" . implode("', '", $columns) . "'], 'string', 'max' => $length]";
         }
 
-        if(! empty($imageFields)) {
-            $rules[] = "[['" . implode("', '", array_keys($imageFields)) . "'], 'required', 'on' => 'create']";
+        if(! empty($imageFields) || ! empty($splitFields)) {
+            $keys = array_keys($imageFields) + array_values($splitFields);
+            $rules[] = "[['" . implode("', '", $keys) . "'], 'required', 'on' => 'create']";
         }
   
         $db = $this->getDbConnection();

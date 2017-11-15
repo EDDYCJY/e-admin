@@ -57,6 +57,49 @@ class Helpers
         return $result;
     }
 
+    public static function getTimeFields($fullName)
+    {
+        $result = [];
+        $container = Container::make($fullName);
+        foreach ($container['modelParams'] as $name => $value) {
+            if($value['type'] == Constants::TIME_FIELD) {
+                $result[] = $name;
+            } 
+        }
+
+        return $result;
+    }
+
+    public static function getStateFields($fullName)
+    {
+        $result = [];
+        $container = Container::make($fullName);
+        foreach ($container['modelParams'] as $name => $value) {
+            if($value['type'] == Constants::STATE_FIELD) {
+                $result[] = $name;
+            } 
+        }
+
+        return $result;
+    }
+
+    public static function getSplitFields($fullName)
+    {
+        $result = [];
+        $container = Container::make($fullName);
+        $presets   = Config::get('App', 'eadmin_split_fields');
+
+        foreach ($container['modelParams'] as $name => $values) {
+            foreach ($presets as $index => $type) {
+                if($type == $values['type']) {
+                    $result[] = $name;
+                }
+            }
+        }
+
+        return $result;
+    }
+
     public static function convertArrayToStr($array)
     {
         $str = '';

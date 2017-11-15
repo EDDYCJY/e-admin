@@ -12,7 +12,7 @@ class Gen
 	{
 		$factory = new PublishFactory();
 		$commands = [
-			'Adminlte',
+			//'Adminlte',
 			'Asset',
 			'Controller',
 			'View',
@@ -34,8 +34,8 @@ class Gen
 		$commands = [
 			'Table',
 			'Model',
-			'Crud',
 			'Menu',
+			'Crud',
 		];
 
 		foreach ($commands as $value) {

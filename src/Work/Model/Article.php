@@ -71,13 +71,15 @@ class Article extends Model
 	];
 
 	public $state = [
-		'type' => 'RadioListField',
+		'type' => 'StateField',
 		'comment' => '状态',
 		'default' => 0,
-		'choices' => [
-			0 => '禁用',
-			1 => '启用',
-		],
+		'options' => [
+			'choices' => [
+				0 => '禁用',
+				1 => '启用',
+			],
+		]
 	];
 
 }

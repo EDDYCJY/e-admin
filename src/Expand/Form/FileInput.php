@@ -1,6 +1,6 @@
 <?php
 
-namespace Eadmin\Form;
+namespace Eadmin\Expand\Form;
 
 use yii\helpers\VarDumper;
 use Eadmin\Kernel\Support\Helpers;

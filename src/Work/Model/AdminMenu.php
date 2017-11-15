@@ -57,23 +57,29 @@ class AdminMenu extends Model
 	];
 
 	public $is_show = [
-		'type' => 'TinyintField',
+		'type' => 'StateField',
 		'unsigned' => true,
 		'default' => 1,
 		'comment' => '是否在菜单显示',
-		// 'htmlOptions' => [
-		// 	'choices'	   => [
-		// 		'否' => '0',
-		// 		'是' => '1',
-		// 	],
-		// ]
+		'options' => [
+			'choices' => [
+				0 => '否',
+				1 => '是',
+			],
+		],
 	];
 
-	public $status = [
-		'type' => 'TinyintField',
+	public $state = [
+		'type' => 'StateField',
 		'unsigned' => true,
 		'default' => 1,
 		'comment' => '状态',
+		'options' => [
+			'choices' => [
+				0 => '禁用',
+				1 => '启用',
+			],
+		]
 	];
 
 }

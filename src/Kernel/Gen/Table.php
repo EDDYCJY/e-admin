@@ -8,8 +8,6 @@ class Table
 {
 	/**
 	 * 解析创建表-Command
-	 * 
-	 * @return object 
 	 */
 	public function start($tabler)
 	{

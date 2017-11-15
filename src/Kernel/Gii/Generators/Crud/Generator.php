@@ -272,7 +272,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                     ],
                 ];
 
-                $object = new \Eadmin\Form\FileInput();
+                $object = new \Eadmin\Expand\Form\FileInput();
                 $object->setOptions($options);
                 $object->setPluginOptions($pluginOptions);
 
@@ -305,13 +305,20 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                     ],
                 ];
 
-                $object = new \Eadmin\Form\FileInput();
+                $object = new \Eadmin\Expand\Form\FileInput();
                 $object->setOptions($options);
                 $object->setPluginOptions($pluginOptions);
 
                 return $object->run($attribute, true);
             }
 
+        }
+
+        /* 多个权限节点 */
+        if($containerField['type'] == Constants::PERMISSION_FIELD) {
+            $object = new \Eadmin\Expand\Form\PermissionCheckboxList();
+
+            return $object->run($attribute);
         }
 
         if ($tableSchema === false || !isset($tableSchema->columns[$attribute])) {
@@ -335,13 +342,17 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             }
 
             /* 单选框 */
-            if($containerField['type'] == Constants::RADIOLIST_FIELD) {
+            $radioListFields = [
+                Constants::RADIOLIST_FIELD,
+                Constants::STATE_FIELD,
+            ];
+            if(in_array($containerField['type'], $radioListFields)) {
                 $input = 'radioList';
-                $htmlOptions  = preg_replace("/\n\s*/", ' ', VarDumper::export($containerField['choices']));
+                $htmlOptions  = preg_replace("/\n\s*/", ' ', VarDumper::export($containerField['options']['choices']));
                 $classOptions = preg_replace("/\n\s*/", ' ', VarDumper::export([
                     'class' => 'radio',
                 ]));
-                
+            
                 return "\$form->field(\$model, '$attribute')->$input($htmlOptions, $classOptions)";
             }
 

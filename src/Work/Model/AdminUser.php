@@ -13,6 +13,7 @@ class AdminUser extends Model
 
     public $list_display = [
         'id',
+        'type',
         'user_name',
         'created_on',
         'created_by',
@@ -23,6 +24,7 @@ class AdminUser extends Model
 
     public $detail_display = [
         'id',
+        'type',
         'user_name',
         'state',
     ];
@@ -30,6 +32,19 @@ class AdminUser extends Model
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',
+	];
+
+	public $type = [
+		'type' => 'RadioListField',
+		'max_length' => 11,
+		'default' => 0,
+		'comment' => '类别',
+		'options' => [
+			'choices' => [
+				1 => '男',
+				2 => '女',
+			],
+		]
 	];
 
 	public $user_name = [
@@ -47,7 +62,7 @@ class AdminUser extends Model
 	];
 
 	public $created_on = [
-		'type' => 'IntegerField',
+		'type' => 'TimeField',
 		'default' => 0,
 		'comment' => '创建时间',
 	];
@@ -60,7 +75,7 @@ class AdminUser extends Model
 	];
 
 	public $modify_on = [
-		'type' => 'IntegerField',
+		'type' => 'TimeField',
 		'default' => 0,
 		'comment' => '修改时间',
 	];
@@ -73,9 +88,15 @@ class AdminUser extends Model
 	];
 
 	public $state = [
-		'type' => 'TinyintField',
+		'type' => 'StateField',
 		'default' => 1,
 		'comment' => '状态（0为禁用，1为启用）',
+		'options' => [
+			'choices' => [
+				0 => '禁用',
+				1 => '启用',
+			],
+		]
 	];
 
 }

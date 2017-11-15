@@ -7,6 +7,7 @@ use yii\db\ActiveRecordInterface;
 use yii\helpers\StringHelper;
 use Eadmin\Config;
 use Eadmin\Constants;
+use Eadmin\Kernel\Support\Container;
 use Eadmin\Kernel\Support\Helpers;
 
 /* @var $this yii\web\View */
@@ -28,6 +29,7 @@ $actionParamComments = $generator->generateActionParamComments();
 
 $fullName = Config::get('Database', 'table_prefix') . Helpers::getUnderscore(Helpers::getLastIndex($class));
 $imageFields = Helpers::getImageFields($fullName);
+$splitFields = Helpers::getSplitFields($fullName);
 
 echo "<?php\n";
 ?>
@@ -112,40 +114,41 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function actionCreate()
     {
         $model = new <?= $modelClass ?>();
-<?php if(! empty($imageFields)): ?>
-        $model->setScenario('create');
         if($model->load(Yii::$app->request->post())) {
-        
+<?php if(! empty($splitFields) || ! empty($imageFields)): ?>
+            $model->setScenario('create');
+<?php endif; ?>
+<?php if(! empty($splitFields)): 
+      foreach($splitFields as $index => $field): ?>
+            $model-><?php echo $field?> = (! empty($model-><?= $field ?>)) ? implode(',', $model-><?= $field ?>) : '';
+<?php endforeach; 
+      endif; ?>
+<?php if(! empty($imageFields)): ?>
             $upload  = new \backend\models\UploadForm();
             $uploads = new \backend\models\UploadsForm();
-<?php foreach($imageFields as $field => $type): ?>
-<?php if($type == 1): ?>
-            $upload->file = \yii\web\UploadedFile::getInstance($model, '<?php echo $field ?>');
+<?php foreach($imageFields as $field => $type): 
+      if($type == 1): ?>
+            $upload->file = \yii\web\UploadedFile::getInstance($model, '<?= $field ?>');
             $uploadResult = $upload->upload();
             if($uploadResult !== false) {
                 $model-><?php echo $field ?> = $uploadResult;
             }
-<?php endif; ?>
 
-<?php if($type == 2): ?>
-            $uploads->files = \yii\web\UploadedFile::getInstances($model, '<?php echo $field ?>');
+<?php endif;  
+      if($type == 2): ?>
+            $uploads->files = \yii\web\UploadedFile::getInstances($model, '<?= $field ?>');
             $uploadResult = $uploads->upload();
             if($uploadResult !== false) {
                 $model-><?php echo $field ?> = implode(',', $uploadResult);
             }
 
-<?php endif; ?>
-<?php endforeach; ?>
-            if($model->save(false)) {
+<?php endif; 
+      endforeach; 
+      endif; ?>
+            if($model->save()) {
                 return $this->redirect(['index']);
             }
         }
-<?php else: ?>
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        }
-<?php endif; ?>
 
         return $this->render('create', [
             'model' => $model,
@@ -161,45 +164,49 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function actionUpdate(<?= $actionParams ?>)
     {
         $model = $this->findModel(<?= $actionParams ?>);
-<?php if(! empty($imageFields)): ?>
         if($model->load(Yii::$app->request->post())) {
-
+<?php if(! empty($splitFields)): 
+      foreach($splitFields as $index => $field): ?>
+            $model-><?= $field?> = (! empty($model-><?= $field ?>)) ? implode(',', $model-><?= $field ?>) : '';
+<?php endforeach; 
+      endif; 
+      if(! empty($imageFields)): ?>
             $upload  = new \backend\models\UploadForm();
             $uploads = new \backend\models\UploadsForm();
-<?php foreach($imageFields as $field => $type):?>
-<?php if($type == 1): ?>
-            $upload->file = \yii\web\UploadedFile::getInstance($model, '<?php echo $field ?>');
+<?php foreach($imageFields as $field => $type):
+      if($type == 1): ?>
+            $upload->file = \yii\web\UploadedFile::getInstance($model, '<?= $field ?>');
             $uploadResult = $upload->upload();
             if($uploadResult !== false) {
-                 $model-><?php echo $field ?> = $uploadResult;
+                 $model-><?= $field ?> = $uploadResult;
             } else {
-                unset($model-><?php echo $field ?>);
+                unset($model-><?= $field ?>);
             }
+            
 <?php endif; ?>
 
 <?php if($type == 2): ?>
-            $uploads->files = \yii\web\UploadedFile::getInstances($model, '<?php echo $field ?>');
+            $uploads->files = \yii\web\UploadedFile::getInstances($model, '<?= $field ?>');
             $uploadResult = $uploads->upload();
             if($uploadResult !== false) {
-                $model-><?php echo $field ?> = implode(',', $uploadResult);
+                $model-><?= $field ?> = implode(',', $uploadResult);
             } else {
-                unset($model-><?php echo $field ?>);
+                unset($model-><?= $field ?>);
             }
 
-<?php endif; ?>
-<?php endforeach; ?>
-            if($model->save(false)) {
+<?php endif; 
+      endforeach; 
+      endif; ?>
+            if ($model->save()) {
                 return $this->redirect(['index']);
             }
+        } else {
+<?php if(! empty($splitFields)): 
+      foreach($splitFields as $index => $field): ?>
+            $model-><?= $field?> = explode(',', $model-><?= $field ?>);
+<?php endforeach; 
+      endif; ?>
         }
-
-<?php else: ?>
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        }
-
-<?php endif; ?>
 
         return $this->render('update', [
             'model' => $model,

@@ -10,7 +10,7 @@ class Execute
 	
 	public function __construct($object, $locker)
 	{
-		$this->objecter = $object;
+		$this->objecter = $object->gen;
 
 		$this->locker = $locker;
 	}

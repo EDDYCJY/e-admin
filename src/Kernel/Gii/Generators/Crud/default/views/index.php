@@ -3,6 +3,8 @@
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 use Eadmin\Kernel\Support\Container;
+use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Expand\Start;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */
@@ -11,6 +13,7 @@ $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
 $tableSchema = $generator->getTableSchema();
 $container = Container::make($tableSchema->fullName);
+
 $title = ! empty($container['metaParams']['label_name']) ? $container['metaParams']['label_name'] : $container['metaParams']['verbose_name'];
 
 echo "<?php\n";
@@ -25,7 +28,6 @@ use <?= $generator->indexWidgetType === 'grid' ? "yii\\grid\\GridView" : "yii\\w
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = <?= $generator->generateString($title) ?>;
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
@@ -48,7 +50,7 @@ $count = 0;
 if ($tableSchema === false) {
     foreach ($generator->getColumnNames() as $name) {
         if (++$count < 6) {
-            echo "            '" . $name . "',\n";
+            echo "            " . Start::view($name) . ",\n";
         } else {
             echo "            //'" . $name . "',\n";
         }
@@ -58,15 +60,15 @@ if ($tableSchema === false) {
         $format = $generator->generateColumnFormat($column);
         if(! empty($container['showParams']['list_display'])) {
                 if(in_array($column->name, $container['showParams']['list_display'])) {
-                    echo "            '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+                    echo "            " . Start::view($column->name, $container) . ",\n";
                 } else {
-                    echo "            //'" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+                    echo "            //'" . $column->name . "',\n";
                 }
         } else {
             if (++$count < 6) {
-                echo "            '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+                echo "            " . Start::view($column->name, $container) . ",\n";
             } else {
-                echo "            //'" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+                echo "            //'" . $column->name . "',\n";
             }
         }
     }

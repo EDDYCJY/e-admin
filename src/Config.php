@@ -3,6 +3,8 @@ namespace Eadmin;
 
 use Yii;
 use Eadmin\Kernel\Gen\Setting;
+use Eadmin\Kernel\Support\Gen;
+use Eadmin\Config;
 
 class Config
 {
@@ -13,6 +15,13 @@ class Config
 	const PREFIX = 'eadmin';
 
 	public static function init()
+	{
+		self::load();
+
+		self::bind();
+	}
+
+	public static function load()
 	{
 		$commands = [
 			'Database',
@@ -26,6 +35,17 @@ class Config
 			if(file_exists($configPath)) {
 				Yii::$app->params[self::PREFIX . $index] = require $configPath;
 			}
+		}
+
+		return true;
+	}
+
+	public static function bind()
+	{
+		$configs = Config::get('Autoload', 'models');
+		foreach ($configs as $index => $class) {
+			$gen = new Gen(new $class);
+			$gen->bind();
 		}
 
 		return true;

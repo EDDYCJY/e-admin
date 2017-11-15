@@ -20,7 +20,7 @@ $labels = $generator->generateSearchLabels();
 $searchAttributes = $generator->getSearchAttributes();
 $searchConditions = $generator->generateSearchConditions();
 
-$pageSize = Config::get('App', 'page_size');
+$pageSize = Config::get('Setting', 'page_size');
 $pageSize = ! empty($pageSize) ? $pageSize : 10;
 
 echo "<?php\n";

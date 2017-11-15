@@ -9,9 +9,9 @@ class Table extends Execute
 {
 	public function start($command)
 	{
-		$key = $this->objecter->tabler->getTableFullName();
+		$key = $this->objecter->getTabler()->getTableFullName();
 		if(! $this->locker->existsLock($key)) {
-			$result = $this->objecter->tabler->executeCreateTable($command);
+			$result = $this->objecter->getTabler()->executeCreateTable($command);
 			if($result === false) {
 				return false;
 			}

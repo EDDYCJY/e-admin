@@ -11,8 +11,13 @@ class Constants
 
 	const RADIOLIST_FIELD = 'RadioListField';
 
-	const LOCK_FLAG = 'lock';
+	const PERMISSION_FIELD = 'PermissionField';
 
+	const STATE_FIELD = 'StateField';
+
+	const TIME_FIELD = 'TimeField';
+
+	const LOCK_FLAG = 'lock';
 
 	const SCHEMA_BIGINT = 'BIGINT';
 
