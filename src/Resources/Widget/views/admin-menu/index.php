@@ -21,7 +21,7 @@ use yii\helpers\Url;
       <li class="<?php echo $menu['class']; ?>">
 
         <a href="<?php echo Url::toRoute($menu['url']); ?>">
-          <i class="fa fa-dashboard"></i> <span><?php echo $menu['name']; ?></span>
+          <i class="<?php if(! empty($menu['icon'])): echo $menuIconPrefix . ' ' . $menu['icon']; else:?>fa fa-dashboard<?php endif; ?>"></i> <span><?php echo $menu['name']; ?></span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>

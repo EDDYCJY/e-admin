@@ -1,65 +1,43 @@
 <?php
-namespace backend\widgets;
+use yii\helpers\Url;
 
-use Yii;
-use backend\models\AdminMenu as AdminMenuModel;
-use Eadmin\Entity\AdminMenuEntity;
+?>
 
-class AdminMenu extends \yii\bootstrap\Widget
-{
-    public $settings;
+<aside class="main-sidebar">
+  <section class="sidebar">
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <p><?php echo \Yii::$app->session->get('admin_user_name'); ?></p>
+        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+      </div>
+    </div>
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="header">MAIN NAVIGATION</li>
+    
+      <?php foreach($menus as $index => $menu): ?>
+      <li class="<?php echo $menu['class']; ?>">
 
-    public function init()
-    {
-        parent::init();
-    }
+        <a href="<?php echo Url::toRoute($menu['url']); ?>">
+          <i class="<?php if(! empty($menu['icon'])): echo $menuIconPrefix . ' ' . $menu['icon']; else:?>fa fa-dashboard<?php endif; ?>"></i> <span><?php echo $menu['name']; ?></span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+  
+        <?php if(! empty($menu['childrens'])): ?>
+        <ul class="treeview-menu">
+          <?php foreach($menu['childrens'] as $children): ?>
+            <li class="<?php echo $children['class']; ?>"><a href="<?php echo Url::toRoute($children['url']); ?>"><i class="fa fa-circle-o"></i> <?php echo $children['name']; ?></a></li>
+          <?php endforeach; ?>
+        </ul>
+        <?php endif; ?>
 
-    public function run()
-    {
-        $menus = AdminMenuEntity::getMenus();
-        $requestedRoute = Yii::$app->requestedRoute;
-
-        $childrens = [];
-        foreach ($menus as $key => $value) {
-            if($value['parent_id'] > 0) {
-                $childrens[] = $value;
-                unset($menus[$key]);
-            }
-        }
-
-        if(! empty($childrens)) {
-            foreach ($childrens as $children) {
-                foreach ($menus as $key => $menu) {
-                    if($children['parent_id'] == $menu['id']) {
-                        $menus[$key]['childrens'][] = $children;
-                    }
-                }
-            }
-        }
-
-        foreach ($menus as $key => $value) {
-            $menus[$key]['class'] = '';
-            if($requestedRoute == $value['url']) {
-                $menus[$key]['class'] .= ' active'; 
-            }
-
-            if(! empty($value['childrens'])) {
-                $menus[$key]['class'] .= ' treeview';
-                foreach ($value['childrens'] as $index => $children) {
-                    if($requestedRoute == $children['url']) {
-                        $menus[$key]['class'] .= ' active menu-open';
-                        $menus[$key]['childrens'][$index]['class'] = ' active';
-                    } else {
-                        $menus[$key]['childrens'][$index]['class'] = '';
-                    }
-                }
-            }
-        }
-
-        $params = [
-            'menus' => $menus,
-        ];
-
-        return $this->render('@backend/widgets/views/admin-menu/index', $params);
-    }
-}
+      </li>
+    <?php endforeach; ?>
+    
+    </ul>
+  </section>
+</aside>
