@@ -13,7 +13,7 @@ class AdminMenuEntity extends AdminMenu
 			'state' => 1,
 		];
 
-		$field = 'id,parent_id,name,url';
+		$field = 'id,parent_id,icon,name,url';
 
 		return self::find()->select($field)->where($map)->asArray()->all();
 	}

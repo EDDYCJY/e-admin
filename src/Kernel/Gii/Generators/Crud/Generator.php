@@ -517,28 +517,32 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             }
         }
 
+        $timeFields = Helpers::getTimeFields($table->fullName);
+
         $likeConditions = [];
         $hashConditions = [];
         foreach ($columns as $column => $type) {
-            switch ($type) {
-                case Schema::TYPE_SMALLINT:
-                case Schema::TYPE_INTEGER:
-                case Schema::TYPE_BIGINT:
-                case Schema::TYPE_BOOLEAN:
-                case Schema::TYPE_FLOAT:
-                case Schema::TYPE_DOUBLE:
-                case Schema::TYPE_DECIMAL:
-                case Schema::TYPE_MONEY:
-                case Schema::TYPE_DATE:
-                case Schema::TYPE_TIME:
-                case Schema::TYPE_DATETIME:
-                case Schema::TYPE_TIMESTAMP:
-                    $hashConditions[] = "'{$column}' => \$this->{$column},";
-                    break;
-                default:
-                    $likeKeyword = $this->getClassDbDriverName() === 'pgsql' ? 'ilike' : 'like';
-                    $likeConditions[] = "->andFilterWhere(['{$likeKeyword}', '{$column}', \$this->{$column}])";                    
-                    break;
+            if(! in_array($column, $timeFields)) {
+                switch ($type) {
+                    case Schema::TYPE_SMALLINT:
+                    case Schema::TYPE_INTEGER:
+                    case Schema::TYPE_BIGINT:
+                    case Schema::TYPE_BOOLEAN:
+                    case Schema::TYPE_FLOAT:
+                    case Schema::TYPE_DOUBLE:
+                    case Schema::TYPE_DECIMAL:
+                    case Schema::TYPE_MONEY:
+                    case Schema::TYPE_DATE:
+                    case Schema::TYPE_TIME:
+                    case Schema::TYPE_DATETIME:
+                    case Schema::TYPE_TIMESTAMP:
+                        $hashConditions[] = "'{$column}' => \$this->{$column},";
+                        break;
+                    default:
+                        $likeKeyword = $this->getClassDbDriverName() === 'pgsql' ? 'ilike' : 'like';
+                        $likeConditions[] = "->andFilterWhere(['{$likeKeyword}', '{$column}', \$this->{$column}])";                    
+                        break;
+                }
             }
         }
 
@@ -550,6 +554,20 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         }
         if (!empty($likeConditions)) {
             $conditions[] = "\$query" . implode("\n" . str_repeat(' ', 12), $likeConditions) . ";\n";
+        }
+
+        return $conditions;
+    }
+
+    public function generateTimeConditions($timeFields)
+    {
+        $conditions = [];
+        if(! empty($timeFields)) {
+            foreach ($timeFields as $key => $value) {
+                $startField = '$_GET[\'' . $value . '_start\']';
+                $endField   = '$_GET[\'' . $value . '_end\']';
+                $conditions[$value] = "->andFilterWhere(['between', '$value', strtotime($startField), strtotime($endField)])";
+            }
         }
 
         return $conditions;

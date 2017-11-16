@@ -4,6 +4,7 @@
  */
 
 use yii\helpers\StringHelper;
+use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Config;
 
 
@@ -12,6 +13,7 @@ use Eadmin\Config;
 
 $modelClass = StringHelper::basename($generator->modelClass);
 $searchModelClass = StringHelper::basename($generator->searchModelClass);
+$fullName = Config::get('Database', 'table_prefix') . Helpers::getUnderscore(Helpers::getLastIndex($modelClass));
 if ($modelClass === $searchModelClass) {
     $modelAlias = $modelClass . 'Model';
 }
@@ -22,6 +24,8 @@ $searchConditions = $generator->generateSearchConditions();
 
 $pageSize = Config::get('Setting', 'page_size');
 $pageSize = ! empty($pageSize) ? $pageSize : 10;
+
+$timeConditions = $generator->generateTimeConditions(Helpers::getTimeFields($fullName));
 
 echo "<?php\n";
 ?>
@@ -79,6 +83,14 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
         ]);
 
         $this->load($params);
+
+<?php if(! empty($timeConditions)): 
+      foreach($timeConditions as $key => $value):?>  
+        if(! empty($params['<?= $key . '_start' ?>']) && ! empty($params['<?= $key . '_end'?>'])) {
+            $query<?= $value ?>;
+        }
+<?php endforeach; 
+      endif; ?>
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails

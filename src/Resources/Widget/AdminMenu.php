@@ -3,6 +3,7 @@ namespace backend\widgets;
 
 use Yii;
 use backend\models\AdminMenu as AdminMenuModel;
+use Eadmin\Entity\AdminMenuEntity;
 
 class AdminMenu extends \yii\bootstrap\Widget
 {
@@ -15,11 +16,8 @@ class AdminMenu extends \yii\bootstrap\Widget
 
     public function run()
     {
-        $map = [
-            'is_show' => 1,
-        ];
-
-        $menus = AdminMenuModel::find()->where($map)->all();
+        $menus = AdminMenuEntity::getMenus();
+        $requestedRoute = Yii::$app->requestedRoute;
 
         $childrens = [];
         foreach ($menus as $key => $value) {
@@ -38,7 +36,25 @@ class AdminMenu extends \yii\bootstrap\Widget
                 }
             }
         }
-        
+
+        foreach ($menus as $key => $value) {
+            $menus[$key]['class'] = '';
+            if($requestedRoute == $value['url']) {
+                $menus[$key]['class'] .= ' active'; 
+            }
+
+            if(! empty($value['childrens'])) {
+                $menus[$key]['class'] .= ' treeview';
+                foreach ($value['childrens'] as $index => $children) {
+                    if($requestedRoute == $children['url']) {
+                        $menus[$key]['class'] .= ' active menu-open';
+                        $menus[$key]['childrens'][$index]['class'] = ' active';
+                    } else {
+                        $menus[$key]['childrens'][$index]['class'] = '';
+                    }
+                }
+            }
+        }
 
         $params = [
             'menus' => $menus,

@@ -18,7 +18,7 @@ use yii\helpers\Url;
       <li class="header">MAIN NAVIGATION</li>
     
       <?php foreach($menus as $index => $menu): ?>
-      <li class="<?php if(! empty($menu['childrens'])):?>treeview<?php endif; ?>">
+      <li class="<?php echo $menu['class']; ?>">
 
         <a href="<?php echo Url::toRoute($menu['url']); ?>">
           <i class="fa fa-dashboard"></i> <span><?php echo $menu['name']; ?></span>
@@ -30,7 +30,7 @@ use yii\helpers\Url;
         <?php if(! empty($menu['childrens'])): ?>
         <ul class="treeview-menu">
           <?php foreach($menu['childrens'] as $children): ?>
-            <li><a href="<?php echo Url::toRoute($children['url']); ?>"><i class="fa fa-circle-o"></i> <?php echo $children['name']; ?></a></li>
+            <li class="<?php echo $children['class']; ?>"><a href="<?php echo Url::toRoute($children['url']); ?>"><i class="fa fa-circle-o"></i> <?php echo $children['name']; ?></a></li>
           <?php endforeach; ?>
         </ul>
         <?php endif; ?>

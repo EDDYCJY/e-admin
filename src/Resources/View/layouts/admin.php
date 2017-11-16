@@ -22,7 +22,7 @@ AdminAsset::register($this);
   <?= Html::csrfMetaTags() ?>
 <?php $this->head() ?>
 </head>
-<body class="hold-transition skin-blue sidebar-mini skin-blue-light">
+<body class="sidebar-mini skin-blue-light">
 <?php $this->beginBody() ?>
 
 <div class="wrapper">

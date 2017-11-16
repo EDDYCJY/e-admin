@@ -3,6 +3,10 @@ use backend\assets\AdminAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use Eadmin\Config;
+
+$loginTitle = Config::get('Setting', 'login_title');
+$loginMiniTitle = Config::get('Setting', 'mini_login_title');
 
 AdminAsset::register($this);
 ?>
@@ -13,7 +17,7 @@ AdminAsset::register($this);
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Log in</title>
+  <title><?php echo $loginTitle; ?> | Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <?= Html::csrfMetaTags() ?>
@@ -44,7 +48,7 @@ AdminAsset::register($this);
 <?php $this->beginBody() ?>
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <a href="../../index2.html"><b><?php echo $loginTitle; ?></b><?php echo $loginMiniTitle; ?></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">

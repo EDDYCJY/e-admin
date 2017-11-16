@@ -89,9 +89,9 @@ class Helpers
         $container = Container::make($fullName);
         $presets   = Config::get('App', 'eadmin_split_fields');
 
-        foreach ($container['modelParams'] as $name => $values) {
+        foreach ($container['modelParams'] as $name => $value) {
             foreach ($presets as $index => $type) {
-                if($type == $values['type']) {
+                if($type == $value['type']) {
                     $result[] = $name;
                 }
             }
