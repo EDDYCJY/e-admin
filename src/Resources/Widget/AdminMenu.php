@@ -3,6 +3,8 @@ namespace backend\widgets;
 
 use Yii;
 use Eadmin\Entity\AdminMenuEntity;
+use Eadmin\Entity\AdminUserEntity;
+use Eadmin\Entity\AdminRoleEntity;
 use Eadmin\Config;
 
 class AdminMenu extends \yii\bootstrap\Widget
@@ -29,7 +31,7 @@ class AdminMenu extends \yii\bootstrap\Widget
 
     public function run()
     {
-        $menus = AdminMenuEntity::getAllMenu();
+        $menus = $this->getAdminMenus();
         $requestedRoute = Yii::$app->requestedRoute;
 
         $childrens = [];
