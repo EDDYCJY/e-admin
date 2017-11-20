@@ -12,7 +12,7 @@ class PermissionCheckboxList
 {
 	public function run($attribute)
 	{
-		$permissions = AdminMenuEntity::getMenus();
+		$permissions = AdminMenuEntity::getAllMenu();
 		$permissions = ArrayHelper::index($permissions, 'id');
 		$permissions = ArrayHelper::getColumn($permissions, 'name');
 		$permissions = Helpers::convertArrayToStr($permissions);

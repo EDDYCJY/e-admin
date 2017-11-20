@@ -26,7 +26,7 @@ class Start
 				Gen::start(new $class);
 			}
 		}
-
+		
         Gen::extra();
 	}
 }

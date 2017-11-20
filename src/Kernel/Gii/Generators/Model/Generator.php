@@ -17,6 +17,9 @@ use yii\helpers\Inflector;
 use yii\base\NotSupportedException;
 use Eadmin\Kernel\Gii\CodeFile;
 use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Config;
+use Eadmin\Constants;
+use Eadmin\Kernel\Support\Container;
 
 /**
  * This generator will generate one or multiple ActiveRecord classes for the specified database table.
@@ -201,6 +204,37 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         }
     }
 
+    private function resetNotExistsConfigs($params, $configs)
+    {
+        foreach ($configs as $field => $function) {
+            if(! array_key_exists($field, $params)) {
+                unset($configs[$field]);
+            }
+        }
+
+        return $configs;
+    }
+
+    public function generateBeforeSave($tableName)
+    {
+        $container = Container::make($tableName);
+        $function  = 'resetNotExistsConfigs';
+
+        $encryptConfig = $this->$function($container['modelParams'], Config::get('App', 'eadmin_encrypt_function_fields'));
+        $timesInsertConfig = $this->$function($container['modelParams'], Config::get('App', 'eadmin_time_function_insert_fields'));
+        $timesUpdateConfig = $this->$function($container['modelParams'], Config::get('App', 'eadmin_time_function_update_fields'));
+
+        if(empty($encryptConfig) && empty($timesInsertConfig) && empty($timesUpdateConfig)) {
+            return [];
+        }
+
+        return [
+            'encryptConfig'     => $encryptConfig,
+            'timesInsertConfig' => $timesInsertConfig,
+            'timesUpdateConfig' => $timesUpdateConfig,
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -214,6 +248,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             $modelClassName = $this->generateClassName($tableName);
             $queryClassName = ($this->generateQuery) ? $this->generateQueryClassName($modelClassName) : false;
             $tableSchema = $db->getTableSchema($tableName);
+
             $params = [
                 'tableName' => $tableName,
                 'className' => $modelClassName,
@@ -223,6 +258,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                 'labels' => $this->generateLabels($tableSchema),
                 'rules' => $this->generateRules($tableSchema),
                 'relations' => isset($relations[$tableName]) ? $relations[$tableName] : [],
+                'beforeSave' => $this->generateBeforeSave($tableName),
             ];
      
             $files[] = new CodeFile(
@@ -279,10 +315,19 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
      */
     public function generateLabels($table)
     {
+        $container = Container::make($table->fullName);
+
         $labels = [];
         foreach ($table->columns as $column) {
             if ($this->generateLabelsFromComments && !empty($column->comment)) {
-                $labels[$column->name] = $column->comment;
+                $label = $column->comment;
+                if(array_key_exists($column->name, $container['modelParams'])) {
+                    $fieldValue = $container['modelParams'][$column->name];
+                    if(isset($fieldValue['label_name'])) {
+                        $label = $fieldValue['label_name'];
+                    }
+                }
+                $labels[$column->name] = $label;
             } elseif (!strcasecmp($column->name, 'id')) {
                 $labels[$column->name] = 'ID';
             } else {
@@ -307,6 +352,10 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         $types = [];
         $lengths = [];
 
+        $imageFields = Helpers::getImageFields($table->fullName);
+        $splitFields = Helpers::getSplitFields($table->fullName);
+        $timeFields  = Helpers::getTimeFields($table->fullName);
+
         foreach ($table->columns as $column) {
             if ($column->autoIncrement) {
                 continue;
@@ -314,41 +363,44 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             if (!$column->allowNull && $column->defaultValue === null) {
                 $types['required'][] = $column->name;
             }
-            switch ($column->type) {
-                case Schema::TYPE_SMALLINT:
-                case Schema::TYPE_INTEGER:
-                case Schema::TYPE_BIGINT:
-                    $types['integer'][] = $column->name;
-                    break;
-                case Schema::TYPE_BOOLEAN:
-                    $types['boolean'][] = $column->name;
-                    break;
-                case Schema::TYPE_FLOAT:
-                case 'double': // Schema::TYPE_DOUBLE, which is available since Yii 2.0.3
-                case Schema::TYPE_DECIMAL:
-                case Schema::TYPE_MONEY:
-                    $types['number'][] = $column->name;
-                    break;
-                case Schema::TYPE_DATE:
-                case Schema::TYPE_TIME:
-                case Schema::TYPE_DATETIME:
-                case Schema::TYPE_TIMESTAMP:
-                    $types['safe'][] = $column->name;
-                    break;
-                default: // strings
-                    if ($column->size > 0) {
-                        $lengths[$column->size][] = $column->name;
-                    } else {
-                        $types['string'][] = $column->name;
-                    }
+
+            if(in_array($column->name, $timeFields)) {
+                $types['safe'][] = $column->name;
+            } else {
+                switch ($column->type) {
+                    case Schema::TYPE_SMALLINT:
+                    case Schema::TYPE_INTEGER:
+                    case Schema::TYPE_BIGINT:
+                        $types['integer'][] = $column->name;
+                        break;
+                    case Schema::TYPE_BOOLEAN:
+                        $types['boolean'][] = $column->name;
+                        break;
+                    case Schema::TYPE_FLOAT:
+                    case 'double': // Schema::TYPE_DOUBLE, which is available since Yii 2.0.3
+                    case Schema::TYPE_DECIMAL:
+                    case Schema::TYPE_MONEY:
+                        $types['number'][] = $column->name;
+                        break;
+                    case Schema::TYPE_DATE:
+                    case Schema::TYPE_TIME:
+                    case Schema::TYPE_DATETIME:
+                    case Schema::TYPE_TIMESTAMP:
+                        $types['safe'][] = $column->name;
+                        break;
+                    default: // strings
+                        if ($column->size > 0) {
+                            $lengths[$column->size][] = $column->name;
+                        } else {
+                            $types['string'][] = $column->name;
+                        }
+                }
             }
         }
 
-        $imageFields = Helpers::getImageFields($table->fullName);
-        $splitFields = Helpers::getSplitFields($table->fullName);
-
         $rules = [];
         $driverName = $this->getDbDriverName();
+
         foreach ($types as $type => $columns) {
             if ($driverName === 'pgsql' && $type === 'integer') {
                 $rules[] = "[['" . implode("', '", $columns) . "'], 'default', 'value' => null]";
@@ -374,7 +426,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             $keys = array_keys($imageFields) + array_values($splitFields);
             $rules[] = "[['" . implode("', '", $keys) . "'], 'required', 'on' => 'create']";
         }
-  
+
         $db = $this->getDbConnection();
 
         // Unique indexes rules

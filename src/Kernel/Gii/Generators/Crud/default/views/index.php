@@ -5,6 +5,7 @@ use yii\helpers\StringHelper;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Expand\Start;
+use Eadmin\Config;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */
@@ -13,6 +14,7 @@ $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
 $tableSchema = $generator->getTableSchema();
 $container = Container::make($tableSchema->fullName);
+$defaultHiddenListDisplay = Config::get('App', 'eadmin_default_hidden_list_display');
 
 $title = ! empty($container['metaParams']['label_name']) ? $container['metaParams']['label_name'] : $container['metaParams']['verbose_name'];
 
@@ -65,11 +67,13 @@ if ($tableSchema === false) {
                     echo "            //'" . $column->name . "',\n";
                 }
         } else {
-            if (++$count < 6) {
-                echo "            " . Start::view($column->name, $container) . ",\n";
-            } else {
-                echo "            //'" . $column->name . "',\n";
-            }
+            if(! in_array($column->name, $defaultHiddenListDisplay)) {
+                if (++$count < 6) {
+                    echo "            " . Start::view($column->name, $container) . ",\n";
+                } else {
+                    echo "            //'" . $column->name . "',\n";
+                }
+            }   
         }
     }
 }

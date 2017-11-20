@@ -18,6 +18,7 @@ use Eadmin\Kernel\Gii\CodeFile;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Constants;
 use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Kernel\Factory\ActiveFieldFactory;
 
 /**
  * Generates CRUD
@@ -236,89 +237,10 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         $tableSchema = $this->getTableSchema();
 
         $container = Container::make($tableSchema->fullName);
-        $containerField = $container['modelParams'][$attribute];
-
-        $optionsField = 'htmlOptions';
-        if(array_key_exists($attribute, $container['modelParams'])) {
-          
-            /* Html额外参数 */
-            if(array_key_exists($optionsField, $containerField)) {
-                $htmlOptions = Helpers::convertArrayToStr($containerField[$optionsField]);
-            }
-
-            /* 单图控件 */
-            if($containerField['type'] == Constants::IMAGE_FIELD) {
-                $options = [
-                    'accept' => 'image/*',
-                ];
-
-                $pluginOptions = [
-                    'previewFileType' => 'image',
-                    'initialPreview'  => [
-                        'separator' => '',
-                        'value'     => "! empty(\$model->$attribute) ? Helpers::getFullImagePaths(\$model->$attribute) : ''", 
-                    ],
-                    'showUpload' => [
-                        'separator' => '',
-                        'value' => "false"
-                    ],
-                    'showRemove' => [
-                        'separator' => '',
-                        'value' => "false"
-                    ],
-                    'initialPreviewAsData' => [
-                        'separator' => '',
-                        'value' => "true"
-                    ],
-                ];
-
-                $object = new \Eadmin\Expand\Form\FileInput();
-                $object->setOptions($options);
-                $object->setPluginOptions($pluginOptions);
-
-                return $object->run($attribute);
-            }
-
-            /* 多图控件 */
-            if($containerField['type'] == Constants::IMAGES_FIELD) {
-                $options = [
-                    'accept'   => 'image/*',
-                    'multiple' => true,
-                ];
-                $pluginOptions = [
-                    'previewFileType' => 'image',
-                    'initialPreview' => [
-                        'separator' => '',
-                        'value'     => "! empty(\$model->$attribute) ? Helpers::getFullImagePaths(explode(',', \$model->$attribute)) : ''",  
-                    ],
-                    'showUpload' => [
-                        'separator' => '',
-                        'value' => "false"
-                    ],
-                    'showRemove' => [
-                        'separator' => '',
-                        'value' => "false"
-                    ],
-                    'initialPreviewAsData' => [
-                        'separator' => '',
-                        'value' => "true"
-                    ],
-                ];
-
-                $object = new \Eadmin\Expand\Form\FileInput();
-                $object->setOptions($options);
-                $object->setPluginOptions($pluginOptions);
-
-                return $object->run($attribute, true);
-            }
-
-        }
-
-        /* 多个权限节点 */
-        if($containerField['type'] == Constants::PERMISSION_FIELD) {
-            $object = new \Eadmin\Expand\Form\PermissionCheckboxList();
-
-            return $object->run($attribute);
+        $factory  = new ActiveFieldFactory($container, $container['modelParams'][$attribute]['type']);
+        $activeField = $factory->start($attribute);
+        if($activeField !== null) {
+            return $activeField;
         }
 
         if ($tableSchema === false || !isset($tableSchema->columns[$attribute])) {
@@ -339,21 +261,6 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                 $input = 'passwordInput';
             } else {
                 $input = 'textInput';
-            }
-
-            /* 单选框 */
-            $radioListFields = [
-                Constants::RADIOLIST_FIELD,
-                Constants::STATE_FIELD,
-            ];
-            if(in_array($containerField['type'], $radioListFields)) {
-                $input = 'radioList';
-                $htmlOptions  = preg_replace("/\n\s*/", ' ', VarDumper::export($containerField['options']['choices']));
-                $classOptions = preg_replace("/\n\s*/", ' ', VarDumper::export([
-                    'class' => 'radio',
-                ]));
-            
-                return "\$form->field(\$model, '$attribute')->$input($htmlOptions, $classOptions)";
             }
 
             if (is_array($column->enumValues) && count($column->enumValues) > 0) {

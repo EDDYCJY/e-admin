@@ -16,9 +16,16 @@ class Config
 
 	public static function init()
 	{
+		self::bootstrap();
+
 		self::load();
 
 		self::bind();
+	}
+
+	public static function bootstrap()
+	{
+		require __DIR__ . DIRECTORY_SEPARATOR . 'Function' . self::EXT;
 	}
 
 	public static function load()

@@ -49,7 +49,8 @@ class AdminRole extends Model
 
 	public $state = [
 		'type' => 'StateField',
-		'comment' => '状态',
+		'label_name' => '状态',
+		'comment' => '状态（0为禁用，1为启用）',
 		'default' => 0,
 		'options' => [
 			'choices' => [

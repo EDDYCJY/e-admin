@@ -2,28 +2,56 @@
 
 namespace Eadmin\Kernel\Extra;
 
+use yii\helpers\ArrayHelper;
 use Eadmin\Basic\Extra;
-use backend\models\AdminUser;
+use Eadmin\Entity\AdminUserEntity;
+use Eadmin\Entity\AdminMenuEntity;
+use Eadmin\Entity\AdminRoleEntity;
 
 class Admin extends Extra
 {
 	public function start()
 	{
+		$this->initAdminRole();
 		$this->initAdminUser();
+	}
+
+	private function initAdminRole()
+	{
+		$name = 'admin_role';
+		if(! $this->locker->existsLock($name)) {
+			$permissions = ArrayHelper::getColumn(AdminMenuEntity::getAllMenu(), 'id');
+			$params = [
+				'name' => '超级管理员',
+				'description' => '超级管理员',
+				'permissions' => implode(',', $permissions),
+				'is_show' => 1,
+				'state' => 1,
+			];
+
+			$result = AdminRoleEntity::addRole($params);
+			if($result !== false) {
+				$this->locker->writeLock($name);
+			}
+		}
 	}
 
 	private function initAdminUser()
 	{
-		$userName = 'admin';
-		if(! $this->locker->existsLock($userName)) {
-			$model = new AdminUser();
-			$model->user_name  = $userName;
-			$model->password   = 'f6fdffe48c908deb0f4c3bd36c032e72';
-			$model->created_on = time();
-			$model->created_by = 'eadmin';
-			$model->save();
+		$name = 'admin';
+		if(! $this->locker->existsLock($name)) {
+			$params = [
+				'role_id'    => 1,
+				'user_name'  => $name,
+				'password'   => 'adminadmin',
+				'created_by' => '',
+				'modify_by'  => '',
+			];
 
-			$this->locker->writeLock($userName);
+			$result = AdminUserEntity::addUser($params);
+			if($result !== false) {
+				$this->locker->writeLock($name);
+			}
 		}
 	}
 }

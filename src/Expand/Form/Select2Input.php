@@ -4,9 +4,11 @@ namespace Eadmin\Expand\Form;
 
 use Eadmin\Kernel\Support\Helpers;
 
-class FileInput
+class Select2Input
 {
 	private $className;
+
+	private $data;
 
 	private $options;
 
@@ -14,7 +16,12 @@ class FileInput
 
 	public function __construct()
 	{
-		$this->className = \kartik\file\FileInput::className();
+		$this->className = \kartik\select2\Select2::className();
+	}
+
+	public function setData($data)
+	{
+		$this->data = Helpers::convertArrayToStr($data);
 	}
 
 	public function setOptions($options)
@@ -27,14 +34,10 @@ class FileInput
 		$this->pluginOptions = Helpers::convertArrayToStr($options);
 	}
 
-	public function run($attribute, $multiple = false)
+	public function run($attribute)
 	{
-		$widget = "->widget('$this->className', ['options' => [$this->options], 'pluginOptions' => [$this->pluginOptions]])";
-		if($multiple === true) {
-			return "\$form->field(\$model, '{$attribute}[]')" . $widget;
-		}
+		$widget = "->widget('$this->className', ['data' => [$this->data], 'options' => [$this->options], 'pluginOptions' => [$this->pluginOptions]])";
 
 		return "\$form->field(\$model, '$attribute')" . $widget;
 	}
-
 }

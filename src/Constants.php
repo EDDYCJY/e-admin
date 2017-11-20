@@ -13,6 +13,8 @@ class Constants
 
 	const PERMISSION_FIELD = 'PermissionField';
 
+	const ICON_FIELD = 'IconField';
+
 	const STATE_FIELD = 'StateField';
 
 	const TIME_FIELD = 'TimeField';
@@ -30,6 +32,8 @@ class Constants
 	const SCHEMA_INT = 'INT';
 
 	const SCHEMA_TINYINT = 'TINYINT';
+
+	const SCHEMA_TEXT = 'TEXT';
 
 	const LOCK_TABLE = 'table';
 

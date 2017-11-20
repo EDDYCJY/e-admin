@@ -11,40 +11,15 @@ class AdminUser extends Model
 
 	public $comment = '后台管理员表';
 
-    public $list_display = [
-        'id',
-        'type',
-        'user_name',
-        'created_on',
-        'created_by',
-        'modify_on',
-        'modify_by',
-        'state',
-    ];
-
-    public $detail_display = [
-        'id',
-        'type',
-        'user_name',
-        'state',
-    ];
-
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',
 	];
 
-	public $type = [
-		'type' => 'RadioListField',
-		'max_length' => 11,
+	public $role_id = [
+		'type' => 'TinyintField',
 		'default' => 0,
-		'comment' => '类别',
-		'options' => [
-			'choices' => [
-				1 => '男',
-				2 => '女',
-			],
-		]
+		'comment' => '权限ID',
 	];
 
 	public $user_name = [
@@ -90,6 +65,7 @@ class AdminUser extends Model
 	public $state = [
 		'type' => 'StateField',
 		'default' => 1,
+		'label_name' => '状态',
 		'comment' => '状态（0为禁用，1为启用）',
 		'options' => [
 			'choices' => [

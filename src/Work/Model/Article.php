@@ -39,12 +39,6 @@ class Article extends Model
 		'comment' => '名称',
 		'max_length'   => 10,
 		'null'	       => true,
-		'choices'	   => [
-			'test1'   => '1',
-			'test2'   => '2',
-			'test3'   => '3',
-			'default' => '',
-		],
 		'htmlOptions' => [
 			'max_length'   => 20,
 			'min_length'   => 10,
@@ -53,9 +47,8 @@ class Article extends Model
 	];
 
 	public $send_content = [
-		'type' => 'TextareaField',
+		'type' => 'UeditorField',
 		'comment' => '内容',
-		'default' => '',
 		'htmlOptions' => [
 			'max_length'   => 400,
 			'min_length'   => 10,
@@ -72,7 +65,8 @@ class Article extends Model
 
 	public $state = [
 		'type' => 'StateField',
-		'comment' => '状态',
+		'label_name' => '状态',
+		'comment' => '状态（0为禁用，1为启用）',
 		'default' => 0,
 		'options' => [
 			'choices' => [

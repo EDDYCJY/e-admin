@@ -97,4 +97,43 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
         return new <?= $queryClassFullName ?>(get_called_class());
     }
 <?php endif; ?>
+
+<?php if($beforeSave): ?>
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)) {
+            if($insert) {
+<?php if(! empty($beforeSave['timesInsertConfig'])):?>
+<?php foreach($beforeSave['timesInsertConfig'] as $field => $function): ?>
+                $this-><?= $field ?> = <?= $function ?>();
+<?php endforeach; ?>
+<?php endif; ?>
+<?php if(! empty($beforeSave['encryptConfig'])):?>
+<?php foreach($beforeSave['encryptConfig'] as $field => $function): ?>
+                $this-><?= $field ?> = <?= $function ?>($this-><?= $field ?>);
+<?php endforeach; ?>
+<?php endif; ?>
+            } else {
+<?php if(! empty($beforeSave['encryptConfig'])):?>
+<?php foreach($beforeSave['encryptConfig'] as $field => $function): ?>
+                if($this->attributes['<?= $field ?>'] !== $this->oldAttributes['<?= $field ?>']) {
+                    $this-><?= $field ?> = <?= $function ?>($this-><?= $field ?>);
+                }
+<?php endforeach; ?>
+<?php endif; ?>
+<?php if(! empty($beforeSave['timesUpdateConfig'])):?>
+<?php foreach($beforeSave['timesUpdateConfig'] as $field => $function): ?>
+                $this-><?= $field ?> = <?= $function ?>();
+<?php endforeach; ?>
+<?php endif; ?>
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+<?php endif; ?>
+
 }

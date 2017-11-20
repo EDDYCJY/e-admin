@@ -46,7 +46,7 @@ class AdminMenu extends Model
 	];
 
 	public $icon =[
-		'type' => 'TextField',
+		'type' => 'IconField',
 		'max_length' => 50,
 		'default' => '',
 		'comment' => 'ICON',
@@ -57,7 +57,7 @@ class AdminMenu extends Model
 	];
 
 	public $is_show = [
-		'type' => 'StateField',
+		'type' => 'RadioListField',
 		'unsigned' => true,
 		'default' => 1,
 		'comment' => '是否在菜单显示',
@@ -73,7 +73,8 @@ class AdminMenu extends Model
 		'type' => 'StateField',
 		'unsigned' => true,
 		'default' => 1,
-		'comment' => '状态',
+		'label_name' => '状态',
+		'comment' => '状态（0为禁用，1为启用）',
 		'options' => [
 			'choices' => [
 				0 => '禁用',

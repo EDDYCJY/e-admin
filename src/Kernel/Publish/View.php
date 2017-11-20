@@ -13,5 +13,7 @@ class View extends Publish
 	public $catalogs = [
 		'layouts',
 		'login',
+		'error',
+		'index',
 	];
 }

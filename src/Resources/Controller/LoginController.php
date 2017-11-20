@@ -5,6 +5,8 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use backend\models\AdminUser;
+use Eadmin\Entity\AdminRoleEntity;
+use Eadmin\Entity\AdminMenuEntity;
 
 class LoginController extends Controller
 {
@@ -21,12 +23,11 @@ class LoginController extends Controller
             ];
             $userInfo = $model->findOne($map);
             if($userInfo['password'] === md5($model->password)) {
-
                 Yii::$app->session->set('admin_id', $userInfo['id']);
                 Yii::$app->session->set('admin_user_name', $userInfo['user_name']);
                 Yii::$app->session->set('admin_created_by', $userInfo['created_by']);
 
-                return $this->redirect(['article/index']);
+                return $this->redirect(['index/index']);
             } else {
                 $model->addErrors([
                     'user_name' => '',

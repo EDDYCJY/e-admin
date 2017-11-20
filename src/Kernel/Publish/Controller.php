@@ -13,5 +13,7 @@ class Controller extends Publish
 	public $files = [
 		'LoginController.php',
 		'AdminController.php',
+		'ErrorController.php',
+		'IndexController.php',
 	];
 }

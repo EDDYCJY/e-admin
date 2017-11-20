@@ -12,6 +12,7 @@ use Eadmin\Kernel\Support\Helpers;
 $class  = Helpers::getLastIndex($generator->modelClass);
 $fullName  = Config::get('Database', 'table_prefix') . Helpers::getUnderscore($class);
 $container = Container::make($fullName);
+$defaultHiddenDetailDisplay = Config::get('App', 'eadmin_default_hidden_detail_display');
 
 $imageFields = array_keys(Helpers::getImageFields($fullName));
 
@@ -40,7 +41,6 @@ use Eadmin\Kernel\Support\Helpers;
 ?>
 
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form">
-
 	<div class="box-body">
     <?= "<?php " ?>$form = ActiveForm::begin([
             'options' => [
@@ -61,7 +61,9 @@ use Eadmin\Kernel\Support\Helpers;
                 echo "    <?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
             }
         } else {
-            echo "    <?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
+            if(! in_array($attribute, $defaultHiddenDetailDisplay)) {
+                echo "    <?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
+            }
         }
     }
 } ?>
@@ -73,5 +75,4 @@ use Eadmin\Kernel\Support\Helpers;
 
     <?= "<?php " ?>ActiveForm::end(); ?>
 	</div>
-
 </div>
