@@ -13,7 +13,7 @@ class UeditorTextarea
 
 	public function run($attribute)
 	{
-		return "\$form->field(\$model, '$attribute')->widget({$this->className});";
+		return "\$form->field(\$model, '$attribute')->widget('$this->className');";
 	}
 
 }
