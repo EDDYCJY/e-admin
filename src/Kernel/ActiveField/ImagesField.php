@@ -11,6 +11,12 @@ class ImagesField extends ActiveField
 
 	private $pluginOptions;
 
+	public function init()
+	{
+		$this->setOptions();
+		$this->setPluginOptions();
+	}
+
 	public function setOptions()
 	{
 		$this->options = [
@@ -58,9 +64,6 @@ class ImagesField extends ActiveField
 
 	public function start()
 	{
-		$this->setOptions();
-		$this->setPluginOptions();
-
         $object = new FileInput();
         $object->setOptions($this->getOptions());
         $object->setPluginOptions($this->getPluginOptions());

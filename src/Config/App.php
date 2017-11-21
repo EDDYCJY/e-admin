@@ -1,7 +1,7 @@
 <?php
 return [
 	'eadmin_split_fields' => [
-		\Eadmin\Constants::PERMISSION_FIELD,
+		'permissions',
 	],
 	'eadmin_list_fields' => [
 		'state' 	 => \Eadmin\Expand\View\StateField::class,

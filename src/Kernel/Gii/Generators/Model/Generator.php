@@ -364,7 +364,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                 $types['required'][] = $column->name;
             }
 
-            if(in_array($column->name, $timeFields)) {
+            if(in_array($column->name, $timeFields + $splitFields)) {
                 $types['safe'][] = $column->name;
             } else {
                 switch ($column->type) {
@@ -422,9 +422,8 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             $rules[] = "[['" . implode("', '", $columns) . "'], 'string', 'max' => $length]";
         }
 
-        if(! empty($imageFields) || ! empty($splitFields)) {
-            $keys = array_keys($imageFields) + array_values($splitFields);
-            $rules[] = "[['" . implode("', '", $keys) . "'], 'required', 'on' => 'create']";
+        if(! empty($imageFields)) {
+            $rules[] = "[['" . implode("', '", array_keys($imageFields)) . "'], 'required', 'on' => 'create']";
         }
 
         $db = $this->getDbConnection();

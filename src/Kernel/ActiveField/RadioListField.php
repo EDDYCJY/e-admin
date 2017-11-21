@@ -11,6 +11,12 @@ class RadioListField extends ActiveField
 
 	private $htmlOptions;
 
+	public function init()
+	{
+		$this->setChoices();
+		$this->setHtmlOptions();
+	}
+
 	public function setChoices()
 	{
 		$this->choices = $this->container['modelParams'][$this->attribute]['options']['choices'];
@@ -39,9 +45,6 @@ class RadioListField extends ActiveField
 
 	public function start()
 	{
-		$this->setChoices();
-		$this->setHtmlOptions();
-
         return "\$form->field(\$model, '{$this->attribute}')->radioList({$this->getChoices()}, {$this->getHtmlOptions()})";
 	}
 }
