@@ -2,7 +2,8 @@
 
 namespace Eadmin\Expand\Form;
 
-use Eadmin\Kernel\Support\Helpers;
+use yii\helpers\VarDumper;
+//use Eadmin\Kernel\Support\Helpers;
 
 class SelectInput
 {
@@ -10,11 +11,13 @@ class SelectInput
 
 	public function setData($data)
 	{
-		$this->data = Helpers::convertArrayToStr($data);
+		$this->data = $data;
 	}
 
 	public function run($attribute)
 	{
-		return "\$form->field(\$model, '$attribute')->dropDownList([" . $this->data . "], ['prompt' => ''])";
+		$params = VarDumper::export($this->data);
+
+		return "\$form->field(\$model, '$attribute')->dropDownList($params, ['prompt' => ''])";
 	}
 }

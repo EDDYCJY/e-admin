@@ -4,6 +4,7 @@ namespace Eadmin\Expand\View;
 
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Kernel\Support\Container;
+use Eadmin\Kernel\Support\VarDumper;
 use Eadmin\Config;
 
 class RadioListField
@@ -53,10 +54,9 @@ class RadioListField
 			],
 			'filter' => [
 				'separator' => '',
-				'value' => '[' . Helpers::convertArrayToStr(self::filter($attribute, $container)) . ']',
+				'value' => VarDumper::exportSeparator(self::filter($attribute, $container)),
 			],
 		];
-
-		return Helpers::convertArrayToStr($values);
+		return VarDumper::exportSeparator($values);
 	}
 }

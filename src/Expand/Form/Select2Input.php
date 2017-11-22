@@ -2,7 +2,7 @@
 
 namespace Eadmin\Expand\Form;
 
-use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Kernel\Support\VarDumper;
 
 class Select2Input
 {
@@ -21,23 +21,28 @@ class Select2Input
 
 	public function setData($data)
 	{
-		$this->data = Helpers::convertArrayToStr($data);
+		$this->data = $data;
 	}
 
 	public function setOptions($options)
 	{
-		$this->options = Helpers::convertArrayToStr($options);
+		$this->options = $options;
 	}
 
 	public function setPluginOptions($options)
 	{
-		$this->pluginOptions = Helpers::convertArrayToStr($options);
+		$this->pluginOptions = $options;
 	}
 
 	public function run($attribute)
 	{
-		$widget = "->widget('$this->className', ['data' => [$this->data], 'options' => [$this->options], 'pluginOptions' => [$this->pluginOptions]])";
+		$params = [
+			'data' => $this->data,
+			'options' => $this->options,
+			'pluginOptions' => $this->pluginOptions,
+		];
+		$params = VarDumper::export($params);
 
-		return "\$form->field(\$model, '$attribute')" . $widget;
+		return "\$form->field(\$model, '$attribute')->widget('$this->className', $params)";
 	}
 }

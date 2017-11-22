@@ -5,6 +5,8 @@ use yii\helpers\StringHelper;
 use Eadmin\Config;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Constants;
+use Eadmin\Expand\Start;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */
@@ -13,8 +15,7 @@ $class  = Helpers::getLastIndex($generator->modelClass);
 $fullName  = Config::get('Database', 'table_prefix') . Helpers::getUnderscore($class);
 $container = Container::make($fullName);
 $defaultHiddenDetailDisplay = Config::get('App', 'eadmin_default_hidden_detail_display');
-
-$imageFields = array_keys(Helpers::getImageFields($fullName));
+$imageFields = array_keys(Start::field($fullName, Constants::IMAGE_FIELD));
 
 /* @var $model \yii\db\ActiveRecord */
 $model = new $generator->modelClass();

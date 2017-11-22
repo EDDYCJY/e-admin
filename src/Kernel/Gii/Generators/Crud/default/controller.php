@@ -9,6 +9,7 @@ use Eadmin\Config;
 use Eadmin\Constants;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Expand\Start;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */
@@ -28,8 +29,9 @@ $actionParams = $generator->generateActionParams();
 $actionParamComments = $generator->generateActionParamComments();
 
 $fullName = Config::get('Database', 'table_prefix') . Helpers::getUnderscore(Helpers::getLastIndex($class));
-$imageFields = Helpers::getImageFields($fullName);
-$splitFields = Helpers::getSplitFields($fullName);
+
+$imageFields = Start::field($fullName, Constants::IMAGE_FIELD);
+$splitFields = Start::field($fullName, Constants::SPLIT_FIELD);
 
 echo "<?php\n";
 ?>
@@ -115,7 +117,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model = new <?= $modelClass ?>();
         if($model->load(Yii::$app->request->post())) {
-<?php if(! empty($splitFields) || ! empty($imageFields)): ?>
+<?php if(! empty($imageFields)): ?>
             $model->setScenario('create');
 <?php endif; ?>
 <?php if(! empty($splitFields)): 

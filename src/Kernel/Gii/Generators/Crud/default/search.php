@@ -5,6 +5,8 @@
 
 use yii\helpers\StringHelper;
 use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Expand\Start;
+use Eadmin\Constants;
 use Eadmin\Config;
 
 
@@ -25,7 +27,7 @@ $searchConditions = $generator->generateSearchConditions();
 $pageSize = Config::get('Setting', 'page_size');
 $pageSize = ! empty($pageSize) ? $pageSize : 10;
 
-$timeConditions = $generator->generateTimeConditions(Helpers::getTimeFields($fullName));
+$timeConditions = $generator->generateTimeConditions(Start::field($fullName, Constants::TIME_FIELD));
 
 echo "<?php\n";
 ?>

@@ -2,7 +2,7 @@
 
 namespace Eadmin\Expand\Form;
 
-use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Kernel\Support\VarDumper;
 
 class IconInput
 {
@@ -17,13 +17,16 @@ class IconInput
 
 	public function setOptions($options)
 	{
-		$this->options = Helpers::convertArrayToStr($options);
+		$this->options = $options;
 	}
 
 	public function run($attribute)
 	{
-		$widget = "->widget('$this->className', ['options' => [$this->options]])";
+		$params = [
+			'options' => $this->options
+		];
+		$params = VarDumper::export($params);
 
-		return "\$form->field(\$model, '$attribute')" . $widget;
+		return "\$form->field(\$model, '$attribute')->widget('$this->className', $params)";
 	}
 }

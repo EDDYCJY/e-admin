@@ -19,6 +19,7 @@ use Eadmin\Kernel\Gii\CodeFile;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Config;
 use Eadmin\Constants;
+use Eadmin\Expand\Start;
 use Eadmin\Kernel\Support\Container;
 
 /**
@@ -204,17 +205,12 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         }
     }
 
-    private function resetNotExistsConfigs($params, $configs)
-    {
-        foreach ($configs as $field => $function) {
-            if(! array_key_exists($field, $params)) {
-                unset($configs[$field]);
-            }
-        }
-
-        return $configs;
-    }
-
+    /**
+     * Generates BeforeSave
+     * 
+     * @param  string $tableName table name
+     * @return array
+     */
     public function generateBeforeSave($tableName)
     {
         $container = Container::make($tableName);
@@ -351,10 +347,10 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
     {
         $types = [];
         $lengths = [];
-
-        $imageFields = Helpers::getImageFields($table->fullName);
-        $splitFields = Helpers::getSplitFields($table->fullName);
-        $timeFields  = Helpers::getTimeFields($table->fullName);
+        
+        $stringColumns = [];
+        $requiredColumns = $imageColumns = Start::field($table->fullName, Constants::IMAGE_FIELD);
+        $safeColumns = Start::field($table->fullName, Constants::TIME_FIELD) + Start::field($table->fullName, Constants::SPLIT_FIELD);
 
         foreach ($table->columns as $column) {
             if ($column->autoIncrement) {
@@ -364,7 +360,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                 $types['required'][] = $column->name;
             }
 
-            if(in_array($column->name, $timeFields + $splitFields)) {
+            if(in_array($column->name, $safeColumns)) {
                 $types['safe'][] = $column->name;
             } else {
                 switch ($column->type) {
@@ -408,22 +404,23 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             $rules[] = "[['" . implode("', '", $columns) . "'], '$type']";
         }
 
-        $lengthsNoImage = [];
+
+        /* add string columns */
         foreach ($lengths as $length => $columns) {
             foreach ($columns as $index => $field) {
-                if(! array_key_exists($field, $imageFields)) {
-                    $lengthsNoImage[$length] = $lengths[$length];
+                if(! array_key_exists($field, $imageColumns)) {
+                    $stringColumns[$length] = $lengths[$length];
                 }
             }
         }
 
-        /* image files */
-        foreach ($lengthsNoImage as $length => $columns) {
+        foreach ($stringColumns as $length => $columns) {
             $rules[] = "[['" . implode("', '", $columns) . "'], 'string', 'max' => $length]";
         }
 
-        if(! empty($imageFields)) {
-            $rules[] = "[['" . implode("', '", array_keys($imageFields)) . "'], 'required', 'on' => 'create']";
+        /* add required columns */
+        if(! empty($requiredColumns)) {
+            $rules[] = "[['" . implode("', '", array_keys($requiredColumns)) . "'], 'required', 'on' => 'create']";
         }
 
         $db = $this->getDbConnection();
@@ -999,4 +996,23 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
 
         return false;
     }
+
+    /**
+     * Reset not required fields of Configs 
+     * 
+     * @param  array  $params  model params
+     * @param  array  $configs fields configs
+     * @return array
+     */
+    private function resetNotExistsConfigs($params, $configs)
+    {
+        foreach ($configs as $field => $function) {
+            if(! array_key_exists($field, $params)) {
+                unset($configs[$field]);
+            }
+        }
+
+        return $configs;
+    }
+
 }

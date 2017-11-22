@@ -9,6 +9,8 @@ class Constants
 
 	const IMAGES_FIELD = 'ImagesField';
 
+	const SPLIT_FIELD = 'SplitField';
+
 	const RADIOLIST_FIELD = 'RadioListField';
 
 	const PERMISSION_FIELD = 'PermissionField';

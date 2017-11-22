@@ -2,7 +2,7 @@
 
 namespace Eadmin\Expand\Form;
 
-use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Kernel\Support\VarDumper;
 
 class PermissionListbox
 {
@@ -26,18 +26,32 @@ class PermissionListbox
 
 	public function setOptions($options)
 	{
-		$this->options = Helpers::convertArrayToStr($options);
+		$this->options = VarDumper::exportSeparator($options);
 	}
 
 	public function setClientOptions($clientOptions)
 	{
-		$this->clientOptions = Helpers::convertArrayToStr($clientOptions);
+		$this->clientOptions = VarDumper::exportSeparator($clientOptions);
 	}
 
 	public function run($attribute)
 	{
-        $widget = "->widget('$this->className',['items' => $this->items, 'options' => [$this->options], 'clientOptions' => [$this->clientOptions]])";
+		$params = [
+			'items' => [
+				'separator' => '',
+				'value' => $this->items
+			],
+			'options' => [
+				'separator' => '',
+				'value' => $this->options,
+			],
+			'clientOptions' => [
+				'separator' => '',
+				'value' => $this->clientOptions,
+			],
+		];
+		$params = VarDumper::exportSeparator($params);
 
-		return "\$form->field(\$model, '$attribute')"  . $widget;
+		return "\$form->field(\$model, '$attribute')->widget('$this->className',$params)";
 	}	
 }

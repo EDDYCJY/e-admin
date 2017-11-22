@@ -17,6 +17,7 @@ use yii\web\Controller;
 use Eadmin\Kernel\Gii\CodeFile;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Constants;
+use Eadmin\Expand\Start;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Kernel\Factory\ActiveFieldFactory;
 
@@ -424,7 +425,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             }
         }
 
-        $timeFields = Helpers::getTimeFields($table->fullName);
+        $timeFields = Start::field($table->fullName, Constants::TIME_FIELD);
 
         $likeConditions = [];
         $hashConditions = [];
@@ -466,6 +467,10 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         return $conditions;
     }
 
+    /**
+     * Generates time conditions
+     * @return array
+     */
     public function generateTimeConditions($timeFields)
     {
         $conditions = [];

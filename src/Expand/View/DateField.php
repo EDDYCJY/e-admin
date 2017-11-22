@@ -3,8 +3,8 @@
 namespace Eadmin\Expand\View;
 
 use yii\helpers\Html;
+use Eadmin\Kernel\Support\VarDumper;
 use kartik\date\DatePicker;
-use Eadmin\Kernel\Support\Helpers;
 
 class DateField
 {
@@ -38,16 +38,10 @@ class DateField
 	{
 		$values = [
 			'attribute' => $attribute,
-			'format' => [
-				'separator' => '',
-				'value'  => '[' . Helpers::convertArrayToStr(self::$format) . ']',
-			],
-			'filter' => [
-				'separator' => '',
-				'value' => 'Eadmin\Expand\View\DateField::filter(' . "'" . $attribute . "'" . ')',
-			],
+			'format' => self::$format,
+			'filter' => 'Eadmin\Expand\View\DateField::filter(' . "'" . $attribute . "'" . ')',
 		];
 
-		return Helpers::convertArrayToStr($values);
+		return VarDumper::export($values);
 	}
 }

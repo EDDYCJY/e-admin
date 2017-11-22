@@ -32,21 +32,12 @@ class ImagesField extends ActiveField
 		$this->pluginOptions = [
             'previewFileType' => 'image',
             'initialPreview' => [
-                'separator' => '',
-                'value'     => "! empty(\$model->{$this->attribute}) ? Helpers::getFullImagePaths(explode(',', \$model->{$this->attribute})) : ''",  
-            ],
-            'showUpload' => [
-                'separator' => '',
-                'value' => "false"
-            ],
-            'showRemove' => [
-                'separator' => '',
-                'value' => "false"
-            ],
-            'initialPreviewAsData' => [
-                'separator' => '',
-                'value' => "true"
-            ],
+            	'separator' => '',
+            	'value' => "! empty(\$model->{$this->attribute}) ? Helpers::getFullImagePaths(explode(',', \$model->{$this->attribute})) : ''",
+            ], 
+            'showUpload' => false,
+            'showRemove' => false,
+            'initialPreviewAsData' => true,
         ];
 
         return true;

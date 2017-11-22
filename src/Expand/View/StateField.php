@@ -3,7 +3,7 @@
 namespace Eadmin\Expand\View;
 
 use yii\helpers\Html;
-use Eadmin\Kernel\Support\Helpers;
+use Eadmin\Kernel\Support\VarDumper;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Config;
 
@@ -69,11 +69,11 @@ class StateField
 			],
 			'filter' => [
 				'separator' => '',
-				'value' => '[' . Helpers::convertArrayToStr(self::filter($attribute, $container)) . ']',
+				'value' => VarDumper::exportSeparator(self::filter($attribute, $container)),
 			],
 		];
 
-		return Helpers::convertArrayToStr($values);
+		return VarDumper::exportSeparator($values);
 	}
 
 }
