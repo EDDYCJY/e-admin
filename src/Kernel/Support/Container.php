@@ -24,4 +24,9 @@ class Container
 	    throw new Exception('Alias does not exist in the IOC registry.');
 	}
 
+	public static function all()
+	{
+		return self::$registry;
+	}
+
 }

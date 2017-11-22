@@ -26,10 +26,10 @@ class Table
 	 * @param  object $response Command对象
 	 * @return boolean
 	 */
-	public function executeCreateTable($response)
-	{
-		return $response->execute();
-	}
+	// public function executeCommand($command)
+	// {
+	// 	return $command->execute();
+	// }
 
 	/**
 	 * 获取表字段

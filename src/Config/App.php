@@ -35,4 +35,15 @@ return [
 		'modify_on' => 'time',
 		'modify_by' => "getAdminUserName",
 	],
+	'eadmin_runtime_catalog_configs' => [
+		'Admin',
+		'Asset',
+		'Controller',
+		'Crud',
+		'Menu',
+		'Model',
+		'Table',
+		'View',
+		'Widget',
+	],
 ];

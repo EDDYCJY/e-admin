@@ -3,21 +3,28 @@
 namespace Eadmin\Kernel\Support;
 
 use Exception;
+use Eadmin\Config;
 
 class FileLock
 {
+	const DS = DIRECTORY_SEPARATOR;
+
 	private $type;
 
 	private $path = '/../../Work/Runtime/%s/';
 
 	public function setType($type)
 	{
-		$this->type = $type;
+		$this->type = ucfirst($type);
 	}
 
 	public function getPath()
 	{
-		return dirname(__FILE__) . sprintf($this->path, ucfirst($this->type));
+		if($this->checkPath()) {
+			return dirname(__FILE__) . sprintf($this->path, $this->type);
+		}
+
+		throw new Exception("请在Config/App.php的eadmin_runtime_catalog_configs增加 {$this->type} 配置项！", 1);
 	}
 
 	public function exists($filename)
@@ -45,6 +52,34 @@ class FileLock
 		}
 
 		fclose($file);
+
+		return $result;
+	}
+
+	public function delete($path) 
+	{
+	    $handle = dir($path);
+	    while(false != ($item = $handle->read())) {
+	        if($item == '.' || $item == '..') {
+	            continue;
+	        }
+
+	        if(is_dir($handle->path . self::DS . $item)) {
+	            deleteAll($handle->path . self::DS . $item);
+	            rmdir($handle->path . self::DS . $item);
+	        } else {
+	            unlink($handle->path . self::DS . $item);
+	        }
+	    
+	    }   
+	}
+
+	protected function checkPath()
+	{
+		$result = false;
+		if(in_array($this->type, Config::get('App', 'eadmin_runtime_catalog_configs'))) {
+			$result = true;
+		}
 
 		return $result;
 	}

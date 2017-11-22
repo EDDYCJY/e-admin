@@ -1,14 +1,13 @@
 <?php
 namespace Eadmin;
 
+use Yii;
+use Exception;
 use Eadmin\Gen;
 use Eadmin\Config;
-use Eadmin\Basic\Model;
-
-use Eadmin\Work\Model\AdminMenu;
-use Eadmin\Work\Model\Article;
-use Eadmin\Work\Model\AdminUser;
-use Eadmin\Work\Model\Upload;
+use Eadmin\Kernel\Support\Container;
+use Eadmin\Kernel\Support\FileLock;
+use Eadmin\Command\Flush;
 
 class Start
 {
@@ -29,4 +28,20 @@ class Start
 		
         Gen::extra();
 	}
+
+	public static function flush($modelClass = [])
+	{
+		Config::init();
+
+		$flush = new Flush();
+		$flush->table();
+		$flush->runtime();
+
+		echo '[Success]: ' . "\n\n";
+		echo implode("\n", $flush->getSuccess()) . "\n\n";
+		echo '[Error]: ' . "\n\n";
+		echo implode("\n", $flush->getError()) . "\n\n";
+		die;
+	}
+
 }

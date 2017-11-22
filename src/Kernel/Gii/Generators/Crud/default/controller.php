@@ -120,7 +120,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 <?php endif; ?>
 <?php if(! empty($splitFields)): 
       foreach($splitFields as $index => $field): ?>
-            $model-><?php echo $field?> = (! empty($model-><?= $field ?>)) ? implode(',', $model-><?= $field ?>) : '';
+            $model-><?= $field?> = (! empty($model-><?= $field ?>)) ? implode(',', $model-><?= $field ?>) : '';
 <?php endforeach; 
       endif; ?>
 <?php if(! empty($imageFields)): ?>
@@ -131,7 +131,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
             $upload->file = \yii\web\UploadedFile::getInstance($model, '<?= $field ?>');
             $uploadResult = $upload->upload();
             if($uploadResult !== false) {
-                $model-><?php echo $field ?> = $uploadResult;
+                $model-><?= $field ?> = $uploadResult;
             }
 
 <?php endif;  
@@ -139,7 +139,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
             $uploads->files = \yii\web\UploadedFile::getInstances($model, '<?= $field ?>');
             $uploadResult = $uploads->upload();
             if($uploadResult !== false) {
-                $model-><?php echo $field ?> = implode(',', $uploadResult);
+                $model-><?= $field ?> = implode(',', $uploadResult);
             }
 
 <?php endif; 
@@ -147,6 +147,10 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
       endif; ?>
             if($model->save()) {
                 return $this->redirect(['index']);
+            } else {
+<?php foreach($imageFields as $field => $type): ?>
+                $model-><?= $field ?> = null;
+<?php endforeach; ?>
             }
         }
 

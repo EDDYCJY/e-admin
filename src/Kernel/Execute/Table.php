@@ -11,7 +11,7 @@ class Table extends Execute
 	{
 		$key = $this->objecter->getTabler()->getTableFullName();
 		if(! $this->locker->existsLock($key)) {
-			$result = $this->objecter->getTabler()->executeCreateTable($command);
+			$result = $command->execute(); //$this->objecter->getTabler()->executeCommand($command);
 			if($result === false) {
 				return false;
 			}
