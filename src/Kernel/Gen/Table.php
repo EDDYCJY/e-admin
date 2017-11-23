@@ -2,7 +2,7 @@
 
 namespace Eadmin\Kernel\Gen;
 
-use Yii;
+use Eadmin\Entity\TableEntity;
 
 class Table
 {
@@ -11,12 +11,12 @@ class Table
 	 */
 	public function start($tabler)
 	{
-		$table   = $tabler->getTablePrefix() . $tabler->getTableName();
-		$columns = $tabler->getTableField();
-		$options = $tabler->getTabelEngine() . $tabler->getTableCharset() . $tabler->getTableComment();
+		$tableName = $tabler->getTablePrefix() . $tabler->getTableName();
+		$columns   = $tabler->getTableField();
+		$options   = $tabler->getTabelEngine() . $tabler->getTableCharset() . $tabler->getTableComment();
 
-		$createCommand = Yii::$app->db->createCommand()->createTable($table, $columns, $options);
+		$command = TableEntity::create($tableName, $columns, $options);
 
-		return $createCommand;
+		return $command;
 	}
 }

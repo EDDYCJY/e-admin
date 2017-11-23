@@ -2,6 +2,7 @@
 
 namespace Eadmin\Kernel\Gen;
 
+use Eadmin\Config;
 use Eadmin\Kernel\Gii\Generators\Crud\Generator;
 
 class Crud
@@ -15,6 +16,20 @@ class Crud
 	public $searchClassSuffix = 'Search';
 
 	public $controllerClassSuffix = 'Controller';
+
+	public function __construct()
+	{
+		$configs = Config::get('App', 'eadmin_generator_configs')['crud'];
+		if(! empty($configs['namespace'])) {
+			$this->namespace = $configs['namespace'];
+		}
+		if(! empty($configs['searchClassSuffix'])) {
+			$this->searchClassSuffix = $configs['searchClassSuffix'];
+		}
+		if(! empty($configs['controllerClassSuffix'])) {
+			$this->controllerClassSuffix = $configs['controllerClassSuffix'];
+		}
+	}
 
 	public function start($tabler)
 	{

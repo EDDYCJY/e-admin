@@ -3,6 +3,7 @@
 namespace Eadmin\Kernel\Copy;
 
 use Eadmin\Basic\Copy;
+use Eadmin\Command\Output;
 
 class Catalog extends Copy
 {
@@ -13,7 +14,9 @@ class Catalog extends Copy
 				$path = $this->from . self::DS . $name;
 				if(file_exists($path)) {
 					if(! $this->recursionFiles($path, $this->to . self::DS . $name)) {
-						echo '333';die;
+						$object = new Output();
+						echo $object->setError('Eadmin\Kernel\Copy\Catalog is Wrong')->getErrorMsg();
+						$object->close();
 					} else {
 						$this->locker->writeLock($name);
 					}

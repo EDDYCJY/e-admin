@@ -14,7 +14,7 @@ $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
 $tableSchema = $generator->getTableSchema();
 $container = Container::make($tableSchema->fullName);
-$defaultHiddenListDisplay = Config::get('App', 'eadmin_default_hidden_list_display');
+$hiddenListDisplay = Config::get('App', 'eadmin_hidden_list_display');
 
 $title = ! empty($container['metaParams']['label_name']) ? $container['metaParams']['label_name'] : $container['metaParams']['verbose_name'];
 
@@ -67,7 +67,7 @@ if ($tableSchema === false) {
                     echo "            //'" . $column->name . "',\n";
                 }
         } else {
-            if(! in_array($column->name, $defaultHiddenListDisplay)) {
+            if(! in_array($column->name, $hiddenListDisplay)) {
                 if (++$count < 6) {
                     echo "            " . Start::view($column->name, $container) . ",\n";
                 } else {

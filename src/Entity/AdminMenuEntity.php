@@ -7,6 +7,17 @@ use backend\models\AdminMenu;
 
 class AdminMenuEntity extends AdminMenu
 {
+	public static function addMenu($params)
+	{
+		$model = new AdminMenu();
+		$model->name = $params['name'];
+		$model->url = $params['url'];
+		$model->parent_id = $params['parent_id'];
+		$model->is_show = $params['is_show'];
+
+		return $model->save();
+	}
+
 	public static function getMenus($id)
 	{
 		$map = [

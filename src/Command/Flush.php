@@ -4,26 +4,24 @@ namespace Eadmin\Command;
 
 use Yii;
 use Exception;
+use Eadmin\Basic\Command;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Kernel\Support\FileLock;
 use Eadmin\Config;
+use Eadmin\Entity\TableEntity;
 
-class Flush
+class Flush extends Command
 {
-	private $success = [];
-
-	private $error = [];
-
 	public function table()
 	{
 		$all = Container::all();
 		$tables = array_keys($all);
-		foreach ($tables as $table) {
+		foreach ($tables as $tableName) {
 			try {
-				Yii::$app->db->createCommand()->dropTable($table)->execute();
-				$this->success[] = 'delete table `' . $table . '` success';
+				TableEntity::drop($tableName)->execute();
+				$this->setSuccess('delete table `' . $tableName . '` success');
 			} catch (Exception $e) {
-				$this->error[] = $e->getMessage();
+				$this->setError($e->getMessage());
 			}
 		}
 
@@ -44,24 +42,12 @@ class Flush
 		foreach ($paths as $catalog => $path) {
 			try {
 				$file->delete($path);
-				$this->success[] = 'flush catalog `' . $catalog . '` success';
+				$this->setSuccess('flush catalog `' . $catalog . '` success');
 			} catch (Exception $e) {
-				$this->error[] = $e->getMessage();
+				$this->setError($e->getMessage());
 			}
 		}
 
 		return true;
 	}
-
-	public function getSuccess()
-	{
-		return $this->success;
-	}
-
-	public function getError()
-	{
-		return $this->error;
-	}
-
-
 }

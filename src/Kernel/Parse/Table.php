@@ -21,17 +21,6 @@ class Table
 	}
 
 	/**
-	 * 执行创建表
-	 * 
-	 * @param  object $response Command对象
-	 * @return boolean
-	 */
-	// public function executeCommand($command)
-	// {
-	// 	return $command->execute();
-	// }
-
-	/**
 	 * 获取表字段
 	 * 
 	 * @return array 

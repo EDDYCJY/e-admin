@@ -23,14 +23,14 @@ class AdminUser extends Model
 	];
 
 	public $user_name = [
-		'type' => 'TextField',
+		'type' => 'VarcharField',
 		'max_length' => 50,
 		'default' => '',
 		'comment' => '登陆账户',
 	];
 
 	public $password = [
-		'type' => 'TextField',
+		'type' => 'VarcharField',
 		'max_length' => 50,
 		'default' => '',
 		'comment' => '登陆密码',
@@ -43,7 +43,7 @@ class AdminUser extends Model
 	];
 
 	public $created_by = [
-		'type' => 'TextField',
+		'type' => 'VarcharField',
 		'max_length' => 100,
 		'default' => '',
 		'comment' => '创建人',
@@ -56,7 +56,7 @@ class AdminUser extends Model
 	];
 
 	public $modify_by = [
-		'type' => 'TextField',
+		'type' => 'VarcharField',
 		'max_length' => 100,
 		'default' => '',
 		'comment' => '修改人',

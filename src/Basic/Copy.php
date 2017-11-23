@@ -19,7 +19,9 @@ class Copy
 	public function __construct($from, $to, $locker)
 	{
 		$this->from = $from;
+
 		$this->to = $to;
+		
 		$this->locker = $locker;
 	}
 

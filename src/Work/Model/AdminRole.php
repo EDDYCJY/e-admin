@@ -15,14 +15,14 @@ class AdminRole extends Model
 	];
 
 	public $name = [
-		'type' => 'TextField',
+		'type' => 'VarcharField',
 		'max_length' => 50,
 		'default' => '',
 		'comment' => '角色名称',
 	];
 
 	public $description = [
-		'type' => 'TextField',
+		'type' => 'VarcharField',
 		'max_length' => 255,
 		'default' => '',
 		'comment' => '角色描述',

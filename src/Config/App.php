@@ -1,5 +1,27 @@
 <?php
 return [
+	'eadmin_origin_admin_configs' => [
+		'user_name' => 'admin',
+		'password'  => 'adminadmin',
+		'role_name' => '超级管理员',
+		'role_description' => '超级管理员'
+	],
+	'eadmin_generator_configs' => [
+		'crud' => [
+			'namespace' => [
+				'model' => 'backend\models',
+				'controller' => 'backend\controllers',
+				'view' => '@backend/views',
+			],
+			'searchClassSuffix' => 'Search',
+			'controllerClassSuffix' => 'Controller',
+		],
+		'model' => [
+			'namespace' => 'backend\models',
+			'queryClassSuffix' => 'Query',
+		],
+	],
+	'eadmin_publish_module' => '@backend',
 	'eadmin_split_fields' => [
 		'permissions',
 	],
@@ -10,7 +32,7 @@ return [
 		'created_on' => \Eadmin\Expand\View\DateField::class,
 		'modify_on'  => \Eadmin\Expand\View\DateField::class,
 	],
-	'eadmin_default_hidden_list_display' => [
+	'eadmin_hidden_list_display' => [
 		'id',
 		'password',
 		'created_on',
@@ -18,7 +40,7 @@ return [
 		'created_by',
 		'modify_by',
 	],
-	'eadmin_default_hidden_detail_display' => [
+	'eadmin_hidden_detail_display' => [
 		'created_on',
 		'modify_on',
 		'created_by',

@@ -5,9 +5,8 @@ use Yii;
 use Exception;
 use Eadmin\Gen;
 use Eadmin\Config;
-use Eadmin\Kernel\Support\Container;
-use Eadmin\Kernel\Support\FileLock;
 use Eadmin\Command\Flush;
+use Eadmin\Command\Delete;
 
 class Start
 {
@@ -29,19 +28,35 @@ class Start
         Gen::extra();
 	}
 
-	public static function flush($modelClass = [])
+	public static function flush()
 	{
 		Config::init();
 
-		$flush = new Flush();
-		$flush->table();
-		$flush->runtime();
+		$object = new Flush();
+		$object->table();
+		$object->runtime();
 
-		echo '[Success]: ' . "\n\n";
-		echo implode("\n", $flush->getSuccess()) . "\n\n";
-		echo '[Error]: ' . "\n\n";
-		echo implode("\n", $flush->getError()) . "\n\n";
-		die;
+		echo $object->getSuccessMsg();
+		echo $object->getErrorMsg();
+		
+		$object->close();
+	}
+
+	public static function delete($params)
+	{
+		Config::init();
+
+		$object = new Delete($params);
+		$result = $object->start();
+		if($result === null) {
+			echo $object->getNotFoundMsg();
+		} else if($result === true) {
+			echo $object->getSuccessMsg();
+		} else {
+			echo $object->getErrorMsg();;
+		}
+
+		$object->close();
 	}
 
 }

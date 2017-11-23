@@ -2,6 +2,7 @@
 
 namespace Eadmin\Kernel\Gen;
 
+use Eadmin\Config;
 use Eadmin\Kernel\Gii\Generators\Model\Generator;
 
 class Model
@@ -9,6 +10,17 @@ class Model
 	public $namespace = 'backend\models';
 
 	public $queryClassSuffix = 'Query';
+
+	public function __construct()
+	{
+		$configs = Config::get('App', 'eadmin_generator_configs')['model'];
+		if(! empty($configs['namespace'])) {
+			$this->namespace = $configs['namespace'];
+		}
+		if(! empty($configs['queryClassSuffix'])) {
+			$this->queryClassSuffix = $configs['queryClassSuffix'];
+		}
+	}
 
 	public function start($tabler)
 	{

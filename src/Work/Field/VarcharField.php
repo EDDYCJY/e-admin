@@ -3,7 +3,7 @@ namespace Eadmin\Work\Field;
 
 use Eadmin\Constants;
 
-class TextField
+class VarcharField
 {
 	public function getType()
 	{

@@ -6,8 +6,6 @@ use Eadmin\Basic\Publish;
 
 class Widget extends Publish
 {
-	public $module = '@backend';
-
 	public $path = 'widgets';
 
 	public $files = [

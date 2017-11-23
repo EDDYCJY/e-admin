@@ -6,8 +6,6 @@ use Eadmin\Basic\Publish;
 
 class View extends Publish
 {
-	public $module = '@backend';
-
 	public $path = 'views';
 
 	public $catalogs = [

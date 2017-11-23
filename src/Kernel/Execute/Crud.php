@@ -2,33 +2,35 @@
 
 namespace Eadmin\Kernel\Execute;
 
-use Exception;
 use yii\helpers\ArrayHelper;
 use Eadmin\Constants;
 use Eadmin\Basic\Execute;
+use Eadmin\Exception\ExecuteException;
+use Eadmin\Command\Output;
 
 class Crud extends Execute
 {
 	public function start($generator)
 	{
 		$files   = $generator->generate();
-		$answers = $this->setAnswers($files);
+		$answers = $this->getAnswers($files);
 		if(! empty($answers)) {
 			try {
 				$generator->save($files, $answers, $results);
-			} catch (Exception $e) {
-				echo $e->getMessage();die;
+			} catch (ExecuteException $e) {
+				$object = new Output();
+				echo $object->setError($e->getMessage())->getErrorMsg();
+				$object->close();
 			}
 		}
 	}
 
-	private function setAnswers($files)
+	private function getAnswers($files)
 	{
 		$result = [];
 		foreach (ArrayHelper::index($files, 'id') as $index => $value) {
 			if(! $this->locker->existsLock($index)) {
 				$result[$index] = 1;
-
 				$this->locker->writeLock($index);
 			}
 			

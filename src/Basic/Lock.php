@@ -13,12 +13,13 @@ class Lock implements LockInterface
 	public function __construct($type)
 	{
 		$this->lock = new FileLock();
+		
 		$this->lock->setType($type);
 	}
 
 	public function getLockName($key)
 	{
-		return $key . '.' . Constants::LOCK_FLAG;;
+		return $key . '.' . Constants::LOCK_FLAG;
 	}
 
 	public function existsLock($key)

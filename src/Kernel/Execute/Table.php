@@ -11,12 +11,9 @@ class Table extends Execute
 	{
 		$key = $this->objecter->getTabler()->getTableFullName();
 		if(! $this->locker->existsLock($key)) {
-			$result = $command->execute(); //$this->objecter->getTabler()->executeCommand($command);
-			if($result === false) {
-				return false;
+			if($command->execute() !== false) {
+				$this->locker->writeLock($key);
 			}
-
-			$this->locker->writeLock($key);
 		}
 
 		return true;

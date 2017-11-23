@@ -3,6 +3,7 @@
 namespace Eadmin\Basic;
 
 use Yii;
+use Eadmin\Config;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Kernel\Support\Copy;
 use Eadmin\Kernel\Copy\File;
@@ -20,9 +21,18 @@ class Publish
 
 	public $catalogs = [];
 
+	public function __construct()
+	{
+		$configModule = Config::get('App', 'eadmin_publish_module');
+		if(! empty($configModule)) {
+			$this->module = $configModule;
+		}
+	}
+
 	public function start(File $file, Catalog $catalog)
 	{
 		$file->start($this->files);
+		
 		$catalog->start($this->catalogs);
 	}
 

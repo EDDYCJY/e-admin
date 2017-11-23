@@ -14,7 +14,7 @@ use Eadmin\Expand\Start;
 $class  = Helpers::getLastIndex($generator->modelClass);
 $fullName  = Config::get('Database', 'table_prefix') . Helpers::getUnderscore($class);
 $container = Container::make($fullName);
-$defaultHiddenDetailDisplay = Config::get('App', 'eadmin_default_hidden_detail_display');
+$hiddenDetailDisplay = Config::get('App', 'eadmin_hidden_detail_display');
 $imageFields = array_keys(Start::field($fullName, Constants::IMAGE_FIELD));
 
 /* @var $model \yii\db\ActiveRecord */
@@ -62,7 +62,7 @@ use Eadmin\Kernel\Support\Helpers;
                 echo "    <?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
             }
         } else {
-            if(! in_array($attribute, $defaultHiddenDetailDisplay)) {
+            if(! in_array($attribute, $hiddenDetailDisplay)) {
                 echo "    <?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
             }
         }

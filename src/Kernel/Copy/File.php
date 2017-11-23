@@ -3,6 +3,7 @@
 namespace Eadmin\Kernel\Copy;
 
 use Eadmin\Basic\Copy;
+use Eadmin\Command\Output;
 
 class File extends Copy
 {
@@ -19,7 +20,9 @@ class File extends Copy
 					}
 
 					if(! copy($path, $fileTo)) {
-						echo '222';die;
+						$object = new Output();
+						echo $object->setError('Eadmin\Kernel\Copy\File is Wrong')->getErrorMsg();
+						$object->close();
 					} else {
 						$this->locker->writeLock($name);
 					}

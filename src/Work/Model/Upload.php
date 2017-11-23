@@ -15,7 +15,7 @@ class Upload extends Model
 	];
 
 	public $url = [
-		'type' => 'TextField',
+		'type' => 'VarcharField',
 		'max_length' => 200,
 		'default' => '',
 		'comment' => '图片路径',

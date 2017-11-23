@@ -6,8 +6,6 @@ use Eadmin\Basic\Publish;
 
 class Adminlte extends Publish
 {
-	public $module = '@backend';
-
 	public $path = 'web/static';
 
 	public $catalogs = [

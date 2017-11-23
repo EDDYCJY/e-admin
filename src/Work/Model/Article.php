@@ -35,7 +35,7 @@ class Article extends Model
 	];
 
 	public $send_name = [
-		'type' => 'TextareaField',
+		'type' => 'TextField',
 		'comment' => '名称',
 		'max_length'   => 10,
 		'null'	       => true,

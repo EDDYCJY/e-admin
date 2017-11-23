@@ -6,8 +6,6 @@ use Eadmin\Basic\Publish;
 
 class Model extends Publish
 {
-	public $module = '@backend';
-
 	public $path = 'models';
 
 	public $files = [

@@ -21,8 +21,6 @@ class Constants
 
 	const TIME_FIELD = 'TimeField';
 
-	const LOCK_FLAG = 'lock';
-
 	const SCHEMA_BIGINT = 'BIGINT';
 
 	const SCHEMA_CHAR = 'CHAR';
@@ -36,6 +34,8 @@ class Constants
 	const SCHEMA_TINYINT = 'TINYINT';
 
 	const SCHEMA_TEXT = 'TEXT';
+
+	const LOCK_FLAG = 'lock';
 
 	const LOCK_TABLE = 'table';
 

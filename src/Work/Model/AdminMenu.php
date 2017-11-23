@@ -32,14 +32,14 @@ class AdminMenu extends Model
 	];
 
 	public $name = [
-		'type' => 'TextField',
+		'type' => 'VarcharField',
 		'max_length' => 50,
 		'default' => '',
 		'comment' => '菜单名称',
 	];
 
 	public $url = [
-		'type' => 'TextField',
+		'type' => 'VarcharField',
 		'max_length' => 100,
 		'default' => '',
 		'comment' => '菜单路径',
