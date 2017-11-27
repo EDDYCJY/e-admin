@@ -4,6 +4,7 @@ namespace Eadmin\Entity;
 
 use yii\helpers\ArrayHelper;
 use backend\models\AdminMenu;
+use Eadmin\Kernel\Support\Helpers;
 
 class AdminMenuEntity extends AdminMenu
 {
@@ -45,10 +46,7 @@ class AdminMenuEntity extends AdminMenu
 
 	public static function getAllPermission()
 	{
-		$permissions = self::getAllMenu();
-		$permissions = ArrayHelper::index($permissions, 'id');
-		
-		return ArrayHelper::getColumn($permissions, 'name');
+		return Helpers::getSelectMap(self::getAllMenu(), 'id', 'name');
 	}
 
 }

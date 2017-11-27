@@ -2,6 +2,7 @@
 
 namespace Eadmin\Kernel\Support;
 
+use yii\helpers\ArrayHelper;
 use backend\models\Upload;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Entity\UploadEntity;
@@ -18,6 +19,11 @@ class Helpers
     public static function getUnderline($value)
     {
         return strtolower(trim(preg_replace("/[A-Z]/", "-\\0", $value), "-"));
+    }
+
+    public static function getSelectMap($values, $index, $field)
+    {
+        return ArrayHelper::getColumn(ArrayHelper::index($values, $index), $field);
     }
 
     public static function getLastIndex($value)
