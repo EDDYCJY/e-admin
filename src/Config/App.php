@@ -74,5 +74,6 @@ return [
 		'Table',
 		'View',
 		'Widget',
+		'Adminlte',
 	],
 ];
