@@ -1,6 +1,7 @@
 <?php
 namespace Eadmin;
 
+use Eadmin\Config;
 use Eadmin\Kernel\Factory\GenFactory;
 use Eadmin\Kernel\Factory\ExecuteFactory;
 use Eadmin\Kernel\Factory\PublishFactory;
@@ -12,7 +13,7 @@ class Gen
 	{
 		$factory = new PublishFactory();
 		$commands = [
-			//'Adminlte',
+			'Adminlte',
 			'Asset',
 			'Controller',
 			'View',
@@ -38,8 +39,11 @@ class Gen
 			'Crud',
 		];
 
+		$configs = Config::get('App', 'eadmin_generator_enable');
 		foreach ($commands as $value) {
-			$execute->start($value, $factory->start($value));
+			if(in_array(lcfirst($value), $configs) && $configs[lcfirst($value)] === true) {
+				$execute->start($value, $factory->start($value));
+			}
 		}
 
 		return true;

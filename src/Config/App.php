@@ -1,5 +1,11 @@
 <?php
 return [
+	'eadmin_generator_enable' => [
+		'table' => true,
+		'model' => true,
+		'menu'  => true,
+		'crud'  => true,
+	],
 	'eadmin_origin_admin_configs' => [
 		'user_name' => 'admin',
 		'password'  => 'adminadmin',
