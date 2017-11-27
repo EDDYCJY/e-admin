@@ -6,22 +6,44 @@ use yii\helpers\BaseVarDumper;
 
 class VarDumper extends BaseVarDumper
 {
-	public static function exportSeparator($array)
+	public static $headSpace = [
+		'normal'  => 12,
+		'chidren' => 16,
+	];
+
+	public static $footSpace = [
+		'normal'  => 8,
+		'chidren' => 12,
+	];
+
+	public static function exportSeparator($array, $options = [])
 	{
-	    $_output = '[';
+		if(! empty($options['headSpace'])) {
+			$headSpace = $options['headSpace'];
+		} else {
+			$headSpace = (! empty($options['isChidren']) && $options['isChidren']) ? self::$headSpace['chidren'] : self::$headSpace['normal'];
+		}
+
+		if(! empty($options['footSpace'])) {
+			$footSpace = $options['footSpace'];
+		} else {
+			$footSpace = (! empty($options['isChidren']) && $options['isChidren']) ? self::$footSpace['chidren'] : self::$footSpace['normal'];
+		}
+
+	    $_output = '[' . "\n";
 	    foreach ($array as $key => $params) {
 	        if(isset($params['separator']) && isset($params['value'])) {
-	            $_output .= "'" . $key . "'" . ' => ' . $params['separator'] . $params['value'] . $params['separator'] . ',';
+	            $_output .= str_repeat(' ', $headSpace) . "'" . $key . "'" . ' => ' . $params['separator'] . $params['value'] . $params['separator'] . ',' . "\n";
 	        } else {
-	            $prefix = "'" . $key ;
+	            $prefix = str_repeat(' ', $headSpace) ."'" . $key ;
 	            $arrow  = "'" . ' => ' . "'";
-	            $suffix = "'" . ',';
+	            $suffix = "'" . ',' . "\n";
 
 	            $_output .= $prefix . $arrow .$params . $suffix;
 	        }
 	    }
 		
-		$_output .= ']';
+		$_output .= str_repeat(' ', $footSpace) . ']';
 		
 	    return trim($_output, ',');
 	}

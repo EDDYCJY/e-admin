@@ -35,12 +35,12 @@ class RadioListField extends ActiveField
 
 	public function getChoices()
 	{
-		return preg_replace("/\n\s*/", ' ', VarDumper::export($this->choices));
+		return VarDumper::exportSeparator($this->choices);
 	}
 
 	public function getHtmlOptions()
 	{
-		return preg_replace("/\n\s*/", ' ', VarDumper::export($this->htmlOptions));
+		return VarDumper::exportSeparator($this->htmlOptions);
 	}
 
 	public function start()

@@ -69,11 +69,14 @@ class StateField
 			],
 			'filter' => [
 				'separator' => '',
-				'value' => VarDumper::exportSeparator(self::filter($attribute, $container)),
+				'value' => VarDumper::exportSeparator(self::filter($attribute, $container), [
+					'headSpace' => 20, 
+					'footSpace' => 16
+				]),
 			],
 		];
 
-		return VarDumper::exportSeparator($values);
+		return VarDumper::exportSeparator($values, ['headSpace' => 16, 'footSpace' => 12]);
 	}
 
 }

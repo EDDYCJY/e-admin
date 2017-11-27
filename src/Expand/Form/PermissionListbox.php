@@ -26,12 +26,12 @@ class PermissionListbox
 
 	public function setOptions($options)
 	{
-		$this->options = VarDumper::exportSeparator($options);
+		$this->options = VarDumper::exportSeparator($options, ['isChidren' => true]);
 	}
 
 	public function setClientOptions($clientOptions)
 	{
-		$this->clientOptions = VarDumper::exportSeparator($clientOptions);
+		$this->clientOptions = VarDumper::exportSeparator($clientOptions, ['isChidren' => true]);
 	}
 
 	public function run($attribute)

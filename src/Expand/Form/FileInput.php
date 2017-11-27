@@ -19,12 +19,12 @@ class FileInput
 
 	public function setOptions($options)
 	{
-		$this->options = VarDumper::exportSeparator($options);
+		$this->options = VarDumper::exportSeparator($options, ['isChidren' => true]);
 	}
 
 	public function setPluginOptions($options)
 	{
-		$this->pluginOptions = VarDumper::exportSeparator($options);
+		$this->pluginOptions = VarDumper::exportSeparator($options, ['isChidren' => true]);
 	}
 
 	public function run($attribute, $multiple = false)

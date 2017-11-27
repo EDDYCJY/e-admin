@@ -22,7 +22,7 @@ class RelationField
 				],
 			];
 
-			$result = VarDumper::exportSeparator($values);
+			$result = VarDumper::exportSeparator($values, ['headSpace' => 16, 'footSpace' => 12]);
 		}
 
 		return $result;

@@ -17,15 +17,18 @@ class IconInput
 
 	public function setOptions($options)
 	{
-		$this->options = $options;
+		$this->options = VarDumper::exportSeparator($options, ['isChidren' => true]);
 	}
 
 	public function run($attribute)
 	{
 		$params = [
-			'options' => $this->options
+			'options' => [
+				'separator' => '',
+				'value' => $this->options
+			],
 		];
-		$params = VarDumper::export($params);
+		$params = VarDumper::exportSeparator($params);
 
 		return "\$form->field(\$model, '$attribute')->widget('$this->className', $params)";
 	}

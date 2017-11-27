@@ -44,19 +44,26 @@ class RadioListField
 
 	public static function column($attribute, $container)
 	{
+		$headClosure = "function (\$model) {" . "\n";
+		$textClosure = str_repeat(' ', 20) . "return Eadmin\Expand\View\RadioListField::value('$attribute', \$model);";
+		$footClosure = "\n" . str_repeat(' ', 16) . "}";
+
 		$values = [
 			'attribute' => $attribute,
 			'value'  => [
 				'separator' => '',
-				'value' => "function (\$model) {
-					return Eadmin\Expand\View\RadioListField::value('$attribute', \$model);
-				}",
+				'value' => $headClosure . $textClosure . $footClosure,
 			],
 			'filter' => [
 				'separator' => '',
-				'value' => VarDumper::exportSeparator(self::filter($attribute, $container)),
+				'value' => VarDumper::exportSeparator(self::filter($attribute, $container), [
+					'headSpace' => 20, 
+					'footSpace' => 16
+				]),
 			],
 		];
-		return VarDumper::exportSeparator($values);
+
+
+		return VarDumper::exportSeparator($values, ['headSpace' => 16, 'footSpace' => 12]);
 	}
 }
