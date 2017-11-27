@@ -2,28 +2,18 @@
 
 namespace backend\models;
 
+use Yii;
 use yii\base\Model;
+use Eadmin\Basic\UploadModel;
 use yii\web\UploadedFile;
 use backend\models\Upload;
-use Yii;
 
 /**
 * UploadForm is the model behind the upload form.
 */
-class UploadForm extends Model
+class UploadForm extends UploadModel
 {
     public $file;
-
-    public $rootPath;
-
-    public $savePath;
-
-    public function __construct()
-    {
-    	$this->rootPath = Yii::getAlias('@backend') . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR;
-
-        $this->savePath = 'upload' . DIRECTORY_SEPARATOR;
-    }
 
     public function getFileName($baseName)
     {

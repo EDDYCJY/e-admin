@@ -21,6 +21,7 @@ return [
 			'queryClassSuffix' => 'Query',
 		],
 	],
+	'eadmin_upload_module' => '@backend',
 	'eadmin_publish_module' => '@backend',
 	'eadmin_split_fields' => [
 		'permissions',

@@ -15,7 +15,7 @@ use yii\db\Schema;
 use yii\db\TableSchema;
 use yii\helpers\Inflector;
 use yii\base\NotSupportedException;
-use yii\helpers\VarDumper;
+use Eadmin\Kernel\Support\VarDumper;
 use Eadmin\Kernel\Gii\CodeFile;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Config;
@@ -293,7 +293,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                     ];
                 }
 
-                $map = VarDumper::export($value['relations']['link']);
+                $map = VarDumper::exportSeparator($value['relations']['link']);
                 $class  = ucfirst($value['relations']['class']);
 
                 $result[] = [
