@@ -17,6 +17,7 @@ use yii\web\Controller;
 use Eadmin\Kernel\Gii\CodeFile;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Constants;
+use Eadmin\Config;
 use Eadmin\Expand\Start;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Kernel\Factory\ActiveFieldFactory;
@@ -365,7 +366,25 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             $rules[] = "[['" . implode("', '", $columns) . "'], '$type']";
         }
 
+        $relationColumns = $this->getRelationColumns($table->fullName);
+        if(! empty($relationColumns)) {
+            $rules[] = "[['" . implode("', '", $relationColumns) . "'], 'safe']";
+        }
+        
         return $rules;
+    }
+
+    public function getRelationColumns($tableName)
+    {
+        $result = [];
+        $container = Container::make($tableName)['modelParams'];
+        foreach ($container as $key => $value) {
+            if(! empty($value['relations'])) {
+                $result[] = $value['relations']['attribute'];
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -427,7 +446,22 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
 
         $timeFields = Start::field($table->fullName, Constants::TIME_FIELD);
 
-        $likeConditions = [];
+        $container = Container::make($table->fullName);
+        $modelParams = $container['modelParams'];
+        $modelClass = Config::get('App', 'eadmin_generator_configs')['model']['namespace'];
+
+        $relationConditions = [];
+        foreach ($modelParams as $key => $value) {
+            if(! empty($value['relations'])) {
+
+                $relationValue = $value['relations'];
+                $relationStr = "->andFilterWhere(['like'," . '\\' . $modelClass . '\\' . $relationValue['class'] . "::tableName()";
+                $relationStr.= ".'" . $relationValue['attribute'] . "', \$this->" . $relationValue['attribute'] . "])";
+                $relationConditions[] = $relationStr;
+                
+            }
+        }
+        
         $hashConditions = [];
         foreach ($columns as $column => $type) {
             if(! in_array($column, $timeFields)) {
@@ -462,6 +496,10 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         }
         if (!empty($likeConditions)) {
             $conditions[] = "\$query" . implode("\n" . str_repeat(' ', 12), $likeConditions) . ";\n";
+        }
+
+        if(!empty($relationConditions)) {
+            $conditions[] = "\$query" . implode("\n" . str_repeat(' ', 12), $relationConditions) . ";\n";
         }
 
         return $conditions;

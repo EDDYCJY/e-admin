@@ -21,6 +21,7 @@ if ($modelClass === $searchModelClass) {
 }
 $rules = $generator->generateSearchRules();
 $labels = $generator->generateSearchLabels();
+$relationColumns = $generator->getRelationColumns($fullName);
 $searchAttributes = $generator->getSearchAttributes();
 $searchConditions = $generator->generateSearchConditions();
 
@@ -45,6 +46,12 @@ use <?= ltrim($generator->modelClass, '\\') . (isset($modelAlias) ? " as $modelA
 class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $modelClass ?>
 
 {
+<? if(! empty($relationColumns)): ?>
+<?php foreach($relationColumns as $key => $value): ?>
+    public $<?= $value ?>;
+<?php endforeach; ?>
+<?php endif; ?>
+
     /**
      * @inheritdoc
      */

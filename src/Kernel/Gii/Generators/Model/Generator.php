@@ -15,6 +15,7 @@ use yii\db\Schema;
 use yii\db\TableSchema;
 use yii\helpers\Inflector;
 use yii\base\NotSupportedException;
+use yii\helpers\VarDumper;
 use Eadmin\Kernel\Gii\CodeFile;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Config;
@@ -255,6 +256,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                 'rules' => $this->generateRules($tableSchema),
                 'relations' => isset($relations[$tableName]) ? $relations[$tableName] : [],
                 'beforeSave' => $this->generateBeforeSave($tableName),
+                'specifyRelations' => $this->generateSpecifyRelations($tableName),
             ];
      
             $files[] = new CodeFile(
@@ -274,6 +276,35 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         }
 
         return $files;
+    }
+
+    public function generateSpecifyRelations($tableName)
+    {
+        $container = Container::make($tableName);
+        $modelParams = $container['modelParams'];
+        $modelClass = Config::get('App', 'eadmin_generator_configs')['model']['namespace'];
+
+        $result = [];
+        foreach ($modelParams as $key => $value) {
+            if(! empty($value['relations'])) {
+                if(! is_array($value['relations']['link'])) {
+                    $value['relations']['link'] = [
+                        $value['relations']['link'] => $key,
+                    ];
+                }
+
+                $map = VarDumper::export($value['relations']['link']);
+                $class  = ucfirst($value['relations']['class']);
+
+                $result[] = [
+                    'class' => $class,
+                    'modelClass' => '\\' . $modelClass . '\\' . $class . '::className()',
+                    'map' => $map,
+                ];
+            }
+        }
+
+        return $result;
     }
 
     /**

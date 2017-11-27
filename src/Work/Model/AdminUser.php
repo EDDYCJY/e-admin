@@ -20,6 +20,12 @@ class AdminUser extends Model
 		'type' => 'TinyintField',
 		'default' => 0,
 		'comment' => '权限ID',
+		'relations' => [
+			'class' => 'AdminRole',
+			'link' => 'id',
+			'label' => '权限名称',
+			'attribute' => 'name',
+		],
 	];
 
 	public $user_name = [

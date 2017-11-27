@@ -98,6 +98,14 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     }
 <?php endif; ?>
 
+<?php if($specifyRelations): ?>
+<?php foreach($specifyRelations as $key => $value): ?>
+    public function get<?= $value['class'] ?>() {
+        return $this->hasOne(<?= $value['modelClass'] ?>, <?= $value['map'] ?>);
+    }
+<?php endforeach; ?>
+<?php endif; ?>
+
 <?php if($beforeSave): ?>
     public function beforeSave($insert)
     {

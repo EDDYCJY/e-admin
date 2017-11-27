@@ -3,19 +3,24 @@
 namespace Eadmin\Expand;
 
 use Eadmin\Config;
+use Eadmin\Expand\View\RelationField;
 
 class Start
 {
 	public static function view($attribute, $container)
 	{
 		$configs = Config::get('App', 'eadmin_list_fields');
+
+		$result = "'" . $attribute . "'";
 		if(array_key_exists($attribute, $configs)) {
 			$namespace = $configs[$attribute];
 
-			return trim($namespace::column($attribute, $container), "'");
+			$result = trim($namespace::column($attribute, $container), "'");
+		} else if(! empty($container['modelParams'][$attribute]['relations'])) {
+			$result = RelationField::column($attribute, $container);
 		}
 
-		return "'" . $attribute . "'";
+		return $result;
 	}
 
 	public static function field($fullTableName, $fieldTypeName)
