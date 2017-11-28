@@ -42,10 +42,66 @@ class AdminController extends \yii\console\Controller
 
 四、Write a Model instance of the eadmin ( vendor/eddycjy/eadmin/src/Work/Model )
 
-Configuration
+Yii Configuration
 ------------
 
-> Config Path: vendor/eddycjy/eadmin/src/Config
+一、Add Backend Config Path: $APP/backend/config/main.php
+
+Add Config:
+
+``` php
+'on beforeAction' => ['Eadmin\Config', 'init'],
+```
+
+Demo:
+
+```php
+return [
+    'id' => 'app-backend',
+    'components' => [ ... ],
+    ...
+    'on beforeAction' => ['Eadmin\Config', 'init'],
+    ...
+];
+```
+
+二、Add Console Config Path: $APP/console/config/main.php
+
+Add Config:
+
+``` php
+'session' => [ 
+    'class' => 'yii\web\Session',
+],
+```
+
+Demo:
+``` php
+return [
+    ...
+    'components' => [
+        'log' => [
+            'targets' => [
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                ],
+            ],
+        ],
+        'session' => [ 
+            'class' => 'yii\web\Session',
+        ],
+    ],
+    ...
+];
+
+```
+
+
+Eadmin Configuration
+------------
+
+> Add Config Path: vendor/eddycjy/eadmin/src/Config
 
 一、Set up website information: Setting.php
 
