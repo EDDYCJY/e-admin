@@ -2,6 +2,10 @@
 
 namespace Eadmin\Kernel\Parse;
 
+/**
+ * Class Model
+ * @package Eadmin\Kernel\Parse
+ */
 class Model
 {
 	public $classer = [];

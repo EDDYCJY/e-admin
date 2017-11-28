@@ -2,12 +2,21 @@
 
 namespace Eadmin\Entity;
 
-use yii\helpers\ArrayHelper;
 use backend\models\AdminMenu;
 use Eadmin\Kernel\Support\Helpers;
 
+/**
+ * Class AdminMenuEntity
+ * @package Eadmin\Entity
+ */
 class AdminMenuEntity extends AdminMenu
 {
+    /**
+     * Add Menu
+     *
+     * @param  array $params menu data
+     * @return bool
+     */
 	public static function addMenu($params)
 	{
 		$model = new AdminMenu();
@@ -19,6 +28,12 @@ class AdminMenuEntity extends AdminMenu
 		return $model->save();
 	}
 
+    /**
+     * Get Menus
+     *
+     * @param  int $id menu ids
+     * @return array|\yii\db\ActiveRecord[]
+     */
 	public static function getMenus($id)
 	{
 		$map = [
@@ -32,6 +47,11 @@ class AdminMenuEntity extends AdminMenu
 		return self::find()->select($field)->where($map)->asArray()->all();
 	}
 
+    /**
+     * Get All Menu
+     *
+     * @return array|\yii\db\ActiveRecord[]
+     */
 	public static function getAllMenu()
 	{
 		$map = [
@@ -44,6 +64,11 @@ class AdminMenuEntity extends AdminMenu
 		return self::find()->select($field)->where($map)->asArray()->all();
 	}
 
+    /**
+     * Get All Permission
+     *
+     * @return array
+     */
 	public static function getAllPermission()
 	{
 		return Helpers::getSelectMap(self::getAllMenu(), 'id', 'menu_name');

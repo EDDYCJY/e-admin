@@ -4,6 +4,7 @@ use backend\assets\AdminAsset;
 use backend\widgets\AdminNav;
 use backend\widgets\AdminMenu;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $settings = \Yii::$app->params['eadminSetting'];
 
@@ -29,7 +30,7 @@ AdminAsset::register($this);
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="static/index2.html" class="logo">
+    <a href="<?php echo Url::toRoute($settings['site_logo_url']); ?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b><?php echo $settings['mini_site_title']; ?></b></span>
       <!-- logo for regular state and mobile devices -->
@@ -66,19 +67,6 @@ AdminAsset::register($this);
 </div>
 <!-- ./wrapper -->
 <?php $this->endBody() ?>
-
-<script>
-  $(function () {
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : false,
-      'info'        : true,
-      'autoWidth'   : false
-    })
-  })
-</script>
 
 </body>
 

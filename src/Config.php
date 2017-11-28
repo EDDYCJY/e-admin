@@ -6,6 +6,10 @@ use Eadmin\Kernel\Gen\Setting;
 use Eadmin\Kernel\Support\Gen;
 use Eadmin\Config;
 
+/**
+ * Class Config
+ * @package Eadmin
+ */
 class Config
 {
 	const PATH = __DIR__ . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR;

@@ -6,6 +6,10 @@ use Eadmin\Basic\ActiveField;
 use Eadmin\Config;
 use Eadmin\Expand\Form\RelationInput;
 
+/**
+ * Class RelationField
+ * @package Eadmin\Kernel\ActiveField
+ */
 class RelationField extends ActiveField
 {
 	private $data;

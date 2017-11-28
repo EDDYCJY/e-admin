@@ -4,12 +4,19 @@ namespace Eadmin\Expand\Field;
 
 use Eadmin\Kernel\Support\Container;
 
+/**
+ * Class BaseField
+ * @package Eadmin\Expand\Field
+ */
 class BaseField
 {
-	public function start($fullTableName, $fieldTypeName)
+    /**
+     * @return array
+     */
+	public function start($tableName, $fieldTypeName)
 	{
 		$result = [];
-        $container = Container::make($fullTableName);
+        $container = Container::make($tableName);
         foreach ($container['modelParams'] as $name => $value) {
             if($value['type'] == $fieldTypeName) {
                 $result[] = $name;

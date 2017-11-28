@@ -4,8 +4,19 @@ namespace Eadmin\Expand\View;
 
 use Eadmin\Kernel\Support\VarDumper;
 
+/**
+ * Class RelationField
+ * @package Eadmin\Expand\View
+ */
 class RelationField
 {
+    /**
+     * Get GridView Column
+     *
+     * @param  string $attribute field attribute
+     * @param  array  $container model container
+     * @return string
+     */
 	public static function column($attribute, $container)
 	{
 		$result = null;

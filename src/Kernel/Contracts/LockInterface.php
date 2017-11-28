@@ -2,6 +2,10 @@
 
 namespace Eadmin\Kernel\Contracts;
 
+/**
+ * Interface LockInterface
+ * @package Eadmin\Kernel\Contracts
+ */
 interface LockInterface
 {
 	public function getLockName($key);

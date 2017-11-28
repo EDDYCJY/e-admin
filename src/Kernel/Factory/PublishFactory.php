@@ -6,6 +6,10 @@ use Eadmin\Kernel\Copy\File;
 use Eadmin\Kernel\Copy\Catalog;
 use Eadmin\Basic\Lock;
 
+/**
+ * Class PublishFactory
+ * @package Eadmin\Kernel\Factory
+ */
 class PublishFactory
 {
 	public function start($namespace)

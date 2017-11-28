@@ -8,6 +8,10 @@ use Eadmin\Config;
 use Eadmin\Command\Flush;
 use Eadmin\Command\Delete;
 
+/**
+ * Class Start
+ * @package Eadmin
+ */
 class Start
 {
 	public static function init($modelClass = [])
@@ -53,7 +57,7 @@ class Start
 		} else if($result === true) {
 			echo $object->getSuccessMsg();
 		} else {
-			echo $object->getErrorMsg();;
+			echo $object->getErrorMsg();
 		}
 
 		$object->close();

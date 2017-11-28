@@ -1,12 +1,15 @@
 <?php 
 namespace Eadmin\Kernel\Parse;
 
-use Yii;
 use Exception;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Constants;
 use Eadmin\Config;
 
+/**
+ * Class Table
+ * @package Eadmin\Kernel\Parse
+ */
 class Table
 {
 	public $object;
@@ -21,7 +24,7 @@ class Table
 	}
 
 	/**
-	 * 获取表字段
+	 * Get Table Fields
 	 * 
 	 * @return array 
 	 */
@@ -81,7 +84,7 @@ class Table
 	}
 
 	/**
-	 * 获取表注释
+	 * Get Table Comment
 	 * 
 	 * @return string
 	 */
@@ -96,7 +99,7 @@ class Table
 	}
 
 	/**
-	 * 获取表字符集
+	 * Get Table Charset
 	 * 
 	 * @return string
 	 */
@@ -105,69 +108,69 @@ class Table
 		return " DEFAULT CHARSET=utf8";
 	}
 
-	/**
-	 * 获取表引擎
-	 * 
-	 * @return string
-	 */
+    /**
+     * Get Table Engine
+     *
+     * @return string
+     */
 	public function getTabelEngine()
 	{
 		return " ENGINE=InnoDB";
 	}
 
-	/**
-	 * 获取表前缀
-	 * 
-	 * @return string
-	 */
+    /**
+     * Get Table Prefix
+     *
+     * @return string
+     */
 	public function getTablePrefix()
 	{
 		return Config::get('Database', 'table_prefix');
 	}
 
-	/**
-	 * 获取表名称
-	 * 
-	 * @return string
-	 */
+    /**
+     * Get Table Name
+     *
+     * @return string
+     */
 	public function getTableName()
 	{
         return Helpers::getUnderscore($this->getTableOriginName());
 	}
 
-	/**
-	 * 获取表完整名称
-	 * 
-	 * @return string
-	 */
+    /**
+     * Get Table Full Name
+     *
+     * @return string
+     */
 	public function getTableFullName()
 	{
 		return $this->getTablePrefix() . $this->getTableName();
 	}
 
-	/**
-	 * 获取表视图文件名称
-	 * 
-	 * @return string
-	 */
+    /**
+     * Get Table View Name
+     *
+     * @return string
+     */
 	public function getTableViewName()
 	{
         return Helpers::getUnderline($this->getTableOriginName());
 	}
 
-	/**
-	 * 获取表原始名称
-	 * 
-	 * @return string
-	 */
+    /**
+     * Get Table Origin Name
+     *
+     * @return mixed
+     */
 	public function getTableOriginName()
 	{
 	    return Helpers::getLastIndex($this->object->classer['name']);
 	}
 
 	/**
-	 * 获取表的父级ID
-	 * 
+	 * Get Table Parent Id
+     *
 	 * @return int
 	 */
 	public function getTableParentId()
@@ -175,31 +178,31 @@ class Table
 		return isset($this->params['options']['menu']['parent_id']) ? $this->params['options']['menu']['parent_id'] : 0;
 	}	
 
-	/**
-	 * 获取表的属性是否展示在菜单
-	 * 
-	 * @return int
-	 */
+    /**
+     * Get Table isShow
+     *
+     * @return int
+     */
 	public function getTableIsShow()
 	{
 		return isset($this->params['options']['menu']['is_show']) ? $this->params['options']['menu']['is_show'] : 1;
 	}
 
-	/**
-	 * 获取表的说明
-	 * 
-	 * @return string
-	 */
+    /**
+     * Get Table VerboseName
+     *
+     * @return mixed
+     */
 	public function getTableVerboseName()
 	{
 		return $this->params['verbose_name'];
 	}
 
-	/**
-	 * 获取表的标签
-	 * 
-	 * @return string
-	 */
+    /**
+     * Get Table Label Name
+     *
+     * @return string
+     */
 	public function getTableLabelName()
 	{
 		return isset($this->params['label_name']) ? $this->params['label_name'] : '';

@@ -4,6 +4,10 @@ namespace Eadmin\Kernel\Factory;
 
 use Eadmin\Basic\Lock;
 
+/**
+ * Class ExtraFactory
+ * @package Eadmin\Kernel\Factory
+ */
 class ExtraFactory
 {
 	public function start($namespace)

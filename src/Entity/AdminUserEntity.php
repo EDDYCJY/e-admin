@@ -5,8 +5,19 @@ namespace Eadmin\Entity;
 use Yii;
 use backend\models\AdminUser;
 
+/**
+ * Class AdminUserEntity
+ * @package Eadmin\Entity
+ */
 class AdminUserEntity extends AdminUser
 {
+    /**
+     * Get User Info
+     *
+     * @param  int    $id        user_id
+     * @param  string $userName  user_name
+     * @return static
+     */
 	public static function getUserInfo($id, $userName)
 	{
         $map = [
@@ -18,6 +29,12 @@ class AdminUserEntity extends AdminUser
         return self::findOne($map);
 	}
 
+    /**
+     * Add User
+     *
+     * @param  array $params user_info
+     * @return bool
+     */
 	public static function addUser($params)
 	{
 		$model = new AdminUser();

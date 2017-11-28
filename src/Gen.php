@@ -7,6 +7,10 @@ use Eadmin\Kernel\Factory\ExecuteFactory;
 use Eadmin\Kernel\Factory\PublishFactory;
 use Eadmin\Kernel\Factory\ExtraFactory;
 
+/**
+ * Class Gen
+ * @package Eadmin
+ */
 class Gen
 {
 	public static function init()

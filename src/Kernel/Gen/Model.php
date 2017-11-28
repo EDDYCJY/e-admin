@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\Gen;
 use Eadmin\Config;
 use Eadmin\Kernel\Gii\Generators\Model\Generator;
 
+/**
+ * Class Model
+ * @package Eadmin\Kernel\Gen
+ */
 class Model
 {
 	public $namespace = 'backend\models';

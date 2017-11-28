@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\Factory;
 use Yii;
 use Eadmin\Basic\Lock;
 
+/**
+ * Class ExecuteFactory
+ * @package Eadmin\Kernel\Factory
+ */
 class ExecuteFactory
 {
 	public $objecter;

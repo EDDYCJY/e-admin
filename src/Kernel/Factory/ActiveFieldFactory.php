@@ -4,6 +4,10 @@ namespace Eadmin\Kernel\Factory;
 
 use Eadmin\Kernel\ActiveField\RelationField;
 
+/**
+ * Class ActiveFieldFactory
+ * @package Eadmin\Kernel\Factory
+ */
 class ActiveFieldFactory
 {	
 	public $container;

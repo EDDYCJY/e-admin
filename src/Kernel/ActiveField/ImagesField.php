@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\ActiveField;
 use Eadmin\Basic\ActiveField;
 use Eadmin\Expand\Form\FileInput;
 
+/**
+ * Class ImagesField
+ * @package Eadmin\Kernel\ActiveField
+ */
 class ImagesField extends ActiveField
 {
 	private $options;

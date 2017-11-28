@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\Gen;
 use Eadmin\Config;
 use Eadmin\Kernel\Gii\Generators\Crud\Generator;
 
+/**
+ * Class Crud
+ * @package Eadmin\Kernel\Gen
+ */
 class Crud
 {
 	public $namespace = [

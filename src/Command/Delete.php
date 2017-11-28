@@ -2,7 +2,6 @@
 
 namespace Eadmin\Command;
 
-use Yii;
 use Exception;
 use Eadmin\Basic\Command;
 use Eadmin\Config;
@@ -10,20 +9,40 @@ use Eadmin\Kernel\Support\Container;
 use Eadmin\Kernel\Support\FileLock;
 use Eadmin\Entity\TableEntity;
 
+/**
+ * Class Delete
+ * @package Eadmin\Command
+ */
 class Delete extends Command
 {
+    /**
+     * @var string
+     */
 	public $params;
 
+    /**
+     * Delete constructor.
+     *
+     * @param  string $params command params
+     * @return null
+     */
 	public function __construct($params)
 	{
 		$this->params = $params;
+
+		return null;
 	}
 
+    /**
+     * Delete Start
+     *
+     * @return bool|null
+     */
 	public function start()
 	{
 		$tables = array_keys(Container::all());
 		$runtimes = Config::get('App', 'eadmin_runtime_catalog_configs');
-		
+
 		$result = null;
 		if(in_array($this->params, $tables)) {
 			$result = $this->table();
@@ -36,6 +55,11 @@ class Delete extends Command
 		return $result;
 	}
 
+    /**
+     * Delete Table
+     *
+     * @return bool
+     */
 	protected function table()
 	{
 		try {
@@ -50,6 +74,11 @@ class Delete extends Command
 		return $result;
 	}
 
+    /**
+     * Delete Runtime
+     *
+     * @return bool
+     */
 	protected function runtime()
 	{
 		$file = new FileLock();

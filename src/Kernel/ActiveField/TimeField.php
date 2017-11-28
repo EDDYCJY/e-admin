@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\ActiveField;
 use Eadmin\Basic\ActiveField;
 use Eadmin\Expand\Form\DateInput;
 
+/**
+ * Class TimeField
+ * @package Eadmin\Kernel\ActiveField
+ */
 class TimeField extends ActiveField
 {
 	public $pluginOptions;

@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\Support;
 use Exception;
 use Eadmin\Config;
 
+/**
+ * Class FileLock
+ * @package Eadmin\Kernel\Support
+ */
 class FileLock
 {
 	const DS = DIRECTORY_SEPARATOR;
@@ -24,7 +28,7 @@ class FileLock
 			return dirname(__FILE__) . sprintf($this->path, $this->type);
 		}
 
-		throw new Exception("请在Config/App.php的eadmin_runtime_catalog_configs增加 {$this->type} 配置项！", 1);
+		throw new Exception("Please add {$this->type} configuration to the eadmin_runtime_catalog_configs of Config/app.php !");
 	}
 
 	public function exists($filename)
@@ -65,7 +69,7 @@ class FileLock
 	        }
 
 	        if(is_dir($handle->path . self::DS . $item)) {
-	            deleteAll($handle->path . self::DS . $item);
+	            $this->delete($handle->path . self::DS . $item);
 	            rmdir($handle->path . self::DS . $item);
 	        } else {
 	            unlink($handle->path . self::DS . $item);
@@ -91,7 +95,7 @@ class FileLock
 			try {
 				mkdir($path, 0755, true);
 			} catch (Exception $e) {
-				throw new Exception("创建目录（ {$path} ）失败！");
+				throw new Exception("Create directory {$path} fail !");
 			}
 		}
 

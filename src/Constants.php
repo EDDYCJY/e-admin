@@ -1,6 +1,10 @@
 <?php
 namespace Eadmin;
 
+/**
+ * Class Constants
+ * @package Eadmin
+ */
 class Constants
 {
 	const PRIMARY_FIELD = 'PrimaryField';

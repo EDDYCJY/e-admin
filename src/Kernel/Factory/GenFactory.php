@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\Factory;
 use Yii;
 use Eadmin\Kernel\Support\Gen;
 
+/**
+ * Class GenFactory
+ * @package Eadmin\Kernel\Factory
+ */
 class GenFactory
 {
 	public $gen;

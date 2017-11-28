@@ -5,8 +5,14 @@ namespace Eadmin\Kernel\ActiveField;
 use Eadmin\Basic\ActiveField;
 use Eadmin\Expand\Form\SelectInput;
 
+/**
+ * Class SelectField
+ * @package Eadmin\Kernel\ActiveField
+ */
 class SelectField extends ActiveField
 {
+    private $data;
+
 	public function init()
 	{
 		$this->setData();

@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\ActiveField;
 use Eadmin\Basic\ActiveField;
 use Eadmin\Expand\Form\Select2Input;
 
+/**
+ * Class Select2Field
+ * @package Eadmin\Kernel\ActiveField
+ */
 class Select2Field extends ActiveField
 {
 	private $data;

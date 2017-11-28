@@ -5,6 +5,10 @@ use Eadmin\Kernel\Parse\Model;
 use Eadmin\Kernel\Parse\Table;
 use Eadmin\Kernel\Support\Container;
 
+/**
+ * Class Gen
+ * @package Eadmin\Kernel\Support
+ */
 class Gen
 {
 	private $modeler;

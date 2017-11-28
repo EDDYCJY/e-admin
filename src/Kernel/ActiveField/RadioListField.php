@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\ActiveField;
 use Eadmin\Kernel\Support\VarDumper;
 use Eadmin\Basic\ActiveField;
 
+/**
+ * Class RadioListField
+ * @package Eadmin\Kernel\ActiveField
+ */
 class RadioListField extends ActiveField
 {
 	private $choices;

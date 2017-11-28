@@ -2,7 +2,6 @@
 
 namespace Eadmin\Command;
 
-use Yii;
 use Exception;
 use Eadmin\Basic\Command;
 use Eadmin\Kernel\Support\Container;
@@ -10,8 +9,17 @@ use Eadmin\Kernel\Support\FileLock;
 use Eadmin\Config;
 use Eadmin\Entity\TableEntity;
 
+/**
+ * Class Flush
+ * @package Eadmin\Command
+ */
 class Flush extends Command
 {
+    /**
+     * Flush Table
+     *
+     * @return bool
+     */
 	public function table()
 	{
 		$all = Container::all();
@@ -28,6 +36,11 @@ class Flush extends Command
 		return true;
 	}
 
+    /**
+     * Flush Runtime
+     *
+     * @return bool
+     */
 	public function runtime()
 	{
 		$paths = [];

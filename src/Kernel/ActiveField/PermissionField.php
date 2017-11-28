@@ -5,6 +5,10 @@ namespace Eadmin\Kernel\ActiveField;
 use Eadmin\Basic\ActiveField;
 use Eadmin\Expand\Form\PermissionListbox;
 
+/**
+ * Class PermissionField
+ * @package Eadmin\Kernel\ActiveField
+ */
 class PermissionField extends ActiveField
 {
 	private $options;

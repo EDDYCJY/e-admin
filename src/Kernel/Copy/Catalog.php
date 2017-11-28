@@ -5,8 +5,15 @@ namespace Eadmin\Kernel\Copy;
 use Eadmin\Basic\Copy;
 use Eadmin\Command\Output;
 
+/**
+ * Class Catalog
+ * @package Eadmin\Kernel\Copy
+ */
 class Catalog extends Copy
 {
+    /**
+     * @param array $lists catalog list
+     */
 	public function start($lists)
 	{
 		foreach ($lists as $name) {
@@ -25,6 +32,13 @@ class Catalog extends Copy
 		}
 	}
 
+    /**
+     * Recursion Files
+     *
+     * @param  string $rootFrom
+     * @param  string $rootTo
+     * @return bool
+     */
 	private function recursionFiles($rootFrom, $rootTo) 
 	{
 		$handle = opendir($rootFrom);

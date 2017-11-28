@@ -2,6 +2,10 @@
 
 namespace Eadmin\Kernel\Gen;
 
+/**
+ * Class Menu
+ * @package Eadmin\Kernel\Gen
+ */
 class Menu
 {
 	public function start($tabler)

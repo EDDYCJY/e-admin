@@ -8,6 +8,10 @@ use Eadmin\Basic\Execute;
 use Eadmin\Exception\ExecuteException;
 use Eadmin\Command\Output;
 
+/**
+ * Class Crud
+ * @package Eadmin\Kernel\Execute
+ */
 class Crud extends Execute
 {
 	public function start($generator)

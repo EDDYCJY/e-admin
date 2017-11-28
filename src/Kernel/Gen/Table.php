@@ -4,6 +4,10 @@ namespace Eadmin\Kernel\Gen;
 
 use Eadmin\Entity\TableEntity;
 
+/**
+ * Class Table
+ * @package Eadmin\Kernel\Gen
+ */
 class Table
 {
 	/**
@@ -15,8 +19,6 @@ class Table
 		$columns   = $tabler->getTableField();
 		$options   = $tabler->getTabelEngine() . $tabler->getTableCharset() . $tabler->getTableComment();
 
-		$command = TableEntity::create($tableName, $columns, $options);
-
-		return $command;
+        return TableEntity::create($tableName, $columns, $options);
 	}
 }

@@ -4,8 +4,19 @@ namespace Eadmin\Kernel\Support;
 
 use yii\helpers\BaseVarDumper;
 
+/**
+ * Class VarDumper
+ * @package Eadmin\Kernel\Support
+ */
 class VarDumper extends BaseVarDumper
 {
+    /**
+     * export separator
+     *
+     * @param  array $array
+     * @param  array $options
+     * @return string
+     */
 	public static function exportSeparator($array, $options = [])
 	{
 		$headSpace = (! empty($options['headSpace'])) ? $options['headSpace'] : ((! empty($options['isChidren']) && $options['isChidren']) ? 16 : 12);

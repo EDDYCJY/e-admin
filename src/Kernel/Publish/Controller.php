@@ -4,6 +4,10 @@ namespace Eadmin\Kernel\Publish;
 
 use Eadmin\Basic\Publish;
 
+/**
+ * Class Controller
+ * @package Eadmin\Kernel\Publish
+ */
 class Controller extends Publish
 {
 	public $path = 'controllers';

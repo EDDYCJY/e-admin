@@ -27,13 +27,15 @@ use yii\helpers\Url;
 
                 <p>
                   <?php echo \Yii::$app->session->get('admin_user_name'); ?>
-                  <small>Member since <?php echo \Yii::$app->session->get('admin_created_by'); ?></small>
+                  <small>Member since <?php echo \Yii::$app->session->get('admin_created_on'); ?></small>
                 </p>
               </li>
               <li class="user-footer">
+                <!--
                 <div class="pull-left">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
+                -->
                 <div class="pull-right">
                   <a href="<?php echo Url::toRoute('login/logout'); ?>" class="btn btn-default btn-flat">Sign out</a>
                 </div>

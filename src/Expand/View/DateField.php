@@ -2,17 +2,29 @@
 
 namespace Eadmin\Expand\View;
 
-use yii\helpers\Html;
-use Eadmin\Kernel\Support\VarDumper;
 use kartik\date\DatePicker;
+use Eadmin\Kernel\Support\VarDumper;
 
+/**
+ * Class DateField
+ * @package Eadmin\Expand\View
+ */
 class DateField
 {
+    /**
+     * @var array
+     */
 	public static $format = [
 		'date', 
 		'php:Y-m-d H:i:s',
 	];
 
+    /**
+     * Get GridView Filter
+     *
+     * @param  string $attribute field attribute
+     * @return string
+     */
 	public static function filter($attribute)
 	{
 		$startField = $attribute . '_start';
@@ -34,6 +46,13 @@ class DateField
         ]);
 	}
 
+    /**
+     * Get GridView Column
+     *
+     * @param  string $attribute field attribute
+     * @param  array  $container model container
+     * @return string
+     */
 	public static function column($attribute, $container)
 	{
 		$values = [

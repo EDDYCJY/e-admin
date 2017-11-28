@@ -11,10 +11,19 @@ class StateField
 {
 	const SUCCESS_CODE = 1;
 
+    /**
+     * @var string
+     */
 	public static $tag = 'i';
 
+    /**
+     * @var string
+     */
 	public static $format = 'html';
 
+    /**
+     * @var array
+     */
 	public static $options = [
 		'success' => [
 			'class' => 'fa fa-check',
@@ -26,6 +35,13 @@ class StateField
 		],
 	];
 
+    /**
+     * Get GridView Value
+     *
+     * @param  string $attribute field attribute
+     * @param  object $model     model object
+     * @return string
+     */
 	public static function value($attribute, $model)
 	{
 		$result = '';
@@ -44,6 +60,12 @@ class StateField
 		return $result;
 	}
 
+    /**
+     * Get GridView Filter
+     *
+     * @param  string $attribute field attribute
+     * @return array
+     */
 	public static function filter($attribute, $container)
 	{
 		$modelParams = $container['modelParams'][$attribute];
@@ -56,6 +78,13 @@ class StateField
 		return $result;
 	}
 
+    /**
+     * Get GridView Column
+     *
+     * @param  string $attribute field attribute
+     * @param  array  $container model container
+     * @return string
+     */
 	public static function column($attribute, $container)
 	{
 		$values = [

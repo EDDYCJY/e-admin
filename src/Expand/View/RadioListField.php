@@ -7,8 +7,19 @@ use Eadmin\Kernel\Support\Container;
 use Eadmin\Kernel\Support\VarDumper;
 use Eadmin\Config;
 
+/**
+ * Class RadioListField
+ * @package Eadmin\Expand\View
+ */
 class RadioListField
 {
+    /**
+     * Get GridView Value
+     *
+     * @param  string $attribute field attribute
+     * @param  object $model     model object
+     * @return string
+     */
 	public static function value($attribute, $model)
 	{
 		$result = '';
@@ -30,6 +41,13 @@ class RadioListField
 		return $result;
 	}
 
+    /**
+     * Get GridView Filter
+     *
+     * @param  string $attribute field attribute
+     * @param  array  $container model container
+     * @return array
+     */
 	public static function filter($attribute, $container)
 	{
 		$modelParams = $container['modelParams'][$attribute];
@@ -42,6 +60,13 @@ class RadioListField
 		return $result;
 	}
 
+    /**
+     * Get GridView Column
+     *
+     * @param  string $attribute field attribute
+     * @param  array  $container model container
+     * @return string
+     */
 	public static function column($attribute, $container)
 	{
 		$headClosure = "function (\$model) {" . "\n";

@@ -9,6 +9,10 @@ use Eadmin\Entity\AdminUserEntity;
 use Eadmin\Entity\AdminMenuEntity;
 use Eadmin\Entity\AdminRoleEntity;
 
+/**
+ * Class Admin
+ * @package Eadmin\Kernel\Extra
+ */
 class Admin extends Extra
 {
 	public $userName = 'admin';

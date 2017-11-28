@@ -6,12 +6,19 @@ use Eadmin\Constants;
 use Eadmin\Expand\Field\BaseField;
 use Eadmin\Kernel\Support\Container;
 
+/**
+ * Class ImageField
+ * @package Eadmin\Expand\Field
+ */
 class ImageField extends BaseField
 {
-	public function start($fullTableName, $fieldTypeName)
+    /**
+     * @return array
+     */
+	public function start($tableName, $fieldTypeName)
 	{
 		$result = [];
-        $container = Container::make($fullTableName);
+        $container = Container::make($tableName);
         foreach ($container['modelParams'] as $key => $value) {
             if($value['type'] == Constants::IMAGE_FIELD) {
                 $result[$key] = 1;

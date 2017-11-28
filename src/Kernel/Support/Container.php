@@ -1,9 +1,12 @@
 <?php 
 namespace Eadmin\Kernel\Support;
 
-use Yii;
 use Exception;
 
+/**
+ * Class Container
+ * @package Eadmin\Kernel\Support
+ */
 class Container
 {
 	protected static $registry = [];
