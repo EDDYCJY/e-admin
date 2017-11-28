@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=5.6.0",
-        "eddycjy/yii2-ueditor": "dev-master",
+        "eddycjy/yii2-ueditor": "@dev",
         "kartik-v/yii2-widget-fileinput": "@dev",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-field-range": "*",
