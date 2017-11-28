@@ -8,7 +8,16 @@
             "email": "313687982@qq.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=5.6.0",
+        "eddycjy/yii2-ueditor": "dev-master",
+        "kartik-v/yii2-widget-fileinput": "@dev",
+        "kartik-v/yii2-widget-datepicker": "@dev",
+        "kartik-v/yii2-field-range": "*",
+        "eddycjy/yii2-iconpicker": "@dev",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "softark/yii2-dual-listbox": "^1.0"
+    },
     "minimum-stability": "dev",
 	"autoload" : {
 		"psr-4" : {
