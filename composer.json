@@ -14,7 +14,7 @@
         "kartik-v/yii2-widget-fileinput": "@dev",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-field-range": "*",
-        "eddycjy/yii2-iconpicker": "@dev",
+        "eddycjy/yii2-iconpicker": "dev-master",
         "kartik-v/yii2-widget-select2": "@dev",
         "softark/yii2-dual-listbox": "^1.0"
     },
