@@ -11,9 +11,9 @@ class Menu extends Execute
 {
 	public function start($menu)
 	{
-		if(! $this->locker->existsLock($menu['name'])) {
+		if(! $this->locker->existsLock($menu['menu_name'])) {
 			if(AdminMenuEntity::addMenu($menu) !== false) {
-				$this->locker->writeLock($menu['name']);
+				$this->locker->writeLock($menu['menu_name']);
 			}
 		}
 	}

@@ -14,7 +14,7 @@ class AdminRole extends Model
 		'comment' => '主键ID',
 	];
 
-	public $name = [
+	public $role_name = [
 		'type' => 'VarcharField',
 		'max_length' => 50,
 		'default' => '',

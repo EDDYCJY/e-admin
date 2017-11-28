@@ -21,7 +21,9 @@ if ($modelClass === $searchModelClass) {
 }
 $rules = $generator->generateSearchRules();
 $labels = $generator->generateSearchLabels();
-$relationColumns = $generator->getRelationColumns($fullName);
+$relationColumns = $generator->getRelationColumns($fullName, 'attribute');
+$relationClass = $generator->getRelationColumns($fullName, 'class');
+
 $searchAttributes = $generator->getSearchAttributes();
 $searchConditions = $generator->generateSearchConditions();
 
@@ -81,6 +83,11 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
     public function search($params)
     {
         $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
+<?php if(! empty($relationClass)): ?>
+<?php foreach($relationClass as $key => $value): ?>
+        $query->joinWith(['<?= lcfirst($value); ?>']);
+<?php endforeach; ?>
+<?php endif; ?>
 
         // add conditions that should always apply here
 
@@ -93,13 +100,13 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
 
         $this->load($params);
 
-<?php if(! empty($timeConditions)): 
-      foreach($timeConditions as $key => $value):?>  
+<?php if(! empty($timeConditions)): ?>
+<?php foreach($timeConditions as $key => $value):?>  
         if(! empty($params['<?= $key . '_start' ?>']) && ! empty($params['<?= $key . '_end'?>'])) {
             $query<?= $value ?>;
         }
-<?php endforeach; 
-      endif; ?>
+<?php endforeach; ?>
+<?php endif; ?>
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails

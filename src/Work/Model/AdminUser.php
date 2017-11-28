@@ -24,7 +24,7 @@ class AdminUser extends Model
 			'class' => 'AdminRole',
 			'link' => 'id',
 			'label' => '权限名称',
-			'attribute' => 'name',
+			'attribute' => 'role_name',
 		],
 	];
 

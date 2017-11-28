@@ -11,8 +11,8 @@ class Article extends Model
 
 	public $list_display = [
         'id',
-        'send_name',
-        'send_content',
+        'article_name',
+        'article_content',
     ];
 
 	public $id = [
@@ -34,7 +34,14 @@ class Article extends Model
 		'default' => 0,
 	];
 
-	public $send_name = [
+	public $pics_id = [
+		'type' => 'ImagesField',
+		'comment' => '相册',
+		'max_length' => 100,
+		'default' => 0,
+	];
+
+	public $article_name = [
 		'type' => 'TextField',
 		'comment' => '名称',
 		'max_length'   => 10,
@@ -46,7 +53,7 @@ class Article extends Model
 		],
 	];
 
-	public $send_content = [
+	public $article_content = [
 		'type' => 'UeditorField',
 		'comment' => '内容',
 		'htmlOptions' => [
@@ -54,13 +61,6 @@ class Article extends Model
 			'min_length'   => 10,
 			'required'	   => 'required',
 		],
-	];
-
-	public $pics_id = [
-		'type' => 'ImagesField',
-		'comment' => '相册',
-		'max_length' => 100,
-		'default' => 0,
 	];
 
 	public $state = [

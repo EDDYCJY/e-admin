@@ -9,7 +9,7 @@ class Menu
 		return [
 			'parent_id' => $tabler->getTableParentId(),
 			'is_show' => $tabler->getTableIsShow(),
-			'name' => $tabler->getTableVerboseName(),
+			'menu_name' => $tabler->getTableVerboseName(),
 			'url' =>  $tabler->getTableViewName() . '/' . 'index',
 		];
 	}

@@ -31,7 +31,7 @@ class AdminMenu extends Model
 		'comment' => '父级ID',
 	];
 
-	public $name = [
+	public $menu_name = [
 		'type' => 'VarcharField',
 		'max_length' => 50,
 		'default' => '',

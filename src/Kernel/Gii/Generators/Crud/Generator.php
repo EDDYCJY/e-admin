@@ -366,7 +366,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             $rules[] = "[['" . implode("', '", $columns) . "'], '$type']";
         }
 
-        $relationColumns = $this->getRelationColumns($table->fullName);
+        $relationColumns = $this->getRelationColumns($table->fullName, 'attribute');
         if(! empty($relationColumns)) {
             $rules[] = "[['" . implode("', '", $relationColumns) . "'], 'safe']";
         }
@@ -374,13 +374,19 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         return $rules;
     }
 
-    public function getRelationColumns($tableName)
+    /**
+     * Get relation columns in modelParams
+     *  
+     * @param  string $tableName full table name
+     * @return array
+     */
+    public function getRelationColumns($tableName, $column)
     {
         $result = [];
         $container = Container::make($tableName)['modelParams'];
         foreach ($container as $key => $value) {
             if(! empty($value['relations'])) {
-                $result[] = $value['relations']['attribute'];
+                $result[] = $value['relations'][$column];
             }
         }
 
@@ -455,8 +461,8 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             if(! empty($value['relations'])) {
 
                 $relationValue = $value['relations'];
-                $relationStr = "->andFilterWhere(['like'," . '\\' . $modelClass . '\\' . $relationValue['class'] . "::tableName()";
-                $relationStr.= ".'" . $relationValue['attribute'] . "', \$this->" . $relationValue['attribute'] . "])";
+                $relationStr = "->andFilterWhere(['like', " . '\\' . $modelClass . '\\' . $relationValue['class'] . "::tableName()";
+                $relationStr.= " . '." . $relationValue['attribute'] . "', \$this->" . $relationValue['attribute'] . "])";
                 $relationConditions[] = $relationStr;
                 
             }

@@ -49,7 +49,7 @@ class Admin extends Extra
 		if(! $this->locker->existsLock($name)) {
 			$permissions = ArrayHelper::getColumn(AdminMenuEntity::getAllMenu(), 'id');
 			$params = [
-				'name' => $this->roleName,
+				'role_name' => $this->roleName,
 				'description' => $this->roleDescription,
 				'permissions' => implode(',', $permissions),
 				'is_show' => 1,

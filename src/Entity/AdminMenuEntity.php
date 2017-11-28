@@ -11,7 +11,7 @@ class AdminMenuEntity extends AdminMenu
 	public static function addMenu($params)
 	{
 		$model = new AdminMenu();
-		$model->name = $params['name'];
+		$model->menu_name = $params['menu_name'];
 		$model->url = $params['url'];
 		$model->parent_id = $params['parent_id'];
 		$model->is_show = $params['is_show'];
@@ -27,7 +27,7 @@ class AdminMenuEntity extends AdminMenu
 			'state' => 1,
 		];
 
-		$field = 'id,parent_id,icon,name,url';
+		$field = 'id,parent_id,icon,menu_name,url';
 
 		return self::find()->select($field)->where($map)->asArray()->all();
 	}
@@ -39,14 +39,14 @@ class AdminMenuEntity extends AdminMenu
 			'state' => 1,
 		];
 
-		$field = 'id,parent_id,icon,name,url';
+		$field = 'id,parent_id,icon,menu_name,url';
 
 		return self::find()->select($field)->where($map)->asArray()->all();
 	}
 
 	public static function getAllPermission()
 	{
-		return Helpers::getSelectMap(self::getAllMenu(), 'id', 'name');
+		return Helpers::getSelectMap(self::getAllMenu(), 'id', 'menu_name');
 	}
 
 }
