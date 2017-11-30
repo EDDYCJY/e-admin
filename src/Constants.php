@@ -19,6 +19,8 @@ class Constants
 
 	const PERMISSION_FIELD = 'PermissionField';
 
+	const RELATION_FIELD = 'RelationField';
+
 	const ICON_FIELD = 'IconField';
 
 	const STATE_FIELD = 'StateField';

@@ -12,13 +12,14 @@ use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Schema;
 use yii\helpers\Inflector;
-use yii\helpers\VarDumper;
+
 use yii\web\Controller;
 use Eadmin\Kernel\Gii\CodeFile;
 use Eadmin\Kernel\Support\Container;
 use Eadmin\Constants;
 use Eadmin\Config;
 use Eadmin\Expand\Start;
+use Eadmin\Kernel\Support\VarDumper;
 use Eadmin\Kernel\Support\Helpers;
 use Eadmin\Kernel\Factory\ActiveFieldFactory;
 
@@ -604,6 +605,72 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
     }
 
     /**
+     * Generates excel widget params
+     * @return string
+     */
+    public function generateExcelWidgetParams($fullName)
+    {  
+        $values = [
+            'models' => [
+                'separator' => '',
+                'value' => '$dataProvider->getModels()',
+            ],
+            'mode' => 'export',
+            'fileName' => [
+                'separator' => '',
+                'value' => "'" . $this->getExcelWidgetFiles($fullName)['fileName'] . '-' . "' . " . 'date("Y-m-d", time())',
+            ],
+            'format' => $this->getExcelWidgetFiles($fullName)['fileFormat'],
+            'columns' => [
+                'separator' => '',
+                'value' => VarDumper::exportSeparator($this->getExcelWidgetColumns($fullName), [
+                    'headSpace' => 16,
+                    'footSpace' => 12,
+                ]),
+            ],
+            'headers' => [
+                'separator' => '',
+                'value' => VarDumper::exportSeparator($this->getExcelWidgetHeaders($fullName), [
+                    'headSpace' => 16,
+                    'footSpace' => 12,
+                ]),
+            ], 
+        ];
+
+        return VarDumper::exportSeparator($values);
+    }
+
+    /**
+     * Generates excel model params
+     * @return array
+     */
+    public function generateExcelModelParams($fullName)
+    {
+        $result = [];
+        $container = Container::make($fullName);
+        
+        $prefix = '->getRelatedRecords()[';
+        $suffx  = ']->getAttributes()[';
+        foreach($container['modelParams'] as $field => $value) {
+            $function = Start::export($value['type']);
+            if(! empty($function)) {
+                $result[$field] = [
+                    'type'  => 1,
+                    'value' => str_replace('%s', '$modelProvider[$index]->' . $field, $function),
+                ];
+            }
+            if(! empty($value['relations'])) {
+                $result[$field] = [
+                    'type'  => 2,
+                    'value' => $prefix . "'" . lcfirst($value['relations']['class']) . "'" . $suffx . "'" . $value['relations']['attribute'] . "'" . ']' 
+                ];
+            }
+        }
+
+        return $result; 
+    }
+
+    /**
      * Returns table schema for current model class or false if it is not an active record
      * @return bool|\yii\db\TableSchema
      */
@@ -647,4 +714,61 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         $db = $class::getDb();
         return $db instanceof \yii\db\Connection ? $db->driverName : null;
     }
+
+    private function getExcelWidgetColumns($fullName)
+    {
+        $container = Container::make($fullName);
+        $metaParams = $container['metaParams'];
+        $modelParams = $container['modelParams'];
+        $exportParams = isset($metaParams['options']['export']) ? $metaParams['options']['export'] : [];
+
+        $columns = array_keys($modelParams);
+        if(! empty($exportParams['field'])) {
+            foreach ($columns as $index => $field) {
+                if(! in_array($field, $exportParams['field'])) {
+                    unset($columns[$index]);
+                }
+            }
+        }
+
+        return $columns;
+    }
+
+    private function getExcelWidgetHeaders($fullName)
+    {
+        $headers = [];
+        $container = Container::make($fullName);
+        $metaParams = $container['metaParams'];
+        $modelParams = $container['modelParams'];
+        $exportParams = isset($metaParams['options']['export']) ? $metaParams['options']['export'] : [];
+        $relationFields = Start::field($fullName, Constants::RELATION_FIELD);
+
+        if(! empty($relationFields)) {
+            foreach($modelParams as $field => $value) { 
+                if(! empty($value['relations'])) {
+                    if(! empty($exportParams['field'])) {
+                        if(in_array($field, $exportParams['field'])) {
+                            $headers[$field] = $value['relations']['label'];
+                        }
+                    } else {
+                        $headers[$field] = $value['relations']['label'];
+                    }
+                }
+            }
+        }
+
+        return $headers;
+    }
+
+    private function getExcelWidgetFiles($fullName)
+    {
+        $metaParams = Container::make($fullName)['metaParams'];
+        $exportParams = isset($metaParams['options']['export']) ? $metaParams['options']['export'] : [];
+
+        return [
+            'fileName' => empty($exportParams['fileName']) ? mt_rand(1000, 9999) : $exportParams['fileName'],
+            'fileFormat' => empty($exportParams['fileFormat']) ? 'Excel5' : $exportParams['fileFormat'],
+        ];
+    }
+
 }

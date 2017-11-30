@@ -36,7 +36,11 @@ $this->title = <?= $generator->generateString($title) ?>;
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-              <div class="col-sm-12" style="text-align: right;"><?= "<?= " ?>Html::a(<?= $generator->generateString('创建') ?>, ['create'], ['class' => 'btn btn-success']) ?></div>
+              <div class="col-sm-12" style="text-align: right;">
+                  <?= "<?= " ?>Html::a(<?= $generator->generateString('创建') ?>, ['create'], ['class' => 'btn btn-success']) ?>
+                  <?= "<?= " ?>Html::a(<?= $generator->generateString('导出') ?>, $exportUrl, ['class' => 'btn btn-primary']) ?>
+                  <?= "<?= " ?>Html::a(<?= $generator->generateString('重置') ?>, ['index'], ['class' => 'btn btn-default']) ?>
+              </div>
             </div>
             <div class="box-body">
 

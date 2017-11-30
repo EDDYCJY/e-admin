@@ -2,6 +2,8 @@
 
 namespace Eadmin\Basic;
 
+use Eadmin\Config;
+
 /**
  * Class Model
  * @package Eadmin\Basic
@@ -46,6 +48,19 @@ class Model
         'detail_display',
 		'search_fields',
 	];
+
+    public function __construct()
+    {
+        $preset = [
+            'export' => 'eadmin_model_options_configs',
+        ];
+
+        foreach ($preset as $index => $name) {
+            if(empty($this->options[$index])) {
+                $this->options = array_merge($this->options, Config::get('App', $name));
+            }
+        }
+    }
 
     /**
      * Get Meta Lists

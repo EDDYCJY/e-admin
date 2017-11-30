@@ -11,6 +11,22 @@ class AdminUser extends Model
 
 	public $comment = '后台管理员表';
 
+	public $options = [
+		'export' => [
+			'fileName' => '后台管理员',
+			'fileFormat' => 'Excel5', 
+			'field' => [
+				'role_id',
+				'user_name',
+				'created_on',
+				'created_by',
+				'modify_on',
+				'modify_by',
+				'state',
+			],
+		],
+	];
+
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',

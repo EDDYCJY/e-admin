@@ -23,7 +23,7 @@ class Model
 	public function __construct($object)
 	{
 		$className   = get_class($object);
-		$classParams = get_class_vars($className);
+		$classParams = get_object_vars($object);
 
 		$this->classer  = [
 			'name'   => $className,

@@ -36,7 +36,7 @@ class AdminRole extends Model
 	];
 
 	public $is_show = [
-		'type' => 'StateField',
+		'type' => 'RadioListField',
 		'comment' => '是否展示',
 		'default' => 1,
 		'options' => [

@@ -27,17 +27,17 @@ return [
 			'queryClassSuffix' => 'Query',
 		],
 	],
+	'eadmin_model_options_configs' => [
+		'export' => [
+            'fileName' => 'eadmin-export',
+            'fileFormat' => 'Excel5', 
+            'field' => [],
+        ],
+	],
 	'eadmin_upload_module' => '@backend',
 	'eadmin_publish_module' => '@backend',
 	'eadmin_split_fields' => [
 		'permissions',
-	],
-	'eadmin_list_fields' => [
-		'state' 	 => \Eadmin\Expand\View\StateField::class,
-		'is_show'    => \Eadmin\Expand\View\RadioListField::class,
-		'type'       => \Eadmin\Expand\View\RadioListField::class,
-		'created_on' => \Eadmin\Expand\View\DateField::class,
-		'modify_on'  => \Eadmin\Expand\View\DateField::class,
 	],
 	'eadmin_hidden_list_display' => [
 		'id',

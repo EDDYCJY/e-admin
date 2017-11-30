@@ -9,6 +9,12 @@ class Upload extends Model
 
 	public $comment = '上传图片表';
 
+	public $options = [
+		'menu' => [
+			'is_show' => 0,
+		],
+	];
+
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',
@@ -21,10 +27,6 @@ class Upload extends Model
 		'comment' => '图片路径',
 	];
 
-	public $options = [
-		'menu' => [
-			'is_show' => 0,
-		],
-	];
+	
 
 }

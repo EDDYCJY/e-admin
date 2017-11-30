@@ -41,6 +41,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use <?= ltrim($generator->modelClass, '\\') . (isset($modelAlias) ? " as $modelAlias" : "") ?>;
+use Eadmin\Config;
 
 /**
  * <?= $searchModelClass ?> represents the model behind the search form of `<?= $generator->modelClass ?>`.
@@ -94,8 +95,53 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pagesize' => <?= $pageSize ?>,
+                'pagesize' => <?= 'Config::get("Setting", "page_size")' ?>,
             ], 
+        ]);
+
+        $this->load($params);
+
+<?php if(! empty($timeConditions)): ?>
+<?php foreach($timeConditions as $key => $value):?>  
+        if(! empty($params['<?= $key . '_start' ?>']) && ! empty($params['<?= $key . '_end'?>'])) {
+            $query<?= $value ?>;
+        }
+<?php endforeach; ?>
+<?php endif; ?>
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        <?= implode("\n        ", $searchConditions) ?>
+
+        return $dataProvider;
+    }
+
+    /**
+     * Creates data provider instance with export query applied
+     * Independent of the search
+     * 
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function export($params)
+    {
+        $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
+<?php if(! empty($relationClass)): ?>
+<?php foreach($relationClass as $key => $value): ?>
+        $query->joinWith(['<?= lcfirst($value); ?>']);
+<?php endforeach; ?>
+<?php endif; ?>
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
         ]);
 
         $this->load($params);

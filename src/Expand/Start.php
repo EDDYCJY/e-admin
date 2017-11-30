@@ -20,12 +20,11 @@ class Start
      */
 	public static function view($attribute, $container)
 	{
-		$configs = Config::get('App', 'eadmin_list_fields');
-
 		$result = "'" . $attribute . "'";
-		if(array_key_exists($attribute, $configs)) {
-			$namespace = $configs[$attribute];
-
+		
+		$class = $container['modelParams'][$attribute]['type'];
+		$namespace = '\\Eadmin\\Expand\\View\\' . $class;
+		if(class_exists($namespace)) {
 			$result = trim($namespace::column($attribute, $container), "'");
 		} else if(! empty($container['modelParams'][$attribute]['relations'])) {
 			$result = RelationField::column($attribute, $container);
@@ -52,6 +51,26 @@ class Start
 			$result = $object->start($tableName, $fieldTypeName);
 		}
 		
+		return $result;
+	}
+
+	/**
+	 * Get Export Items
+	 * 
+     * @param  string $tableName     table_name
+     * @return array
+	 */
+	public static function export($fieldTypeName)
+	{
+		$namespace = 'Eadmin\\Expand\\Export';
+		$className = $namespace . '\\' . ucfirst($fieldTypeName);
+
+		$result = '';
+		if(class_exists($className)) {
+			$object = new $className;
+			$result = $object->start();
+		}
+
 		return $result;
 	}
 

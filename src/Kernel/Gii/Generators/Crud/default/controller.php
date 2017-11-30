@@ -23,6 +23,7 @@ if ($modelClass === $searchModelClass) {
 
 /* @var $class ActiveRecordInterface */
 $class = $generator->modelClass;
+$searchClass = isset($searchModelAlias) ? $searchModelAlias : $searchModelClass;
 $pks = $class::primaryKey();
 $urlParams = $generator->generateUrlParams();
 $actionParams = $generator->generateActionParams();
@@ -30,6 +31,9 @@ $actionParamComments = $generator->generateActionParamComments();
 
 $fullName = Config::get('Database', 'table_prefix') . Helpers::getUnderscore(Helpers::getLastIndex($class));
 
+$excelWidgetParams = $generator->generateExcelWidgetParams($fullName);
+$excelModelParams = $generator->generateExcelModelParams($fullName);
+$container = Container::make($fullName);
 $imageFields = Start::field($fullName, Constants::IMAGE_FIELD);
 $splitFields = Start::field($fullName, Constants::SPLIT_FIELD);
 
@@ -48,6 +52,8 @@ use yii\data\ActiveDataProvider;
 use <?= ltrim($generator->baseControllerClass, '\\') ?>;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
+use moonland\phpexcel\Excel;
 
 /**
  * <?= $controllerClass ?> implements the CRUD actions for <?= $modelClass ?> model.
@@ -77,23 +83,15 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
      */
     public function actionIndex()
     {
-<?php if (!empty($generator->searchModelClass)): ?>
-        $searchModel = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>();
+        $searchModel = new <?= $searchClass ?>();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $exportParams = isset(Yii::$app->request->queryParams['<?= $searchClass ?>']) ? Yii::$app->request->queryParams['<?= $searchClass ?>'] : [];
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'exportUrl'    => Url::toRoute(['export', '<?= $searchClass ?>' => $exportParams]),
         ]);
-<?php else: ?>
-        $dataProvider = new ActiveDataProvider([
-            'query' => <?= $modelClass ?>::find(),
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-<?php endif; ?>
     }
 
     /**
@@ -230,6 +228,26 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         $this->findModel(<?= $actionParams ?>)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Output <?= $modelClass ?> export.
+     * @return mixed
+     */
+    public function actionExport()
+    {
+        $searchModel = new <?= $searchClass ?>();
+        $dataProvider = $searchModel->export(Yii::$app->request->queryParams);
+        $modelProvider = $dataProvider->getModels();
+<?php if(! empty($excelModelParams)): ?>
+        foreach ($modelProvider as $index => $model) {
+<?php foreach($excelModelParams as $field => $value): ?>
+            $modelProvider[$index]-><?= $field ?> = <?php if($value['type'] == 2): ?>$model<?php endif; ?><?= $value['value'] ?>;
+<?php endforeach; ?>
+        }
+<?php endif; ?>
+
+        Excel::widget(<?= $excelWidgetParams ?>);
     }
 
     /**
