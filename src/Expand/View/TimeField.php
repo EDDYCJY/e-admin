@@ -6,10 +6,10 @@ use kartik\date\DatePicker;
 use Eadmin\Kernel\Support\VarDumper;
 
 /**
- * Class DateField
+ * Class TimeField
  * @package Eadmin\Expand\View
  */
-class DateField
+class TimeField
 {
     /**
      * @var array
@@ -57,10 +57,19 @@ class DateField
 	{
 		$values = [
 			'attribute' => $attribute,
-			'format' => self::$format,
-			'filter' => 'Eadmin\Expand\View\DateField::filter(' . "'" . $attribute . "'" . ')',
+			'format' => [
+                'separator' => '',
+                'value' => VarDumper::exportSeparator(self::$format, [
+                    'headSpace' => 20, 
+                    'footSpace' => 16
+                ]),
+            ],
+			'filter' => [
+                'separator' => '',
+                'value' => 'Eadmin\Expand\View\TimeField::filter(' . "'" . $attribute . "'" . ')',
+            ],
 		];
 
-		return VarDumper::export($values);
+		return VarDumper::exportSeparator($values, ['headSpace' => 16, 'footSpace' => 12]);
 	}
 }

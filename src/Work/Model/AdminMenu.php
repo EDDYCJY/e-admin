@@ -57,7 +57,7 @@ class AdminMenu extends Model
 	];
 
 	public $is_show = [
-		'type' => 'SelectField',
+		'type' => 'RadioListField',
 		'unsigned' => true,
 		'default' => 1,
 		'comment' => '是否在菜单显示',
