@@ -17,5 +17,6 @@ class Controller extends Publish
 		'AdminController.php',
 		'ErrorController.php',
 		'IndexController.php',
+		'AdminUserController.php',
 	];
 }

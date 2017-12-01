@@ -13,11 +13,11 @@ use Eadmin\Kernel\Factory\ExtraFactory;
  */
 class Gen
 {
-	public static function init()
+	public static function publish()
 	{
 		$factory = new PublishFactory();
 		$commands = [
-			'Adminlte',
+			//'Adminlte',
 			'Asset',
 			'Controller',
 			'View',

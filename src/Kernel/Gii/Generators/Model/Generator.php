@@ -278,6 +278,11 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         return $files;
     }
 
+    /**
+     * Generates specify relations
+     * @param  string $tableName table_name
+     * @return array
+     */
     public function generateSpecifyRelations($tableName)
     {
         $container = Container::make($tableName);
@@ -299,6 +304,7 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                 $result[] = [
                     'class' => $class,
                     'modelClass' => '\\' . $modelClass . '\\' . $class . '::className()',
+                    'tableName' => '\\' . $modelClass . '\\' . $class . '::tableName()',
                     'map' => $map,
                 ];
             }

@@ -18,8 +18,6 @@ class Start
 	{
 		Config::init();
 
-		Gen::init();
-
 		$autoloadClass = Config::get('Autoload', 'models');
 		$genClass = array_merge($autoloadClass, $modelClass);
 
@@ -28,7 +26,9 @@ class Start
 				Gen::start(new $class);
 			}
 		}
-		
+
+		Gen::publish();
+
         Gen::extra();
 	}
 

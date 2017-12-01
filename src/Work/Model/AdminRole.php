@@ -9,6 +9,13 @@ class AdminRole extends Model
 
 	public $comment = '后台角色权限表';
 
+	public $list_display = [
+		'role_name',
+		'description',
+		'is_show',
+		'state',
+	];
+
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',

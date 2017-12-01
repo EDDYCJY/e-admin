@@ -101,7 +101,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
 <?php if($specifyRelations): ?>
 <?php foreach($specifyRelations as $key => $value): ?>
     public function get<?= $value['class'] ?>() {
-        return $this->hasOne(<?= $value['modelClass'] ?>, <?= $value['map'] ?>);
+        return $this->hasOne(<?= $value['modelClass'] ?>, <?= $value['map'] ?>)->from(<?= $value['tableName']; ?> . <?= "' " . lcfirst($value['class'] . "'"); ?>);
     }
 <?php endforeach; ?>
 <?php endif; ?>

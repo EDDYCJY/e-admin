@@ -12,9 +12,20 @@ use Eadmin\Entity\AdminMenuEntity;
 
 class AdminController extends Controller
 {
+    public $adminId;
+
+    public $adminUserName;
+
+    public function init()
+    {
+        $this->adminId = intval(Yii::$app->session->get('admin_id', 0));
+
+        $this->adminUserName = Yii::$app->session->get('admin_user_name');
+    }
+
     public function beforeAction($action)
     {
-        $userInfo = AdminUserEntity::getUserInfo(Yii::$app->session->get('admin_id'), Yii::$app->session->get('admin_user_name'));
+        $userInfo = AdminUserEntity::getUserInfo($this->adminId, $this->adminUserName);
 
         $result = false;
         if(! empty($userInfo)) {

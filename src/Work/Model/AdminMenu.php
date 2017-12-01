@@ -10,11 +10,10 @@ class AdminMenu extends Model
 	public $comment = '后台菜单表';
 
 	public $list_display = [
-        'id',
+		'menu_name',
         'parent_id',
         'name',
         'url',
-        'icon',
         'is_show',
         'status',
     ];
@@ -29,6 +28,12 @@ class AdminMenu extends Model
 		'default' => 0,
 		'unsigned' => true,
 		'comment' => '父级ID',
+		'relations' => [
+			'class' => 'AdminMenu',
+			'link' => 'id',
+			'label' => '父级名称',
+			'attribute' => 'menu_name',
+		],
 	];
 
 	public $menu_name = [

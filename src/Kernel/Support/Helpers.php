@@ -37,6 +37,15 @@ class Helpers
         return strtolower(trim(preg_replace("/[A-Z]/", "-\\0", $value), "-"));
     }
 
+    public static function getCamelize($value)
+    {
+        $value = preg_replace_callback('/([-_]+([a-z]{1}))/i',function($matches){
+            return strtoupper($matches[2]);
+        },$value);
+
+        return ucfirst($value);
+    }
+
     /**
      * Get Select Data Map
      *

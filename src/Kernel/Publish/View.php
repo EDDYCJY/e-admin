@@ -17,5 +17,6 @@ class View extends Publish
 		'login',
 		'error',
 		'index',
+		'admin-menu',
 	];
 }

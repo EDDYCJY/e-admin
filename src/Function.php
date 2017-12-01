@@ -5,6 +5,10 @@
  *
  * @return string
  */
-function getAdminUserName() {
-	return \Yii::$app->session->get('admin_user_name');
+
+if(! function_exists('getAdminUserName')) {
+	function getAdminUserName() {
+		return \Yii::$app->session->get('admin_user_name');
+	}
 }
+

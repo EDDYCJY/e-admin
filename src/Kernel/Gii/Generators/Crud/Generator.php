@@ -451,27 +451,33 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             }
         }
 
-        $timeFields = Start::field($table->fullName, Constants::TIME_FIELD);
+        $notSearchColumns = [];
+        $notSearchColumns += Start::field($table->fullName, Constants::TIME_FIELD); 
+
+        /* get model class */
+        $tableNames = explode('_', $table->fullName);
+        unset($tableNames[0]);
+        $modelClassName = Helpers::getCamelize(implode('_', $tableNames));
 
         $container = Container::make($table->fullName);
-        $modelParams = $container['modelParams'];
-        $modelClass = Config::get('App', 'eadmin_generator_configs')['model']['namespace'];
 
         $relationConditions = [];
-        foreach ($modelParams as $key => $value) {
+        foreach ($container['modelParams'] as $key => $value) {
             if(! empty($value['relations'])) {
-
                 $relationValue = $value['relations'];
-                $relationStr = "->andFilterWhere(['like', " . '\\' . $modelClass . '\\' . $relationValue['class'] . "::tableName()";
+                $relationStr = "->andFilterWhere(['like', " . "'" . lcfirst($relationValue['class']) . "'";
                 $relationStr.= " . '." . $relationValue['attribute'] . "', \$this->" . $relationValue['attribute'] . "])";
                 $relationConditions[] = $relationStr;
-                
+
+                if($modelClassName == $relationValue['class']) {
+                    $notSearchColumns[] = $relationValue['attribute'];
+                }
             }
         }
-        
+    
         $hashConditions = [];
         foreach ($columns as $column => $type) {
-            if(! in_array($column, $timeFields)) {
+            if(! in_array($column, $notSearchColumns)) {
                 switch ($type) {
                     case Schema::TYPE_SMALLINT:
                     case Schema::TYPE_INTEGER:
