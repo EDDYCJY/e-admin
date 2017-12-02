@@ -38,16 +38,32 @@ $this->title = <?= $generator->generateString($title) ?>;
             <div class="box-header">
               <div class="col-sm-12" style="text-align: right;">
                   <?= "<?= " ?>Html::a(<?= $generator->generateString('创建') ?>, ['create'], ['class' => 'btn btn-success']) ?>
-                  <?= "<?= " ?>Html::a(<?= $generator->generateString('导出') ?>, $exportUrl, ['class' => 'btn btn-primary']) ?>
-                  <?= "<?= " ?>Html::a(<?= $generator->generateString('重置') ?>, ['index'], ['class' => 'btn btn-default']) ?>
+                  <?= "<?= " ?>Html::a(<?= $generator->generateString('重置') ?>, ['index'], ['class' => 'btn btn-primary']) ?>
+
+                  <div class="btn-group pull-right" style="margin-left: 10px">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      其他 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><?= "<?= " ?>Html::a('导出', $exportUrl) ?></li>
+                      <li><?= "<?= " ?>Html::a('删除', 'javascript:void(0);', ['class' => 'js-delete-all']) ?></li>
+                    </ul>
+                  </div>
               </div>
             </div>
             <div class="box-body">
 
 <?php if ($generator->indexWidgetType === 'grid'): ?>
     <?= "<?= " ?>GridView::widget([
+        'options' => [
+            'id' => 'grid'
+        ],
         'dataProvider' => $dataProvider,
         <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n        'columns' => [\n" : "'columns' => [\n"; ?>
+            [
+                'class' => 'yii\grid\CheckboxColumn',
+                'name' => 'id',
+            ],
             ['class' => 'yii\grid\SerialColumn'],
 
 <?php
@@ -99,6 +115,7 @@ if ($tableSchema === false) {
     ]) ?>
 <?php endif; ?>
 <?= $generator->enablePjax ? "    <?php Pjax::end(); ?>\n" : '' ?>
+      <input type="hidden" name="js-delete-all-url" value="<?= '<?php echo yii\helpers\Url::to([\'delete-all\']); ?>' ?>">
       </div>
     </div>
   </div>

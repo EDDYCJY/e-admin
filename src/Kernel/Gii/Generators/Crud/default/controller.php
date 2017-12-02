@@ -231,6 +231,22 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     }
 
     /**
+     * DeleteAll an existing <?= $modelClass ?> model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
+     * @return mixed
+     */
+    public function actionDeleteAll($ids)
+    {
+        if(! empty($ids)) {
+            $model = new <?= $modelClass ?>();
+            $model->deleteAll(['id' => explode(',', $ids)]);
+        }
+
+        return $this->redirect(['index']);
+    }
+
+    /**
      * Output <?= $modelClass ?> export.
      * @return mixed
      */

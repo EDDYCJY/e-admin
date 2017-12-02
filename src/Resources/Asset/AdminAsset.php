@@ -29,6 +29,7 @@ class AdminAsset extends AssetBundle
         'static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js',
         'static/bower_components/fastclick/lib/fastclick.js',
         'static/dist/js/adminlte.min.js',
+        'static/eadmin/list.js',
         // 'static/dist/js/demo.js'
     ];
     public $depends = [

@@ -15,6 +15,7 @@ class Adminlte extends Publish
 	public $catalogs = [
 		'bower_components',
 		'dist',
-		'plugins'
+		'plugins',
+		'eadmin',
 	];
 }

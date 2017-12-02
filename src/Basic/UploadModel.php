@@ -2,6 +2,7 @@
 
 namespace Eadmin\Basic;
 
+use Yii;
 use yii\base\Model;
 use Eadmin\Config;
 
@@ -38,7 +39,7 @@ class UploadModel extends Model
     		$this->module = $configModule;
     	}
 
-    	$this->rootPath = $this->module . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR;
+    	$this->rootPath = Yii::getAlias($this->module) . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR;
 
         $this->savePath = 'upload' . DIRECTORY_SEPARATOR;
 
