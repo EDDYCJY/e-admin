@@ -10,6 +10,7 @@ class AdminRole extends Model
 	public $comment = '后台角色权限表';
 
 	public $list_display = [
+		'id',
 		'role_name',
 		'description',
 		'is_show',
@@ -19,6 +20,7 @@ class AdminRole extends Model
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',
+		'label' => 'ID',
 	];
 
 	public $role_name = [
@@ -56,7 +58,7 @@ class AdminRole extends Model
 
 	public $state = [
 		'type' => 'StateField',
-		'label_name' => '状态',
+		'label' => '状态',
 		'comment' => '状态（0为禁用，1为启用）',
 		'default' => 0,
 		'options' => [

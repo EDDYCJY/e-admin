@@ -205,7 +205,7 @@ class Table
      */
 	public function getTableLabelName()
 	{
-		return isset($this->params['label_name']) ? $this->params['label_name'] : '';
+		return isset($this->params['label']) ? $this->params['label'] : '';
 	}
 
 }

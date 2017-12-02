@@ -40,7 +40,6 @@ return [
 		'permissions',
 	],
 	'eadmin_hidden_list_display' => [
-		'id',
 		'password',
 		'created_on',
 		'modify_on',

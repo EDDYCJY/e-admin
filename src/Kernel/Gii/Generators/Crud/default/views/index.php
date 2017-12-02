@@ -16,7 +16,7 @@ $tableSchema = $generator->getTableSchema();
 $container = Container::make($tableSchema->fullName);
 $hiddenListDisplay = Config::get('App', 'eadmin_hidden_list_display');
 
-$title = ! empty($container['metaParams']['label_name']) ? $container['metaParams']['label_name'] : $container['metaParams']['verbose_name'];
+$title = ! empty($container['metaParams']['label']) ? $container['metaParams']['label'] : $container['metaParams']['verbose_name'];
 
 echo "<?php\n";
 ?>
@@ -64,7 +64,6 @@ $this->title = <?= $generator->generateString($title) ?>;
                 'class' => 'yii\grid\CheckboxColumn',
                 'name' => 'id',
             ],
-            ['class' => 'yii\grid\SerialColumn'],
 
 <?php
 $count = 0;

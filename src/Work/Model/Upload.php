@@ -18,6 +18,7 @@ class Upload extends Model
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',
+		'label' => 'ID',
 	];
 
 	public $url = [

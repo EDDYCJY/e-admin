@@ -5,7 +5,7 @@ use Eadmin\Basic\Model;
 
 class AdminUser extends Model
 {
-	public $label_name = '管理员';
+	public $label = '管理员';
 
 	public $verbose_name = '后台管理员管理';
 
@@ -30,6 +30,7 @@ class AdminUser extends Model
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',
+		'label' => 'ID',
 	];
 
 	public $role_id = [
@@ -87,7 +88,7 @@ class AdminUser extends Model
 	public $state = [
 		'type' => 'StateField',
 		'default' => 1,
-		'label_name' => '状态',
+		'label' => '状态',
 		'comment' => '状态（0为禁用，1为启用）',
 		'options' => [
 			'choices' => [

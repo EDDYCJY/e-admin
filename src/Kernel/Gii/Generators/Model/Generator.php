@@ -356,8 +356,8 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
                 $label = $column->comment;
                 if(array_key_exists($column->name, $container['modelParams'])) {
                     $fieldValue = $container['modelParams'][$column->name];
-                    if(isset($fieldValue['label_name'])) {
-                        $label = $fieldValue['label_name'];
+                    if(isset($fieldValue['label'])) {
+                        $label = $fieldValue['label'];
                     }
                 }
                 $labels[$column->name] = $label;

@@ -9,7 +9,7 @@ use Eadmin\Kernel\Support\Container;
 
 $tableSchema = $generator->getTableSchema();
 $container = Container::make($tableSchema->fullName);
-$title = ! empty($container['metaParams']['label_name']) ? $container['metaParams']['label_name'] : $container['metaParams']['verbose_name'];
+$title = ! empty($container['metaParams']['label']) ? $container['metaParams']['label'] : $container['metaParams']['verbose_name'];
 
 echo "<?php\n";
 ?>

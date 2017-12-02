@@ -37,7 +37,7 @@ class Model
 		'comment',
 		'options',
 		'verbose_name',
-		'label_name',
+		'label',
 	];
 
     /**

@@ -18,6 +18,7 @@ class Article extends Model
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',
+		'label' => 'ID',
 	];
 
 	public $cover_id = [
@@ -65,7 +66,7 @@ class Article extends Model
 
 	public $state = [
 		'type' => 'StateField',
-		'label_name' => '状态',
+		'label' => '状态',
 		'comment' => '状态（0为禁用，1为启用）',
 		'default' => 0,
 		'options' => [

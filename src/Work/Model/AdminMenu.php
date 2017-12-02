@@ -10,6 +10,7 @@ class AdminMenu extends Model
 	public $comment = '后台菜单表';
 
 	public $list_display = [
+		'id',
 		'menu_name',
         'parent_id',
         'name',
@@ -21,6 +22,7 @@ class AdminMenu extends Model
 	public $id = [
 		'type' => 'PrimaryField',
 		'comment' => '主键ID',
+		'label' => 'ID',
 	];
 
 	public $parent_id = [
@@ -78,7 +80,7 @@ class AdminMenu extends Model
 		'type' => 'StateField',
 		'unsigned' => true,
 		'default' => 1,
-		'label_name' => '状态',
+		'label' => '状态',
 		'comment' => '状态（0为禁用，1为启用）',
 		'options' => [
 			'choices' => [
