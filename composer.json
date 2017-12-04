@@ -16,7 +16,9 @@
         "kartik-v/yii2-field-range": "*",
         "eddycjy/yii2-iconpicker": "@dev",
         "kartik-v/yii2-widget-select2": "@dev",
-        "softark/yii2-dual-listbox": "^1.0"
+        "softark/yii2-dual-listbox": "^1.0",
+        "phpoffice/phpexcel": "^1.8",
+        "moonlandsoft/yii2-phpexcel": "*"
     },
     "minimum-stability": "dev",
 	"autoload" : {
