@@ -8,14 +8,25 @@ Requirements
 Installation
 ------------
 
-一、Install yii advanced and ensure the yii database connection
+一、Install yii advanced
 
+二、Add yii database connection config
+``` php
+'db' => [
+    'class' => 'yii\db\Connection',
+    'dsn' => 'mysql:host=localhost;dbname=xxx',
+    'username' => 'xxx',
+    'password' => 'xxx',
+    'tablePrefix' => 'xxx_',
+    'charset' => 'utf8',
+],
+```
 二、
 ``` bash
-composer require eddycjy/eadmin
+composer require eddycjy/e-admin
 ```
 
-三、Add AdminController on the yii console
+三、Create AdminController.php and add code on the yii console
 
 ``` php
 <?php
@@ -128,6 +139,18 @@ or delete specified options (support modelName and runtime catalogName )
 ``` bash
 ./yii admin/delete [options]
 ```
+
+Other
+------------
+- [Yii](https://github.com/yiisoft/yii2)
+- [AdminLTE](https://github.com/almasaeed2010/AdminLTE)
+- [Yii2-ueditor](https://github.com/EDDYCJY/yii2-ueditor)
+- [Yii2-iconpicker](https://github.com/EDDYCJY/yii2-iconpicker)
+- [Yii2-widget-fileinput](https://github.com/kartik-v/yii2-widget-fileinput)
+- [Yii2-widget-datepicker](https://github.com/kartik-v/yii2-widget-datepicker)
+- [Yii2-dual-listbox](https://github.com/softark/yii2-dual-listbox)
+- [Yii2-phpexcel](https://github.com/moonlandsoft/yii2-phpexcel)
+- [PHPexcel](https://github.com/PHPOffice/PHPExcel)
 
 License
 ------------
