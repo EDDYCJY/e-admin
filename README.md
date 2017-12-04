@@ -53,12 +53,12 @@ class AdminController extends \yii\console\Controller
 
 四、Write a Model instance of the eadmin ( vendor/eddycjy/eadmin/src/Work/Model )
 
-Yii Configuration
+Yii Configuration 
 ------------
 
 一、Add Backend Config Path: $APP/backend/config/main.php
 
-Add Config:
+Add config:
 
 ``` php
 'on beforeAction' => ['Eadmin\Config', 'init'],
@@ -77,8 +77,9 @@ return [
 ```
 
 二、Add Console Config Path: $APP/console/config/main.php
+> This configuration is only used when the console is generated
 
-Add Config:
+Add config in components:
 
 ``` php
 'session' => [ 
