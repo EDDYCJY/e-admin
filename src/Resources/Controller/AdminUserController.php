@@ -17,8 +17,6 @@ use moonland\phpexcel\Excel;
  */
 class AdminUserController extends AdminController
 {
-    public $layout = 'admin';
-
     /**
      * @inheritdoc
      */
@@ -92,7 +90,7 @@ class AdminUserController extends AdminController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if(! empty($model) && $model->id === $this->adminId) {
+        if(! empty($model) && ($this->adminRoleId === 1 || $model->id === $this->adminId)) {
             if($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
                     return $this->redirect(['index']);
@@ -116,7 +114,7 @@ class AdminUserController extends AdminController
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        if(! empty($model) && $model->id === $this->adminId) {
+        if(! empty($model) && ($this->adminRoleId === 1 || $model->id === $this->adminId)) {
             $model->delete();
 
             return $this->redirect(['index']);
@@ -135,7 +133,9 @@ class AdminUserController extends AdminController
         $dataProvider = $searchModel->export(Yii::$app->request->queryParams);
         $modelProvider = $dataProvider->getModels();
         foreach ($modelProvider as $index => $model) {
-            $modelProvider[$index]->role_id = $model->getRelatedRecords()['adminRole']->getAttributes()['role_name'];
+            if(isset($model->getRelatedRecords()['adminRole'])) {
+                $modelProvider[$index]->role_id = $model->getRelatedRecords()['adminRole']->getAttributes()['role_name'];
+            }
             $modelProvider[$index]->created_on = date('Y-m-d H:i', $modelProvider[$index]->created_on);
             $modelProvider[$index]->modify_on = date('Y-m-d H:i', $modelProvider[$index]->modify_on);
         }

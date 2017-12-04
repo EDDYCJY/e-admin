@@ -60,8 +60,6 @@ use moonland\phpexcel\Excel;
  */
 class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->baseControllerClass) . "\n" ?>
 {
-    public $layout = 'admin';
-
     /**
      * @inheritdoc
      */
@@ -258,7 +256,13 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 <?php if(! empty($excelModelParams)): ?>
         foreach ($modelProvider as $index => $model) {
 <?php foreach($excelModelParams as $field => $value): ?>
-            $modelProvider[$index]-><?= $field ?> = <?php if($value['type'] == 2): ?>$model<?php endif; ?><?= $value['value'] ?>;
+<?php if($value['type'] == 2): ?>
+            if(isset($model<?= $value['origin'] ?>)) {
+                $modelProvider[$index]-><?= $field ?> = $model<?= $value['value'] ?>;
+            }
+<?php else: ?>
+            $modelProvider[$index]-><?= $field ?> = <?= $value['value'] ?>;
+<?php endif; ?>
 <?php endforeach; ?>
         }
 <?php endif; ?>

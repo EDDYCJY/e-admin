@@ -624,9 +624,9 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             'mode' => 'export',
             'fileName' => [
                 'separator' => '',
-                'value' => "'" . $this->getExcelWidgetFiles($fullName)['fileName'] . '-' . "' . " . 'date("Y-m-d", time())',
+                'value' => "'" . $this->getExcelWidgetFiles($fullName)['file_name'] . '-' . "' . " . 'date("Y-m-d", time())',
             ],
-            'format' => $this->getExcelWidgetFiles($fullName)['fileFormat'],
+            'format' => $this->getExcelWidgetFiles($fullName)['file_format'],
             'columns' => [
                 'separator' => '',
                 'value' => VarDumper::exportSeparator($this->getExcelWidgetColumns($fullName), [
@@ -655,20 +655,22 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         $result = [];
         $container = Container::make($fullName);
         
-        $prefix = '->getRelatedRecords()[';
-        $suffx  = ']->getAttributes()[';
+        $prefix = '->getRelatedRecords()';
+        $suffx  = '->getAttributes()[';
         foreach($container['modelParams'] as $field => $value) {
             $function = Start::export($value['type']);
             if(! empty($function)) {
                 $result[$field] = [
-                    'type'  => 1,
-                    'value' => str_replace('%s', '$modelProvider[$index]->' . $field, $function),
+                    'type'   => 1,
+                    'value'  => str_replace('%s', '$modelProvider[$index]->' . $field, $function),
+                    'origin' => '$modelProvider[$index]->' . $field,
                 ];
             }
             if(! empty($value['relations'])) {
                 $result[$field] = [
-                    'type'  => 2,
-                    'value' => $prefix . "'" . lcfirst($value['relations']['class']) . "'" . $suffx . "'" . $value['relations']['attribute'] . "'" . ']' 
+                    'type'   => 2,
+                    'value'  => $prefix . "['" . lcfirst($value['relations']['class']) . "']" . $suffx . "'" . $value['relations']['attribute'] . "'" . ']',
+                    'origin' => $prefix . "['" . lcfirst($value['relations']['class']) . "']",
                 ];
             }
         }
@@ -772,8 +774,8 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
         $exportParams = isset($metaParams['options']['export']) ? $metaParams['options']['export'] : [];
 
         return [
-            'fileName' => empty($exportParams['fileName']) ? mt_rand(1000, 9999) : $exportParams['fileName'],
-            'fileFormat' => empty($exportParams['fileFormat']) ? 'Excel5' : $exportParams['fileFormat'],
+            'file_name' => empty($exportParams['file_name']) ? mt_rand(1000, 9999) : $exportParams['file_name'],
+            'file_format' => empty($exportParams['file_format']) ? 'Excel5' : $exportParams['file_format'],
         ];
     }
 

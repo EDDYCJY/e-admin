@@ -27,11 +27,11 @@ class Crud
 		if(! empty($configs['namespace'])) {
 			$this->namespace = $configs['namespace'];
 		}
-		if(! empty($configs['searchClassSuffix'])) {
-			$this->searchClassSuffix = $configs['searchClassSuffix'];
+		if(! empty($configs['search_class_suffix'])) {
+			$this->searchClassSuffix = $configs['search_class_suffix'];
 		}
-		if(! empty($configs['controllerClassSuffix'])) {
-			$this->controllerClassSuffix = $configs['controllerClassSuffix'];
+		if(! empty($configs['controller_class_suffix'])) {
+			$this->controllerClassSuffix = $configs['controller_class_suffix'];
 		}
 	}
 

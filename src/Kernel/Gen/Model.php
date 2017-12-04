@@ -21,8 +21,8 @@ class Model
 		if(! empty($configs['namespace'])) {
 			$this->namespace = $configs['namespace'];
 		}
-		if(! empty($configs['queryClassSuffix'])) {
-			$this->queryClassSuffix = $configs['queryClassSuffix'];
+		if(! empty($configs['query_class_suffix'])) {
+			$this->queryClassSuffix = $configs['query_class_suffix'];
 		}
 	}
 

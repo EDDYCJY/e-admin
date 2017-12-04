@@ -19,18 +19,18 @@ return [
 				'controller' => 'backend\controllers',
 				'view' => '@backend/views',
 			],
-			'searchClassSuffix' => 'Search',
-			'controllerClassSuffix' => 'Controller',
+			'search_class_suffix' => 'Search',
+			'controller_class_suffix' => 'Controller',
 		],
 		'model' => [
 			'namespace' => 'backend\models',
-			'queryClassSuffix' => 'Query',
+			'query_class_suffix' => 'Query',
 		],
 	],
 	'eadmin_model_options_configs' => [
 		'export' => [
-            'fileName' => 'eadmin-export',
-            'fileFormat' => 'Excel5', 
+            'file_name' => 'eadmin-export',
+            'file_format' => 'Excel5', 
             'field' => [],
         ],
 	],

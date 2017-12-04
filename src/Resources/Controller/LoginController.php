@@ -26,6 +26,7 @@ class LoginController extends Controller
             $userInfo = $model->findOne($map);
             if($userInfo['password'] === md5($model->password)) {
                 Yii::$app->session->set('admin_id', $userInfo['id']);
+                Yii::$app->session->set('admin_role_id', $userInfo['role_id']);
                 Yii::$app->session->set('admin_user_name', $userInfo['user_name']);
                 Yii::$app->session->set('admin_created_on', date('Y-m-d', $userInfo['created_on']));
 
