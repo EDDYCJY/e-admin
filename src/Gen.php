@@ -17,7 +17,7 @@ class Gen
 	{
 		$factory = new PublishFactory();
 		$commands = [
-			'Adminlte',
+			//'Adminlte',
 			'Asset',
 			'Controller',
 			'View',
