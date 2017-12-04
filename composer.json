@@ -1,6 +1,6 @@
 {
-    "name": "eddycjy/eadmin",
-    "description": "admin",
+    "name": "eddycjy/e-admin",
+    "description": "e-admin",
     "license": "MIT",
     "authors": [
         {
@@ -20,8 +20,8 @@
     },
     "minimum-stability": "dev",
 	"autoload" : {
-		"psr-4" : {
-			"Eadmin\\" : "src/"
-		}
+	    "psr-4" : {
+                "Eadmin\\" : "src/"
+            }
 	}
 }
