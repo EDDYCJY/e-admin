@@ -18,6 +18,7 @@ class AdminAsset extends AssetBundle
         'dist/css/skins/_all-skins.min.css',
         'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic'
     ];
+
     public $js = [
         'bower_components/bootstrap/dist/js/bootstrap.min.js',
         'bower_components/datatables.net/js/jquery.dataTables.min.js',
@@ -27,6 +28,7 @@ class AdminAsset extends AssetBundle
         'dist/js/adminlte.min.js',
         'eadmin/js/list.js',
     ];
+
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

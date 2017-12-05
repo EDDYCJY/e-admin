@@ -248,10 +248,10 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
      * Output <?= $modelClass ?> export.
      * @return mixed
      */
-    public function actionExport()
+    public function actionExport($ids)
     {
         $searchModel = new <?= $searchClass ?>();
-        $dataProvider = $searchModel->export(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->export(Yii::$app->request->queryParams, $ids);
         $modelProvider = $dataProvider->getModels();
 <?php if(! empty($excelModelParams)): ?>
         foreach ($modelProvider as $index => $model) {

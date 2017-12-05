@@ -34,6 +34,7 @@ return [
             'field' => [],
         ],
 	],
+	'eadmin_super_role_id' => 1,
 	'eadmin_upload_module' => '@backend',
 	'eadmin_publish_module' => '@backend',
 	'eadmin_split_fields' => [

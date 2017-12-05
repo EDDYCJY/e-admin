@@ -125,11 +125,12 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
      * Creates data provider instance with export query applied
      * Independent of the search
      * 
-     * @param array $params
+     * @param array  $params
+     * @param string $ids
      *
      * @return ActiveDataProvider
      */
-    public function export($params)
+    public function export($params, $ids)
     {
         $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
 <?php if(! empty($relationClass)): ?>
@@ -158,6 +159,10 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        if(empty($this->id) && ! empty($ids)) {
+            $this->id = explode(',', $ids);
         }
 
         // grid filtering conditions

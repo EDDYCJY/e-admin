@@ -90,7 +90,7 @@ class AdminUserController extends AdminController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if(! empty($model) && ($this->adminRoleId === 1 || $model->id === $this->adminId)) {
+        if(! empty($model) && ($this->adminRoleId === $this->superRoleId || $model->id === $this->adminId)) {
             if($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
                     return $this->redirect(['index']);
@@ -114,7 +114,7 @@ class AdminUserController extends AdminController
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        if(! empty($model) && ($this->adminRoleId === 1 || $model->id === $this->adminId)) {
+        if(! empty($model) && ($this->adminRoleId === $this->superRoleId || $model->id === $this->adminId)) {
             $model->delete();
 
             return $this->redirect(['index']);

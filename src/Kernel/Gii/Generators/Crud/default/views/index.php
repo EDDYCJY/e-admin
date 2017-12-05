@@ -45,7 +45,7 @@ $this->title = <?= $generator->generateString($title) ?>;
                       其他 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li><?= "<?= " ?>Html::a('导出', $exportUrl) ?></li>
+                      <li><?= "<?= " ?>Html::a('导出', 'javascript:void(0);', ['class' => 'js-export']) ?></li>
                       <li><?= "<?= " ?>Html::a('删除', 'javascript:void(0);', ['class' => 'js-delete-all']) ?></li>
                     </ul>
                   </div>
@@ -114,6 +114,7 @@ if ($tableSchema === false) {
     ]) ?>
 <?php endif; ?>
 <?= $generator->enablePjax ? "    <?php Pjax::end(); ?>\n" : '' ?>
+      <input type="hidden" name="js-export-url" value="<?= '<?php echo $exportUrl; ?>' ?>">
       <input type="hidden" name="js-delete-all-url" value="<?= '<?php echo yii\helpers\Url::to([\'delete-all\']); ?>' ?>">
       </div>
     </div>

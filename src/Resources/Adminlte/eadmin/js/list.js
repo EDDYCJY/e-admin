@@ -1,4 +1,5 @@
 $(function() {
+
 	$(".js-delete-all").on("click", function () {
 	    var keys = $("#grid").yiiGridView("getSelectedRows");
 	    var url  = $("input[name=js-delete-all-url]").val();
@@ -8,4 +9,13 @@ $(function() {
 	        }
 	    }
 	});
+
+	$(".js-export").on("click", function () {
+		var keys = $("#grid").yiiGridView("getSelectedRows");
+	    var url  = $("input[name=js-export-url]").val();
+	    if(url) {
+	    	window.location.href = url + '&ids=' + keys.join(",");
+	    }
+	});
+
 })
