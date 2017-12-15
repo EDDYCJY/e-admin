@@ -23,7 +23,7 @@ class UploadEntity extends Upload
 
 		$result = '';
 		if(! empty($url)) {
-			$result = Config::get('Setting', 'image_url_prefix') . $url;
+			$result = Config::get('Setting', 'image_url_prefix') . DIRECTORY_SEPARATOR . $url;
 		}
 
 		return $result;

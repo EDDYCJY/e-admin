@@ -9,6 +9,6 @@ return [
 	'site_login_return_url' => 'index/index', 
 	'login_title'      => 'Admin',
 	'mini_login_title' => '',
-	'image_url_prefix' => 'http://192.168.111.130/yii-admin/backend/web/',
+	'image_url_prefix' => '',
 	'page_size' 	   => 10,
 ];
