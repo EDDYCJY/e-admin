@@ -38,10 +38,10 @@ class UploadModel extends Model
     	if(! empty($configModule)) {
     		$this->module = $configModule;
     	}
+        
+    	$this->rootPath = Yii::getAlias($this->module) . Config::get('App', 'eadmin_upload_root_path');
 
-    	$this->rootPath = Yii::getAlias($this->module) . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR;
-
-        $this->savePath = 'upload' . DIRECTORY_SEPARATOR;
+        $this->savePath = Config::get('App', 'eadmin_upload_save_path');
 
         return null;
     }
