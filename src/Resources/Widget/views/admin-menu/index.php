@@ -6,13 +6,7 @@ use yii\helpers\Url;
 <aside class="main-sidebar">
   <section class="sidebar">
     <div class="user-panel">
-      <div class="pull-left image">
-        <img src="static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-      </div>
-      <div class="pull-left info">
-        <p><?php echo \Yii::$app->session->get('admin_user_name'); ?></p>
-        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-      </div>
+      <div class="pull-left info"></div>
     </div>
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MAIN NAVIGATION</li>

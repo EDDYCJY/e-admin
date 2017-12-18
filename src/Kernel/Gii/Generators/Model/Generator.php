@@ -441,12 +441,11 @@ class Generator extends \Eadmin\Kernel\Gii\Generator
             $rules[] = "[['" . implode("', '", $columns) . "'], '$type']";
         }
 
-
         /* add string columns */
         foreach ($lengths as $length => $columns) {
             foreach ($columns as $index => $field) {
                 if(! array_key_exists($field, $imageColumns)) {
-                    $stringColumns[$length] = $lengths[$length];
+                    $stringColumns[$length][] = $lengths[$length][$index];
                 }
             }
         }

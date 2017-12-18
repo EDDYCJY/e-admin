@@ -17,14 +17,11 @@ use yii\helpers\Url;
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="static/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo \Yii::$app->session->get('admin_user_name'); ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
-              <li class="user-header">
-                <img src="static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+              <li class="user-header" style="height: 75px;">
                 <p>
                   <?php echo \Yii::$app->session->get('admin_user_name'); ?>
                   <small>Member since <?php echo \Yii::$app->session->get('admin_created_on'); ?></small>
